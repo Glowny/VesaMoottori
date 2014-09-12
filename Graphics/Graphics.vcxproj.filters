@@ -20,4 +20,7 @@
   <ItemGroup>
     <ClInclude Include="Assert.h" />
   </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="Assert.h" />
+  </ItemGroup>
 </Project>
