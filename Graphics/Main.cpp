@@ -7,6 +7,7 @@
 #include <GL\GLU.h>
 #include <GL\GL.h>
 
+// mainCRTStartup
 int main()
 {
 	//if(GLEW_OK!=glewInit())
