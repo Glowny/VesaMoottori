@@ -17,4 +17,7 @@
   <ItemGroup>
     <ClInclude Include="Debugger.h" />
   </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="Assert.h" />
+  </ItemGroup>
 </Project>
