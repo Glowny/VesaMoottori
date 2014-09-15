@@ -48,7 +48,7 @@ int main()
 		0,
 		title,
 		classi,
-		WS_CAPTION | WS_SYSMENU,
+		WS_CAPTION | WS_SYSMENU | WS_MINIMIZEBOX,
 		200, 200,
 		500, 500,
 		0,
@@ -61,29 +61,29 @@ int main()
 
 	ShowWindow(windowHandle, SW_SHOWNORMAL);
 
-	//return (int)msg.wParam;
-
-	if(GLEW_OK!=glewInit())
-	GLenum error2 = glewInit();
-	if (error2 == GLEW_OK)
-		std::cout << "GLEW succeeded!" << std::endl;
-	else
-		std::cout << "GLEW failed! " << glewGetErrorString(error2) << std::endl;
-		//exit(1); // GLEW failed!
-
-	if(GLEW_VERSION_2_1)
-		std::cout << "OpenGL 2.1 supported." << std::endl;
-	else
-		std::cout << "OpenGL not 2.1 supported." << std::endl;
-		//MessageBoxA(0, "2.1 SUPPORTED", "OPENGL VERSION", 0);
-	
 	MSG msg;
 	while (GetMessage(&msg, NULL, 0, 0))
 	{
+		//PeekMessage(&msg, windowHandle, 0, 0, PM_REMOVE);
 		TranslateMessage(&msg);
 		DispatchMessage(&msg);
 	}
+	return (int)msg.wParam;
 
-	system("pause");
-	return 0;
+	//if(GLEW_OK!=glewInit())
+	//GLenum error = glewInit();
+	//if (error == GLEW_OK)
+	//	std::cout << "GLEW succeeded!" << std::endl;
+	//else
+	//	std::cout << "GLEW failed! " << glewGetErrorString(error) << std::endl;
+	//	//exit(1); // GLEW failed!
+
+	//if(GLEW_VERSION_2_1)
+	//	std::cout << "OpenGL 2.1 supported." << std::endl;
+	//else
+	//	std::cout << "OpenGL not 2.1 supported." << std::endl;
+	//	//MessageBoxA(0, "2.1 SUPPORTED", "OPENGL VERSION", 0);
+	//
+	//system("pause");
+	//return 0;
 }
