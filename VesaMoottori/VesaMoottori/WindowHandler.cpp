@@ -62,5 +62,6 @@ bool WindowHandler::Initialize()
 	{
 		std::cout << "WindowHandle succeeded!" << std::endl;
 		//WindowHandler::windowHandle = tempHandle;
+		return true;
 	}
 }

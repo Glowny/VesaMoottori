@@ -3,27 +3,23 @@
 #include <string.h>
 #include <tchar.h>
 #include <iostream>
+
 #include <GL\glew.h>
 #include <GL\GLU.h>
 #include <GL\GL.h>
 
-LRESULT CALLBACK WndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam){
-	switch (uMsg) {
-	case WM_CREATE:
-		return 0;
-	default:
-		return DefWindowProc(hWnd, uMsg, wParam, lParam);
-	}
-}
+LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam);
 
 int main()
 {
-	static const TCHAR title[] = TEXT("sads"), classi[] = TEXT("sadsa");
+	const TCHAR windowName[] = TEXT("Window");
+	const TCHAR windowClassName[] = TEXT("Window");
+	MSG messages;
 
-	WNDCLASSEX window;
+	WNDCLASSEX window; // M‰‰ritell‰‰n tulevan ikkunan asetukset.
+	window.lpfnWndProc = WndProc;
 	window.cbSize = sizeof(WNDCLASSEX);
 	window.style = CS_OWNDC;
-	window.lpfnWndProc = WndProc;
 	window.cbClsExtra = 0;
 	window.cbWndExtra = 0;
 	window.hInstance = GetModuleHandle(nullptr);
@@ -31,44 +27,45 @@ int main()
 	window.hCursor = 0;
 	window.hbrBackground = 0;
 	window.lpszMenuName = 0;
-	window.lpszClassName = title;
+	window.lpszClassName = windowClassName;
 	window.hIconSm = 0;
 
-	if (!RegisterClassEx(&window))
+	if (!RegisterClassEx(&window)) // Rekisterˆid‰‰n ikkuna.
 	{
 		MessageBox(NULL,
 			_T("RegisterClassEx failed!"),
-			_T("asdasd"),
+			_T("Viesti"),
 			NULL);
 	}
+	else
+		std::cout << "RegisterClassEx succeeded!" << std::endl;
 
-	//AdjustWindowRectEx(RECT(, WS_OVERLAPPED, false, WS_EX_LAYERED);
-
-	HWND windowHandle = CreateWindowEx(
+	HWND windowHandle = CreateWindowEx( // Luodaan ikkuna ja sille handle jonka kautta sit‰ voidaan k‰ytt‰‰.
 		0,
-		title,
-		classi,
-		WS_CAPTION | WS_SYSMENU | WS_MINIMIZEBOX,
+		windowName,
+		windowClassName,
+		/*WS_CAPTION | WS_SYSMENU | WS_MINIMIZEBOX |*/ WS_OVERLAPPEDWINDOW,
 		200, 200,
 		500, 500,
-		0,
-		0,
+		0, 0,
 		window.hInstance,
 		0);
 
 	if (!windowHandle)
 		std::cout << "WindowHandle failed!" << std::endl;
+	else
+		std::cout << "WindowHandle succeeded!" << std::endl;
 
-	ShowWindow(windowHandle, SW_SHOWNORMAL);
+	ShowWindow(windowHandle, SW_SHOWNORMAL); // N‰ytet‰‰n ikkuna.
+	UpdateWindow(windowHandle);
 
-	MSG msg;
-	while (GetMessage(&msg, NULL, 0, 0))
+	while (GetMessage(&messages, NULL, 0, 0)) // Main loop jossa ikkuna ottaa vastaan viestej‰.
 	{
-		//PeekMessage(&msg, windowHandle, 0, 0, PM_REMOVE);
-		TranslateMessage(&msg);
-		DispatchMessage(&msg);
+		TranslateMessage(&messages);
+		DispatchMessage(&messages);
 	}
-	return (int)msg.wParam;
+
+	return (int) messages.wParam;
 
 	//if(GLEW_OK!=glewInit())
 	//GLenum error = glewInit();
@@ -86,4 +83,27 @@ int main()
 	//
 	//system("pause");
 	//return 0;
+}
+
+// Prosessoi viestej‰ ikkunalle.
+LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam){
+	PAINTSTRUCT paint; // Can be used to paint the client area of a window owned by that application.
+	HDC displayHandle; // Mihin piirret‰‰n.
+	TCHAR greeting[] = _T("VesaMoottori");
+
+	switch (message) {
+	case WM_PAINT:
+		displayHandle = BeginPaint(hWnd, &paint);
+		TextOut(displayHandle, 5, 5, greeting, _tcslen(greeting));
+		EndPaint(hWnd, &paint);
+		break;
+	case WM_DESTROY:
+		PostQuitMessage(0);
+		break;
+	default:
+		return DefWindowProc(hWnd, message, wParam, lParam); 
+		break;
+	}
+
+	return 0;
 }
