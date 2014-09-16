@@ -20,36 +20,31 @@ int main()
 	window.lpfnWndProc = WndProc;
 	window.cbSize = sizeof(WNDCLASSEX);
 	window.style = CS_OWNDC;
-	window.cbClsExtra = 0;
-	window.cbWndExtra = 0;
 	window.hInstance = GetModuleHandle(nullptr);
-	window.hIcon = 0;
-	window.hCursor = 0;
-	window.hbrBackground = 0;
-	window.lpszMenuName = 0;
+	window.hbrBackground = CreateSolidBrush(RGB(255, 102, 255));
 	window.lpszClassName = windowClassName;
-	window.hIconSm = 0;
+	window.cbClsExtra = NULL;
+	window.cbWndExtra = NULL;
+	window.hIcon = NULL;
+	window.hCursor = NULL;
+	window.lpszMenuName = NULL;
+	window.hIconSm = NULL;
 
 	if (!RegisterClassEx(&window)) // Rekisteröidään ikkuna.
-	{
-		MessageBox(NULL,
-			_T("RegisterClassEx failed!"),
-			_T("Viesti"),
-			NULL);
-	}
+		std::cout << "RegisterClassEx failed!" << std::endl;
 	else
 		std::cout << "RegisterClassEx succeeded!" << std::endl;
 
 	HWND windowHandle = CreateWindowEx( // Luodaan ikkuna ja sille handle jonka kautta sitä voidaan käyttää.
-		0,
+		NULL,
 		windowName,
 		windowClassName,
-		/*WS_CAPTION | WS_SYSMENU | WS_MINIMIZEBOX |*/ WS_OVERLAPPEDWINDOW,
+		WS_OVERLAPPEDWINDOW,
 		200, 200,
 		500, 500,
-		0, 0,
+		NULL, NULL,
 		window.hInstance,
-		0);
+		NULL);
 
 	if (!windowHandle)
 		std::cout << "WindowHandle failed!" << std::endl;
@@ -89,7 +84,7 @@ int main()
 LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam){
 	PAINTSTRUCT paint; // Can be used to paint the client area of a window owned by that application.
 	HDC displayHandle; // Mihin piirretään.
-	TCHAR greeting[] = _T("VesaMoottori");
+	TCHAR greeting[] = _T("Terve");
 
 	switch (message) {
 	case WM_PAINT:
