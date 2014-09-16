@@ -15,6 +15,7 @@ int main()
 	const TCHAR windowName[] = TEXT("Window");
 	const TCHAR windowClassName[] = TEXT("Window");
 	MSG messages;
+	bool isRunning = true;
 
 	WNDCLASSEX window; // M‰‰ritell‰‰n tulevan ikkunan asetukset.
 	window.lpfnWndProc = WndProc;
@@ -54,14 +55,21 @@ int main()
 	ShowWindow(windowHandle, SW_SHOWNORMAL); // N‰ytet‰‰n ikkuna.
 	UpdateWindow(windowHandle);
 
-	while (GetMessage(&messages, NULL, 0, 0)) // Main loop jossa ikkuna ottaa vastaan viestej‰.
+	while (isRunning)
 	{
-		TranslateMessage(&messages);
-		DispatchMessage(&messages);
+		while (PeekMessage(&messages, NULL, 0, 0, PM_REMOVE)) // Main loop jossa ikkuna ottaa vastaan viestej‰.
+		{
+			//TranslateMessage(&messages); // K‰‰nt‰‰ n‰pp‰in painalluksia tunnetuksi koodiksi.
+			if (messages.message == WM_QUIT)
+			{
+				isRunning = false;
+				break;
+			}
+			DispatchMessage(&messages);
+		}
 	}
 
-	return (int) messages.wParam;
-
+	//return (int) messages.wParam;
 	//if(GLEW_OK!=glewInit())
 	//GLenum error = glewInit();
 	//if (error == GLEW_OK)
@@ -77,21 +85,21 @@ int main()
 	//	//MessageBoxA(0, "2.1 SUPPORTED", "OPENGL VERSION", 0);
 	//
 	//system("pause");
-	//return 0;
+	return 0;
 }
 
 // Prosessoi viestej‰ ikkunalle.
 LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam){
-	PAINTSTRUCT paint; // Can be used to paint the client area of a window owned by that application.
-	HDC displayHandle; // Mihin piirret‰‰n.
-	TCHAR greeting[] = _T("Terve");
+	//PAINTSTRUCT paint; // Can be used to paint the client area of a window owned by that application.
+	//HDC displayHandle; // Mihin piirret‰‰n.
+	//TCHAR greeting[] = _T("Terve");
 
 	switch (message) {
-	case WM_PAINT:
-		displayHandle = BeginPaint(hWnd, &paint);
-		TextOut(displayHandle, 5, 5, greeting, _tcslen(greeting));
-		EndPaint(hWnd, &paint);
-		break;
+	//case WM_PAINT:
+	//	displayHandle = BeginPaint(hWnd, &paint);
+	//	TextOut(displayHandle, 5, 5, greeting, _tcslen(greeting));
+	//	EndPaint(hWnd, &paint);
+	//	break;
 	case WM_DESTROY:
 		PostQuitMessage(0);
 		break;
