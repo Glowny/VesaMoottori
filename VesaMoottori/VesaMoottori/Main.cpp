@@ -64,7 +64,7 @@ int main()
 	if(GLEW_VERSION_2_1) // Tarkastetaan onko 2.1 käytössä.
 		std::cout << "OpenGL 2.1 supported." << std::endl;
 	else
-		std::cout << "OpenGL not 2.1 supported." << std::endl;
+		std::cout << "OpenGL 2.1 not supported." << std::endl;
 	
 	while (isRunning) // Ohjelman main-looppi.
 	{
@@ -76,6 +76,7 @@ int main()
 				isRunning = false;
 				break;
 			}
+			glClearColor(0.0, 0.0, 0.0, 0.0);
 			DispatchMessage(&messages);
 		}
 	}
