@@ -54,8 +54,19 @@ int main()
 
 	ShowWindow(windowHandle, SW_SHOWNORMAL); // N‰ytet‰‰n ikkuna.
 	UpdateWindow(windowHandle);
+	
+	GLenum error = glewInit(); // Alustetaan Glew.
+	if (error == GLEW_OK)
+		std::cout << "GLEW succeeded!" << std::endl;
+	else
+		std::cout << "GLEW failed, error message: " << glewGetErrorString(error) << std::endl;
 
-	while (isRunning)
+	if(GLEW_VERSION_2_1) // Tarkastetaan onko 2.1 k‰ytˆss‰.
+		std::cout << "OpenGL 2.1 supported." << std::endl;
+	else
+		std::cout << "OpenGL not 2.1 supported." << std::endl;
+	
+	while (isRunning) // Ohjelman main-looppi.
 	{
 		while (PeekMessage(&messages, NULL, 0, 0, PM_REMOVE)) // Main loop jossa ikkuna ottaa vastaan viestej‰.
 		{
@@ -69,22 +80,8 @@ int main()
 		}
 	}
 
-	//return (int) messages.wParam;
-	//if(GLEW_OK!=glewInit())
-	//GLenum error = glewInit();
-	//if (error == GLEW_OK)
-	//	std::cout << "GLEW succeeded!" << std::endl;
-	//else
-	//	std::cout << "GLEW failed! " << glewGetErrorString(error) << std::endl;
-	//	//exit(1); // GLEW failed!
-
-	//if(GLEW_VERSION_2_1)
-	//	std::cout << "OpenGL 2.1 supported." << std::endl;
-	//else
-	//	std::cout << "OpenGL not 2.1 supported." << std::endl;
-	//	//MessageBoxA(0, "2.1 SUPPORTED", "OPENGL VERSION", 0);
-	//
 	//system("pause");
+	//return (int) messages.wParam;
 	return 0;
 }
 
