@@ -4,11 +4,16 @@
 #include <iostream>
 #include <sstream>
 #include <string>
-
+#include <stdio.h>
+#include <stdarg.h>
 
 class Debugger
 {
 public:
+
+	Debugger();
+	~Debugger();
+
 	Debugger& operator << (const std::string& s) { std::cout << s; return *this; };
 	Debugger& operator << (long long l);			//Kaikki int muuttujat
 	Debugger& operator << (unsigned long long l);	//Kaikki unsigned int muuttujat
@@ -21,8 +26,6 @@ public:
 		*this << o.str();
 		return *this;
 	}
-	void flush() { std::cout.flush(); };
-
 
 };
 
