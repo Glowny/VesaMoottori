@@ -84,11 +84,13 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="ResourceManager.h" />
     <ClInclude Include="VesaMoottori\Assert.h" />
     <ClInclude Include="VesaMoottori\Debugger.h" />
     <ClInclude Include="VesaMoottori\WindowHandler.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="ResourceManager.cpp" />
     <ClCompile Include="VesaMoottori\Debugger.cpp" />
     <ClCompile Include="VesaMoottori\Main.cpp" />
     <ClCompile Include="VesaMoottori\WindowHandler.cpp" />

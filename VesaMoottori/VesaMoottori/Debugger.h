@@ -18,7 +18,8 @@ public:
 	void CheckGlew();
 	void Type(std::string value);
 	void Variable(int vi); void Variable(float vf); void Variable(double vd); void Variable(std::string vs); void Variable(char vc);
-
+	template <typename T>
+	void VariableT(T);
 
 private:
 };

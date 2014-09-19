@@ -32,7 +32,7 @@ void Debugger::CheckGlew()
 
 
 }
-
+// Templatella?
 void Debugger::Type(std::string value)  //TYPES VALUES USING STD::COUT
 {
 	std::cout << value << std::endl;
@@ -61,4 +61,9 @@ void Debugger::Variable(std::string vs)
 void Debugger::Variable(char vc)
 {
 	std::cout << vc;
+}
+template <typename T>
+void Debugger::VariableT(T)
+{
+	std::cout << T;
 }

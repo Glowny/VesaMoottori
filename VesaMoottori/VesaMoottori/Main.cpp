@@ -7,6 +7,7 @@
 #include <GL\glew.h>
 #include <GL\GLU.h>
 #include <GL\GL.h>
+#include "Debugger.h"
 
 LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam);
 
@@ -76,7 +77,7 @@ int main()
 				isRunning = false;
 				break;
 			}
-			glClearColor(0.0, 0.0, 0.0, 0.0);
+			/*glClearColor(0.0, 0.0, 0.0, 0.0);*/
 			DispatchMessage(&messages);
 		}
 	}
