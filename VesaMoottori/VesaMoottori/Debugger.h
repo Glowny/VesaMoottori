@@ -2,25 +2,28 @@
 #define DEBUGGER_H
 
 #include <iostream>
-#include <stdlib.h>
+#include <sstream>
 #include <string>
-#include <tchar.h>
-#include <GL\glew.h>
-#include <GL\GLU.h>
-#include <GL\GL.h>
 
 
 class Debugger
 {
 public:
-	Debugger();
-	~Debugger();
-	void CheckGlew();
-	void Type(std::string value);
-	void Variable(int vi); void Variable(float vf); void Variable(double vd); void Variable(std::string vs); void Variable(char vc);
+	Debugger& operator << (const std::string& s) { std::cout << s; return *this; };
+	Debugger& operator << (long long l);			//Kaikki int muuttujat
+	Debugger& operator << (unsigned long long l);	//Kaikki unsigned int muuttujat
+
+	template <typename T>
+	Debugger& operator << (const T& val)		//Kaikki muut muuttujat ostringstreamilla
+	{
+		std::ostringstream o;
+		o << val;
+		*this << o.str();
+		return *this;
+	}
+	void flush() { std::cout.flush(); };
 
 
-private:
 };
 
 
