@@ -9,62 +9,58 @@
 #include <GL\GL.h>
 
 LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam);
+void GlewTests();
 
 int main()
 {
-	const TCHAR windowName[] = TEXT("Window");
-	const TCHAR windowClassName[] = TEXT("Window");
-	MSG messages;
-	bool isRunning = true;
+	const TCHAR		winName[] = TEXT("Window");
+	const TCHAR		winClassName[] = TEXT("Window");
+	MSG				messages;
+	bool			isRunning = true;
+	HGLRC			hRC = NULL; // Permanent rendering context.
+	HDC				hDC = NULL; // Private GDI device context.
+	HWND			winHandle = NULL; // Holds window handle.
+	HINSTANCE		hInstance = GetModuleHandle(nullptr); // Instance of the application
+	WNDCLASSEX		winClass; // Sis‰lt‰‰ ikkunan asetukset.
 
-	WNDCLASSEX window; // M‰‰ritell‰‰n tulevan ikkunan asetukset.
-	window.lpfnWndProc = WndProc;
-	window.cbSize = sizeof(WNDCLASSEX);
-	window.style = CS_OWNDC;
-	window.hInstance = GetModuleHandle(nullptr);
-	window.hbrBackground = CreateSolidBrush(RGB(255, 102, 255));
-	window.lpszClassName = windowClassName;
-	window.cbClsExtra = NULL;
-	window.cbWndExtra = NULL;
-	window.hIcon = NULL;
-	window.hCursor = NULL;
-	window.lpszMenuName = NULL;
-	window.hIconSm = NULL;
+	winClass.lpfnWndProc = WndProc;
+	winClass.cbSize = sizeof(WNDCLASSEX);
+	winClass.style = CS_OWNDC;
+	winClass.hInstance = hInstance;
+	winClass.hbrBackground = CreateSolidBrush(RGB(255, 102, 255));
+	winClass.lpszClassName = winClassName;
+	winClass.cbClsExtra = NULL;
+	winClass.cbWndExtra = NULL;
+	winClass.hIcon = NULL;
+	winClass.hCursor = NULL;
+	winClass.lpszMenuName = NULL;
+	winClass.hIconSm = NULL;
 
-	if (!RegisterClassEx(&window)) // Rekisterˆid‰‰n ikkuna.
+	if (!RegisterClassEx(&winClass)) // Rekisterˆid‰‰n ikkuna.
 		std::cout << "RegisterClassEx failed!" << std::endl;
 	else
 		std::cout << "RegisterClassEx succeeded!" << std::endl;
 
-	HWND windowHandle = CreateWindowEx( // Luodaan ikkuna ja sille handle jonka kautta sit‰ voidaan k‰ytt‰‰.
+	winHandle = CreateWindowEx( // Luodaan ikkuna ja sille handle jonka kautta sit‰ voidaan k‰ytt‰‰.
 		NULL,
-		windowName,
-		windowClassName,
+		winName,
+		winClassName,
 		WS_OVERLAPPEDWINDOW,
 		200, 200,
 		500, 500,
 		NULL, NULL,
-		window.hInstance,
+		hInstance,
 		NULL);
 
-	if (!windowHandle)
+	if (!winHandle)
 		std::cout << "WindowHandle failed!" << std::endl;
 	else
 		std::cout << "WindowHandle succeeded!" << std::endl;
 
-	ShowWindow(windowHandle, SW_SHOWNORMAL); // N‰ytet‰‰n ikkuna.
-	UpdateWindow(windowHandle);
+	ShowWindow(winHandle, SW_SHOWNORMAL); // N‰ytet‰‰n ikkuna.
+	UpdateWindow(winHandle);
 	
-	GLenum error = glewInit(); // Alustetaan Glew.
-	if (error == GLEW_OK)
-		std::cout << "GLEW succeeded!" << std::endl;
-	else
-		std::cout << "GLEW failed, error message: " << glewGetErrorString(error) << std::endl;
-
-	if(GLEW_VERSION_2_1) // Tarkastetaan onko 2.1 k‰ytˆss‰.
-		std::cout << "OpenGL 2.1 supported." << std::endl;
-	else
-		std::cout << "OpenGL 2.1 not supported." << std::endl;
+	GlewTests(); // Testaa OpenGL 2.1 toimivuutta.
 	
 	while (isRunning) // Ohjelman main-looppi.
 	{
@@ -81,13 +77,12 @@ int main()
 		}
 	}
 
-	//system("pause");
-	//return (int) messages.wParam;
-	return 0;
+	return (int) messages.wParam;
 }
 
-// Prosessoi viestej‰ ikkunalle.
-LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam){
+
+LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam) // Prosessoi viestej‰ ikkunalle.
+{ 
 	//PAINTSTRUCT paint; // Can be used to paint the client area of a window owned by that application.
 	//HDC displayHandle; // Mihin piirret‰‰n.
 	//TCHAR greeting[] = _T("Terve");
@@ -107,4 +102,18 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam){
 	}
 
 	return 0;
+} 
+
+void GlewTests()
+{
+	GLenum error = glewInit(); // Alustetaan Glew.
+	if (error == GLEW_OK)
+		std::cout << "GLEW succeeded!" << std::endl;
+	else
+		std::cout << "GLEW failed, error message: " << glewGetErrorString(error) << std::endl;
+
+	if (GLEW_VERSION_2_1) // Tarkastetaan onko 2.1 k‰ytˆss‰.
+		std::cout << "OpenGL 2.1 supported." << std::endl;
+	else
+		std::cout << "OpenGL 2.1 not supported." << std::endl;
 }
