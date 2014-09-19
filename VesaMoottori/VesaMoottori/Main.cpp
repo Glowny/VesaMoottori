@@ -7,11 +7,13 @@
 #include <GL\glew.h>
 #include <GL\GLU.h>
 #include <GL\GL.h>
+#include "Debugger.h"
 
 LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam);
 bool GlewTests(); // Palauttaa true jos glew testit onnistuu.
 bool InitGL(GLvoid); // Alustetaan OpenGL.
 bool DrawGLScene(GLvoid); // Alustetaan ikkuna piirtämistä varten.
+//bool CreateGLWindow();
 //GLvoid CloseGLWindow(GLvoid); // Vapauttaa asioita kun ohjelma suljetaan.
 
 int main()
@@ -26,18 +28,18 @@ int main()
 	HINSTANCE		hInstance = GetModuleHandle(nullptr); // Instance of the application
 	WNDCLASSEX		winClass; // Sisältää ikkunan asetukset.
 
-	winClass.lpfnWndProc = WndProc;
-	winClass.cbSize = sizeof(WNDCLASSEX);
-	winClass.style = CS_OWNDC;
-	winClass.hInstance = hInstance;
-	winClass.hbrBackground = CreateSolidBrush(RGB(255, 102, 255));
-	winClass.lpszClassName = winClassName;
-	winClass.cbClsExtra = NULL;
-	winClass.cbWndExtra = NULL;
-	winClass.hIcon = NULL;
-	winClass.hCursor = NULL;
-	winClass.lpszMenuName = NULL;
-	winClass.hIconSm = NULL;
+	winClass.lpfnWndProc	= WndProc;
+	winClass.cbSize			= sizeof(WNDCLASSEX);
+	winClass.style			= CS_OWNDC;
+	winClass.hInstance		= hInstance;
+	winClass.hbrBackground	= CreateSolidBrush(RGB(255, 102, 255));
+	winClass.lpszClassName	= winClassName;
+	winClass.cbClsExtra		= NULL;
+	winClass.cbWndExtra		= NULL;
+	winClass.hIcon			= NULL;
+	winClass.hCursor		= NULL;
+	winClass.lpszMenuName	= NULL;
+	winClass.hIconSm		= NULL;
 
 	if (!RegisterClassEx(&winClass)) // Rekisteröidään ikkuna.
 		std::cout << "RegisterClassEx failed!" << std::endl;
@@ -60,7 +62,7 @@ int main()
 	else
 		std::cout << "WindowHandle succeeded!" << std::endl;
 
-	ShowWindow(winHandle, SW_SHOWNORMAL); // Näytetään ikkuna.
+	ShowWindow(winHandle, SW_SHOWNORMAL); // Näytetään rekisteröity ikkuna.
 	UpdateWindow(winHandle);
 	
 	GlewTests(); // Testaa OpenGL 2.1 toimivuutta.
@@ -139,6 +141,12 @@ bool InitGL(GLvoid)
 
 bool DrawGLScene(GLvoid)
 {
-	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT); //
-
+	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT); // Clearaa ruudun ja syvyys bufferin.
+	glLoadIdentity(); // Resettaa modelview matrixin.
+	return true;
 }
+
+//bool CreateGLWindow()
+//{
+//	GLuint		PixelFormat;
+//}
