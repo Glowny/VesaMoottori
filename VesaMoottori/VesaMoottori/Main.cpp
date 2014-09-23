@@ -19,7 +19,7 @@ int main()
 {
 	const TCHAR				winName[] = TEXT("Window");
 	const TCHAR				winClassName[] = TEXT("Window");
-	MSG						messages;
+	MSG						messages; // Contains message information from a thread's message queue.
 	HGLRC					hRC = NULL; // Permanent rendering context.
 	HDC						hDC = NULL; // Private GDI device context.
 	HGLRC					hGLRC = NULL; // OpenGL rendering context.
@@ -27,8 +27,8 @@ int main()
 	HINSTANCE				hInstance = GetModuleHandle(nullptr); // Instance of the application
 	WNDCLASSEX				winClass; // Sis‰lt‰‰ ikkunan asetukset.
 	PIXELFORMATDESCRIPTOR	winPixel; // Describes the pixel format of a drawing surface.
-	bool					isRunning = true;
-	int						pixFormat = NULL;
+	int						pixFormat = NULL; // Appropriate pixel format supported by a device context to a given pixel format specification.
+	bool					isRunning = true; // Main-loopin tarkastus.
 
 	// Alustetaan windows-ikkkuna.
 	winClass.lpfnWndProc	= WndProc;
@@ -49,7 +49,7 @@ int main()
 	else
 		std::cout << "RegisterClassEx succeeded!" << std::endl;
 
-	winHandle = CreateWindowEx( // Luodaan ikkuna ja sille handle jonka kautta sit‰ voidaan k‰ytt‰‰.
+	winHandle = CreateWindowEx( // Luodaan ikkuna ja sille handle, jonka kautta ikkunaa voidaan k‰ytt‰‰.
 		NULL,
 		winName,
 		winClassName,
@@ -81,18 +81,17 @@ int main()
 	else
 		std::cout << "SetPixelFormat succeeded!" << std::endl;
 
-	hGLRC = wglCreateContext(hDC); // Luodaan handle OpenGL renderˆinti‰ varten.
+	hGLRC = wglCreateContext(hDC); // Luodaan OpenGL handle renderˆinti‰ varten.
 	wglMakeCurrent(hDC, hGLRC); // K‰ytet‰‰n t‰t‰ ikkunaa komentokutsuissa.
 
 	ShowWindow(winHandle, SW_SHOWNORMAL); // N‰ytet‰‰n rekisterˆity ikkuna.
-	UpdateWindow(winHandle);
+	UpdateWindow(winHandle); // L‰hett‰‰ WM_PAINT komennon ikkunalle.
 	//GlewTests(); // Testaa OpenGL 2.1 toimivuutta.
 
 
 	// Jotain testausta.
 	glClearColor(1.0f, 0.2f, 1.0f, 1.0f);
 	glClear(GL_COLOR_BUFFER_BIT);
-	
 
 
 	while (isRunning) // Ohjelman main-looppi.
@@ -113,7 +112,6 @@ int main()
 
 	return (int) messages.wParam;
 }
-
 
 LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam) // Prosessoi viestej‰ ikkunalle.
 { 
