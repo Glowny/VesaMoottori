@@ -13,6 +13,7 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam);
 
 int main()
 {
+<<<<<<< HEAD
 	const TCHAR windowName[] = TEXT("Window");
 	const TCHAR windowClassName[] = TEXT("Window");
 	MSG messages;
@@ -33,11 +34,45 @@ int main()
 	window.hIconSm = NULL;
 
 	if (!RegisterClassEx(&window)) // Rekisteröidään ikkuna.
+=======
+	const TCHAR				winName[] = TEXT("Window");
+	const TCHAR				winClassName[] = TEXT("Window");
+	MSG						messages;
+	HGLRC					hRC = NULL; // Permanent rendering context.
+	HDC						hDC = NULL; // Private GDI device context.
+	HGLRC					hGLRC = NULL; // OpenGL rendering context.
+	HWND					winHandle = NULL; // Holds window handle.
+	HINSTANCE				hInstance = GetModuleHandle(nullptr); // Instance of the application
+	WNDCLASSEX				winClass; // Sisältää ikkunan asetukset.
+	PIXELFORMATDESCRIPTOR	winPixel; // Describes the pixel format of a drawing surface.
+	bool					isRunning = true;
+	int						pixFormat = NULL;
+
+	// Alustetaan windows-ikkkuna.
+	winClass.lpfnWndProc	= WndProc;
+	winClass.cbSize			= sizeof(WNDCLASSEX);
+	winClass.style			= CS_OWNDC;
+	winClass.hInstance		= hInstance;
+	winClass.hbrBackground	= CreateSolidBrush(RGB(255, 102, 255));
+	winClass.lpszClassName	= winClassName;
+	winClass.cbClsExtra		= NULL;
+	winClass.cbWndExtra		= NULL;
+	winClass.hIcon			= NULL;
+	winClass.hCursor		= NULL;
+	winClass.lpszMenuName	= NULL;
+	winClass.hIconSm		= NULL;
+
+	if (!RegisterClassEx(&winClass)) // Rekisteröidään ikkuna ja tarkistetaan onnistuuko se.
+>>>>>>> parent of f317c5f... Epilepsia on Parasta
 		std::cout << "RegisterClassEx failed!" << std::endl;
 	else
 		std::cout << "RegisterClassEx succeeded!" << std::endl;
 
+<<<<<<< HEAD
 	HWND windowHandle = CreateWindowEx( // Luodaan ikkuna ja sille handle jonka kautta sitä voidaan käyttää.
+=======
+	winHandle = CreateWindowEx( // Luodaan ikkuna ja sille handle jonka kautta sitä voidaan käyttää.
+>>>>>>> parent of f317c5f... Epilepsia on Parasta
 		NULL,
 		windowName,
 		windowClassName,
@@ -60,7 +95,25 @@ int main()
 	if (error == GLEW_OK)
 		std::cout << "GLEW succeeded!" << std::endl;
 	else
+<<<<<<< HEAD
 		std::cout << "GLEW failed, error message: " << glewGetErrorString(error) << std::endl;
+=======
+		std::cout << "SetPixelFormat succeeded!" << std::endl;
+
+	hGLRC = wglCreateContext(hDC); // Luodaan handle OpenGL renderöintiä varten.
+	wglMakeCurrent(hDC, hGLRC); // Käytetään tätä ikkunaa komentokutsuissa.
+
+	ShowWindow(winHandle, SW_SHOWNORMAL); // Näytetään rekisteröity ikkuna.
+	UpdateWindow(winHandle);
+	//GlewTests(); // Testaa OpenGL 2.1 toimivuutta.
+
+
+	// Jotain testausta.
+	glClearColor(1.0f, 0.2f, 1.0f, 1.0f);
+	glClear(GL_COLOR_BUFFER_BIT);
+	
+
+>>>>>>> parent of f317c5f... Epilepsia on Parasta
 
 	if(GLEW_VERSION_2_1) // Tarkastetaan onko 2.1 käytössä.
 		std::cout << "OpenGL 2.1 supported." << std::endl;
@@ -87,8 +140,14 @@ int main()
 	return 0;
 }
 
+<<<<<<< HEAD
 // Prosessoi viestejä ikkunalle.
 LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam){
+=======
+
+LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam) // Prosessoi viestejä ikkunalle.
+{ 
+>>>>>>> parent of f317c5f... Epilepsia on Parasta
 	//PAINTSTRUCT paint; // Can be used to paint the client area of a window owned by that application.
 	//HDC displayHandle; // Mihin piirretään.
 	//TCHAR greeting[] = _T("Terve");
