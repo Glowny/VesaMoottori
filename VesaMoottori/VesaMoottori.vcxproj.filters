@@ -18,9 +18,6 @@
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="VesaMoottori\Debugger.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="VesaMoottori\Main.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
