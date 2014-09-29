@@ -69,7 +69,11 @@ int main()
 		std::cout << "RegisterClassEx succeeded!" << std::endl;
 
 <<<<<<< HEAD
+<<<<<<< HEAD
 	HWND windowHandle = CreateWindowEx( // Luodaan ikkuna ja sille handle jonka kautta sitä voidaan käyttää.
+=======
+	winHandle = CreateWindowEx( // Luodaan ikkuna ja sille handle jonka kautta sitä voidaan käyttää.
+>>>>>>> parent of f317c5f... Epilepsia on Parasta
 =======
 	winHandle = CreateWindowEx( // Luodaan ikkuna ja sille handle jonka kautta sitä voidaan käyttää.
 >>>>>>> parent of f317c5f... Epilepsia on Parasta
@@ -141,9 +145,12 @@ int main()
 }
 
 <<<<<<< HEAD
+<<<<<<< HEAD
 // Prosessoi viestejä ikkunalle.
 LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam){
 =======
+=======
+>>>>>>> parent of f317c5f... Epilepsia on Parasta
 
 LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam) // Prosessoi viestejä ikkunalle.
 { 
