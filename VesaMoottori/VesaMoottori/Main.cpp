@@ -1,8 +1,9 @@
 #include <windows.h>
 #include <stdlib.h>
-#include <string.h>
+#include <string>
 #include <tchar.h>
 #include <iostream>
+#include <fstream>
 
 #include <GL\glew.h>
 #include <GL\GLU.h>
@@ -10,6 +11,7 @@
 
 LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam);
 bool GlewTests(); // Palauttaa true jos glew testit onnistuu.
+char ShaderReader(std::string fileName); // Luodaan shaderille merkkijono.
 //bool InitGL(GLvoid); // Alustetaan OpenGL.
 //bool DrawGLScene(GLvoid); // Alustetaan ikkuna piirt‰mist‰ varten.
 //bool CreateGLWindow();
@@ -100,9 +102,10 @@ int main()
 	GLuint glFragmentShader = glCreateShader(GL_FRAGMENT_SHADER);
 	GLint linkCheck = NULL;
 	
-	const char *shaderCode;
+	char *vertexCode;
 
-	glShaderSource(glVertexShader, 1, &shaderCode, NULL);
+
+	glShaderSource(glVertexShader, 1, &vertexCode, NULL);
 
 	glAttachShader(glObject, glVertexShader); // Lis‰t‰‰n shaderi tyhj‰‰n objektiin.
 	glLinkProgram(glObject); // Linkkaaminen luo executablen shadereihin jotka siihen on lis‰tty.
@@ -137,7 +140,6 @@ int main()
 
 	return (int) messages.wParam;
 }
-
 
 LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam) // Prosessoi viestej‰ ikkunalle.
 { 
@@ -182,6 +184,29 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam) 
 	}
 	return true;
 }
+
+ char ShaderReader(std::string fileName)
+ {
+	 std::ifstream readFile;
+	 int fileLength, filePosition;
+
+	 readFile.open(fileName, std::ios::in);
+	 if(readFile)
+		std::cout << "Opening file: " << fileName << std::endl;
+	 else
+	 { 
+		 std::cout << "Could not open file: " << fileName << std::endl;
+		 return 0;
+	 }
+
+	 filePosition = readFile.tellg();
+	 readFile.seek
+
+
+	 std::cout << "Closing file: " << fileName << std::endl;
+	 readFile.close();
+	 return 0;
+ }
 
  /*bool InitGL(GLvoid)
 {
