@@ -88,22 +88,36 @@ int main()
 	UpdateWindow(winHandle);
 	GlewTests(); // Testaa OpenGL 2.1 toimivuutta.
 
+	
 
-	// Jotain testausta.
 	//glClearColor(1.0f, 0.2f, 1.0f, 1.0f);
 	//glClear(GL_COLOR_BUFFER_BIT);
-	
-	GLuint glObject = glCreateProgram();
-	GLuint glShader = glCreateShader(GL_VERTEX_SHADER);
-	//glShaderSource(glShader, 2, "string", 2);
-	glAttachShader(glObject, glShader);
-	glLinkProgram(glObject);
+	// K‰yet‰‰n GLSL #version 120 tai aiempaa.
+	// http://www.opengl.org/wiki/Shader_Compilation
 
+	GLuint glObject = glCreateProgram();
+	GLuint glVertexShader = glCreateShader(GL_VERTEX_SHADER); // Luodaan vertex shader.
+	GLuint glFragmentShader = glCreateShader(GL_FRAGMENT_SHADER);
 	GLint linkCheck = NULL;
+	
+	const char *shaderCode;
+
+	glShaderSource(glVertexShader, 1, &shaderCode, NULL);
+
+	glAttachShader(glObject, glVertexShader); // Lis‰t‰‰n shaderi tyhj‰‰n objektiin.
+	glLinkProgram(glObject); // Linkkaaminen luo executablen shadereihin jotka siihen on lis‰tty.
+
+	// Testatataan linkkaaminen ja shaderin compilointi.
 	glGetProgramiv(glObject, GL_LINK_STATUS, &linkCheck);
 	std::cout << "Linker bool: " << linkCheck << std::endl;
-	glGetShaderiv(glShader, GL_COMPILE_STATUS, &linkCheck);
-	std::cout << "Shader bool: " << linkCheck << std::endl;
+	glGetShaderiv(glVertexShader, GL_COMPILE_STATUS, &linkCheck);
+	std::cout << "Vertex shaderin compilointi: " << linkCheck << std::endl;
+	glGetShaderiv(glFragmentShader, GL_COMPILE_STATUS, &linkCheck);
+	std::cout << "Fragment shaderin compilointi: " << linkCheck << std::endl;
+
+	glUseProgram(glObject); // Lis‰t‰‰n t‰m‰nhetkiseen renderˆintiin.
+
+
 
 	while (isRunning) // Ohjelman main-looppi.
 	{
