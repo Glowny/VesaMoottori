@@ -16,7 +16,6 @@
     <ClInclude Include="VesaMoottori\WindowHandler.h">
       <Filter>Source Files</Filter>
     </ClInclude>
-    <ClInclude Include="ResourceManager.h" />
     <ClInclude Include="VesaMoottori\ResourceManager.h">
       <Filter>Source Files</Filter>
     </ClInclude>

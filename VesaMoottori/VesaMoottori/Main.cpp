@@ -11,7 +11,9 @@
 
 LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam);
 bool GlewTests(); // Palauttaa true jos glew testit onnistuu.
-char ShaderReader(std::string fileName); // Luodaan shaderille merkkijono.
+char *ShaderReader(std::string fileName); // Luodaan shaderille merkkijono.
+
+//GLint FileLength(); // Tarkastetaan .txt tiedoston pituus.
 //bool InitGL(GLvoid); // Alustetaan OpenGL.
 //bool DrawGLScene(GLvoid); // Alustetaan ikkuna piirtämistä varten.
 //bool CreateGLWindow();
@@ -90,36 +92,54 @@ int main()
 	UpdateWindow(winHandle);
 	GlewTests(); // Testaa OpenGL 2.1 toimivuutta.
 
-	
 
-	//glClearColor(1.0f, 0.2f, 1.0f, 1.0f);
+	// Piirrettään simppeli kolmio.
+	GLuint vertexID;
+	glGenVertexArrays(1, &vertexID);
+	glBindVertexArray(vertexID);
+
+	static const GLfloat triangleData[] = { // Kolmion kulmat.
+		-1.0f, -1.0f, 0.0f,
+		1.0f, -1.0f, 0.0f,
+		0.0f, 1.0f, 0.0f,
+	};
+
+	GLuint vertexBuffer;
+	glGenBuffers(1, &vertexBuffer);
+	glBindBuffer(GL_ARRAY_BUFFER, vertexBuffer);
+	glBufferData(GL_ARRAY_BUFFER, sizeof(triangleData), triangleData, GL_STATIC_DRAW);
+
+	//glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
 	//glClear(GL_COLOR_BUFFER_BIT);
 	// Käyetään GLSL #version 120 tai aiempaa.
 	// http://www.opengl.org/wiki/Shader_Compilation
 
-	GLuint glObject = glCreateProgram();
-	GLuint glVertexShader = glCreateShader(GL_VERTEX_SHADER); // Luodaan vertex shader.
-	GLuint glFragmentShader = glCreateShader(GL_FRAGMENT_SHADER);
-	GLint linkCheck = NULL;
-	
-	char *vertexCode;
+	GLuint glObject			= glCreateProgram(); // Luodaan tyhjä objekti shaderia varten.
+	GLuint glVertexShader	= glCreateShader(GL_VERTEX_SHADER); // Luodaan vertex shader.
+	GLuint glFragmentShader	= glCreateShader(GL_FRAGMENT_SHADER); // Luodaan fragment shader.
+	GLint linkCheck			= NULL; // Bool testaamista varten.
+	char *vertexCode		= ShaderReader("vertexShader.txt"); // Shaderin koodi tekstitiedostosta.
+	char *fragmentCode		= ShaderReader("fragmentShader.txt");
 
-
-	glShaderSource(glVertexShader, 1, &vertexCode, NULL);
-
-	glAttachShader(glObject, glVertexShader); // Lisätään shaderi tyhjään objektiin.
-	glLinkProgram(glObject); // Linkkaaminen luo executablen shadereihin jotka siihen on lisätty.
-
-	// Testatataan linkkaaminen ja shaderin compilointi.
-	glGetProgramiv(glObject, GL_LINK_STATUS, &linkCheck);
-	std::cout << "Linker bool: " << linkCheck << std::endl;
-	glGetShaderiv(glVertexShader, GL_COMPILE_STATUS, &linkCheck);
+	// Lisätään shaderin koodi itse shaderiin.
+	glShaderSource(glVertexShader, 1, &vertexCode, NULL); 
+	glShaderSource(glFragmentShader, 1, &fragmentCode, NULL);
+	// Compiloidaan shadereiden koodit.
+	glCompileShader(glVertexShader); 
+	glCompileShader(glFragmentShader);
+	// Testataan onnistuiko compilointi.
+	glGetShaderiv(glVertexShader, GL_COMPILE_STATUS, &linkCheck); 
 	std::cout << "Vertex shaderin compilointi: " << linkCheck << std::endl;
 	glGetShaderiv(glFragmentShader, GL_COMPILE_STATUS, &linkCheck);
 	std::cout << "Fragment shaderin compilointi: " << linkCheck << std::endl;
 
-	glUseProgram(glObject); // Lisätään tämänhetkiseen renderöintiin.
-
+	// Lisätään shaderit tyhjään objektiin.
+	glAttachShader(glObject, glVertexShader);
+	glAttachShader(glObject, glFragmentShader);
+	glLinkProgram(glObject); // Linkkaaminen luo executablen shadereihin, jotka siihen on lisätty.
+	glGetProgramiv(glObject, GL_LINK_STATUS, &linkCheck); // Testatataan shadereiden linkkaaminen objektiin.
+	std::cout << "Linker bool: " << linkCheck << std::endl;
+	glUseProgram(glObject); // Lisätään objekti tämänhetkiseen renderöintiin.
 
 
 	while (isRunning) // Ohjelman main-looppi.
@@ -134,6 +154,14 @@ int main()
 				break;
 			}
 			DispatchMessage(&messages);
+
+			// Kolmion piirtoa varten.
+			glEnableVertexAttribArray(0);
+			glBindBuffer(GL_ARRAY_BUFFER, vertexBuffer);
+			glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 0, (void*)0);
+			glDrawArrays(GL_TRIANGLES, 0, 3);
+			glDisableVertexAttribArray(0);
+
 			SwapBuffers(hDC); // Swapataan buffereita piirtoa varten.
 		}
 	}
@@ -143,16 +171,7 @@ int main()
 
 LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam) // Prosessoi viestejä ikkunalle.
 { 
-	//PAINTSTRUCT paint; // Can be used to paint the client area of a window owned by that application.
-	//HDC displayHandle; // Mihin piirretään.
-	//TCHAR greeting[] = _T("Terve");
-
 	switch (message) {
-	//case WM_PAINT:
-	//	displayHandle = BeginPaint(hWnd, &paint);
-	//	TextOut(displayHandle, 5, 5, greeting, _tcslen(greeting));
-	//	EndPaint(hWnd, &paint);
-	//	break;
 	case WM_DESTROY:
 		PostQuitMessage(0);
 		break;
@@ -160,7 +179,6 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam) 
 		return DefWindowProc(hWnd, message, wParam, lParam); 
 		break;
 	}
-
 	return 0;
 } 
 
@@ -185,47 +203,36 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam) 
 	return true;
 }
 
- char ShaderReader(std::string fileName)
+ char *ShaderReader(std::string fileName)
  {
-	 std::ifstream readFile;
-	 int fileLength, filePosition;
-
-	 readFile.open(fileName, std::ios::in);
-	 if(readFile)
+	 // Avataan luettava tiedosto ja tarkistetaan onnistuminen.
+	 std::ifstream readFile(fileName, std::ios::in);
+	 if(readFile.is_open())
 		std::cout << "Opening file: " << fileName << std::endl;
 	 else
 	 { 
 		 std::cout << "Could not open file: " << fileName << std::endl;
-		 return 0;
+		 return NULL;
 	 }
 
-	 filePosition = readFile.tellg();
-	 readFile.seek
+	 // Luettavan tiedoston pituus.
+	 readFile.seekg(0, readFile.end); // Pistetään char position filun loppuun.
+	 int fileLength = readFile.tellg(); // Pistetään pituus ylös.
+	 readFile.seekg(0, readFile.beg); // Positio takasin alkuun.
+	 if(fileLength == 0)
+	 {
+		 std::cout << "ERROR: Luettavan tiedoston pituus 0." << std::endl;
+		 return NULL;
+	 }
+	 else
+		 std::cout << "Luettavan tiedoston pituus: " << fileLength << std::endl;
 
+	 std::string fileContents((std::istreambuf_iterator<char>(readFile)),
+							  std::istreambuf_iterator<char>()); // Kopioidaan tiedoston sisältö stringiin.
+	 char *tempChar = new char[fileContents.length() + 1];
+	 std::strcpy(tempChar, fileContents.c_str()); // Kopioidaan tiedoston sisällöt dynaamisesti luotuun char-merkkijonoon.
 
 	 std::cout << "Closing file: " << fileName << std::endl;
 	 readFile.close();
-	 return 0;
+	 return tempChar;
  }
-
- /*bool InitGL(GLvoid)
-{
-	glShadeModel(GL_SMOOTH); // Enables smooth shading.
-	glClearColor(0.0f, 0.0f, 0.0f, 0.0f); // Musta tausta.
-	glClearDepth(1.0f); // Syvyys bufferin setup.
-	//glEnable(GL_DEPTH_TEST); // Syvyys testejä.
-	//glDepthFunc(GL_LEQUAL);
-	return true;
-}
-
-bool DrawGLScene(GLvoid)
-{
-	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT); // Clearaa ruudun ja syvyys bufferin.
-	glLoadIdentity(); // Resettaa modelview matrixin.
-	return true;
-}
-
-bool CreateGLWindow()
-{
-	GLuint		PixelFormat;
-} */

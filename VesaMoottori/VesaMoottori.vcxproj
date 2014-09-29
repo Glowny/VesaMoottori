@@ -84,7 +84,6 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClInclude Include="ResourceManager.h" />
     <ClInclude Include="VesaMoottori\Assert.h" />
     <ClInclude Include="VesaMoottori\Debugger.h" />
     <ClInclude Include="VesaMoottori\ResourceManager.h" />
