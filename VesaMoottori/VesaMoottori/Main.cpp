@@ -9,7 +9,7 @@
 #include <GL\GL.h>
 
 LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam);
-//bool GlewTests(); // Palauttaa true jos glew testit onnistuu.
+bool GlewTests(); // Palauttaa true jos glew testit onnistuu.
 //bool InitGL(GLvoid); // Alustetaan OpenGL.
 //bool DrawGLScene(GLvoid); // Alustetaan ikkuna piirtämistä varten.
 //bool CreateGLWindow();
@@ -86,14 +86,24 @@ int main()
 
 	ShowWindow(winHandle, SW_SHOWNORMAL); // Näytetään rekisteröity ikkuna.
 	UpdateWindow(winHandle);
-	//GlewTests(); // Testaa OpenGL 2.1 toimivuutta.
+	GlewTests(); // Testaa OpenGL 2.1 toimivuutta.
 
 
 	// Jotain testausta.
-	glClearColor(1.0f, 0.2f, 1.0f, 1.0f);
-	glClear(GL_COLOR_BUFFER_BIT);
+	//glClearColor(1.0f, 0.2f, 1.0f, 1.0f);
+	//glClear(GL_COLOR_BUFFER_BIT);
 	
+	GLuint glObject = glCreateProgram();
+	GLuint glShader = glCreateShader(GL_VERTEX_SHADER);
+	//glShaderSource(glShader, 2, "string", 2);
+	glAttachShader(glObject, glShader);
+	glLinkProgram(glObject);
 
+	GLint linkCheck = NULL;
+	glGetProgramiv(glObject, GL_LINK_STATUS, &linkCheck);
+	std::cout << "Linker bool: " << linkCheck << std::endl;
+	glGetShaderiv(glShader, GL_COMPILE_STATUS, &linkCheck);
+	std::cout << "Shader bool: " << linkCheck << std::endl;
 
 	while (isRunning) // Ohjelman main-looppi.
 	{
@@ -138,45 +148,45 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam) 
 	return 0;
 } 
 
-//bool GlewTests()
-//{
-//	GLenum error = glewInit(); // Alustetaan Glew.
-//	if (error == GLEW_OK)
-//		std::cout << "GLEW succeeded!" << std::endl;
-//	else
-//	{
-//		std::cout << "GLEW failed, error message: " << glewGetErrorString(error) << std::endl;
-//		return false;
-//	}
-//
-//	if (GLEW_VERSION_2_1) // Tarkastetaan onko 2.1 käytössä.
-//		std::cout << "OpenGL 2.1 supported." << std::endl;
-//	else
-//	{
-//		std::cout << "OpenGL 2.1 not supported." << std::endl;
-//		return false;
-//	}
-//	return true;
-//}
-//
-//bool InitGL(GLvoid)
-//{
-//	glShadeModel(GL_SMOOTH); // Enables smooth shading.
-//	glClearColor(0.0f, 0.0f, 0.0f, 0.0f); // Musta tausta.
-//	glClearDepth(1.0f); // Syvyys bufferin setup.
-//	//glEnable(GL_DEPTH_TEST); // Syvyys testejä.
-//	//glDepthFunc(GL_LEQUAL);
-//	return true;
-//}
-//
-//bool DrawGLScene(GLvoid)
-//{
-//	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT); // Clearaa ruudun ja syvyys bufferin.
-//	glLoadIdentity(); // Resettaa modelview matrixin.
-//	return true;
-//}
-//
-//bool CreateGLWindow()
-//{
-//	GLuint		PixelFormat;
-//}
+ bool GlewTests()
+{
+	GLenum error = glewInit(); // Alustetaan Glew.
+	if (error == GLEW_OK)
+		std::cout << "GLEW succeeded!" << std::endl;
+	else
+	{
+		std::cout << "GLEW failed, error message: " << glewGetErrorString(error) << std::endl;
+		return false;
+	}
+
+	if (GLEW_VERSION_2_1) // Tarkastetaan onko 2.1 käytössä.
+		std::cout << "OpenGL 2.1 supported." << std::endl;
+	else
+	{
+		std::cout << "OpenGL 2.1 not supported." << std::endl;
+		return false;
+	}
+	return true;
+}
+
+ /*bool InitGL(GLvoid)
+{
+	glShadeModel(GL_SMOOTH); // Enables smooth shading.
+	glClearColor(0.0f, 0.0f, 0.0f, 0.0f); // Musta tausta.
+	glClearDepth(1.0f); // Syvyys bufferin setup.
+	//glEnable(GL_DEPTH_TEST); // Syvyys testejä.
+	//glDepthFunc(GL_LEQUAL);
+	return true;
+}
+
+bool DrawGLScene(GLvoid)
+{
+	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT); // Clearaa ruudun ja syvyys bufferin.
+	glLoadIdentity(); // Resettaa modelview matrixin.
+	return true;
+}
+
+bool CreateGLWindow()
+{
+	GLuint		PixelFormat;
+} */
