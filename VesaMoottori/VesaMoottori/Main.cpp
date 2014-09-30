@@ -4,6 +4,7 @@
 #include <tchar.h>
 #include <iostream>
 #include <fstream>
+#include <cassert>
 
 #include <GL\glew.h>
 #include <GL\GLU.h>
@@ -12,6 +13,14 @@
 LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam);
 bool GlewTests(); // Palauttaa true jos glew testit onnistuu.
 char *ShaderReader(std::string fileName); // Luodaan shaderille merkkijono.
+
+static const GLfloat triangleData[] = // Vertex koordinaatit kolmion piirtoon.
+{ 
+	-1.0f,	-1.0f,	0.0f,
+	1.0f,	-1.0f,	0.0f,
+	0.0f,	 1.0f,	0.0f,
+};
+static const GLuint indexData[] = { 0, 1, 2 };
 
 //GLint FileLength(); // Tarkastetaan .txt tiedoston pituus.
 //bool InitGL(GLvoid); // Alustetaan OpenGL.
@@ -93,53 +102,50 @@ int main()
 	GlewTests(); // Testaa OpenGL 2.1 toimivuutta.
 
 
-	// Piirrett‰‰n simppeli kolmio.
+	// Piirrett‰‰n simppeli kolmio. Vertex attribute array sis‰lt‰‰ datan verticeist‰ mit‰ piirrett‰‰n.
 	GLuint vertexID;
 	glGenVertexArrays(1, &vertexID);
 	glBindVertexArray(vertexID);
-
-	static const GLfloat triangleData[] = { // Kolmion kulmat.
-		-1.0f, -1.0f, 0.0f,
-		1.0f, -1.0f, 0.0f,
-		0.0f, 1.0f, 0.0f,
-	};
 
 	GLuint vertexBuffer;
 	glGenBuffers(1, &vertexBuffer);
 	glBindBuffer(GL_ARRAY_BUFFER, vertexBuffer);
 	glBufferData(GL_ARRAY_BUFFER, sizeof(triangleData), triangleData, GL_STATIC_DRAW);
 
-	//glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
-	//glClear(GL_COLOR_BUFFER_BIT);
+	glClearColor(1.0f, 1.0f, 1.0f, 1.0f);
 	// K‰yet‰‰n GLSL #version 120 tai aiempaa.
 	// http://www.opengl.org/wiki/Shader_Compilation
 
-	GLuint glObject			= glCreateProgram(); // Luodaan tyhj‰ objekti shaderia varten.
-	GLuint glVertexShader	= glCreateShader(GL_VERTEX_SHADER); // Luodaan vertex shader.
-	GLuint glFragmentShader	= glCreateShader(GL_FRAGMENT_SHADER); // Luodaan fragment shader.
-	GLint linkCheck			= NULL; // Bool testaamista varten.
+	GLuint glObject			= glCreateProgram(); // Represents compiled executable shader code.
+	GLuint glVertexShader	= glCreateShader(GL_VERTEX_SHADER); // Represents compiled shader code of a single shader stage.
+	GLuint glFragmentShader	= glCreateShader(GL_FRAGMENT_SHADER);
+	GLint linkCheck			= NULL; // Testaamista varten.
 	char *vertexCode		= ShaderReader("vertexShader.txt"); // Shaderin koodi tekstitiedostosta.
 	char *fragmentCode		= ShaderReader("fragmentShader.txt");
 
 	// Lis‰t‰‰n shaderin koodi itse shaderiin.
 	glShaderSource(glVertexShader, 1, &vertexCode, NULL); 
 	glShaderSource(glFragmentShader, 1, &fragmentCode, NULL);
-	// Compiloidaan shadereiden koodit.
+	// Kompiloidaan shadereiden koodit.
 	glCompileShader(glVertexShader); 
 	glCompileShader(glFragmentShader);
-	// Testataan onnistuiko compilointi.
+	// Testataan onnistuiko kompilointi.
 	glGetShaderiv(glVertexShader, GL_COMPILE_STATUS, &linkCheck); 
-	std::cout << "Vertex shaderin compilointi: " << linkCheck << std::endl;
+	std::cout << "Vertex shader compile: " << linkCheck << std::endl;
 	glGetShaderiv(glFragmentShader, GL_COMPILE_STATUS, &linkCheck);
-	std::cout << "Fragment shaderin compilointi: " << linkCheck << std::endl;
+	std::cout << "Fragment shader compile: " << linkCheck << std::endl;
 
-	// Lis‰t‰‰n shaderit tyhj‰‰n objektiin.
+	// Lis‰t‰‰n shaderit shader-ohjelmaan.
 	glAttachShader(glObject, glVertexShader);
 	glAttachShader(glObject, glFragmentShader);
 	glLinkProgram(glObject); // Linkkaaminen luo executablen shadereihin, jotka siihen on lis‰tty.
 	glGetProgramiv(glObject, GL_LINK_STATUS, &linkCheck); // Testatataan shadereiden linkkaaminen objektiin.
 	std::cout << "Linker bool: " << linkCheck << std::endl;
-	glUseProgram(glObject); // Lis‰t‰‰n objekti t‰m‰nhetkiseen renderˆintiin.
+
+	// Tarkistetaan attribuuttien lokaatio.
+	//GLint triangleLocation = glGetAttribLocation(glObject, "triangleData");
+	GLint glLocation = glGetAttribLocation(glObject, "gl_Position");
+	std::cout << "Attribute index: " << glLocation << std::endl;
 
 
 	while (isRunning) // Ohjelman main-looppi.
@@ -154,18 +160,23 @@ int main()
 				break;
 			}
 			DispatchMessage(&messages);
+			glClear(GL_COLOR_BUFFER_BIT);
+
+			glUseProgram(glObject); // Lis‰t‰‰n shader-ohjelma t‰m‰nhetkiseen renderˆintiin.
 
 			// Kolmion piirtoa varten.
-			glEnableVertexAttribArray(0);
-			glBindBuffer(GL_ARRAY_BUFFER, vertexBuffer);
+			glEnableVertexAttribArray(0); // Enable or disable a generic vertex attribute array.
+			glBindBuffer(GL_ARRAY_BUFFER, vertexBuffer); // Bindataan meid‰n bufferi kohteeseen.
 			glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 0, (void*)0);
-			glDrawArrays(GL_TRIANGLES, 0, 3);
+			glDrawArrays(GL_TRIANGLES, 0, 3); // Render primitives from array data.
 			glDisableVertexAttribArray(0);
+			
+			glUseProgram(0);
 
 			SwapBuffers(hDC); // Swapataan buffereita piirtoa varten.
 		}
 	}
-
+	
 	return (int) messages.wParam;
 }
 
@@ -217,7 +228,7 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam) 
 
 	 // Luettavan tiedoston pituus.
 	 readFile.seekg(0, readFile.end); // Pistet‰‰n char position filun loppuun.
-	 int fileLength = readFile.tellg(); // Pistet‰‰n pituus ylˆs.
+	 int fileLength = (int)readFile.tellg(); // Pistet‰‰n pituus ylˆs.
 	 readFile.seekg(0, readFile.beg); // Positio takasin alkuun.
 	 if(fileLength == 0)
 	 {
