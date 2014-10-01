@@ -14,12 +14,25 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam);
 bool GlewTests(); // Palauttaa true jos glew testit onnistuu.
 char *ShaderReader(std::string fileName); // Luodaan shaderille merkkijono.
 
-static const GLfloat triangleData[] = // Vertex koordinaatit kolmion piirtoon.
-{ 
-	-1.0f,	-1.0f,	0.0f,
-	1.0f,	-1.0f,	0.0f,
-	0.0f,	 1.0f,	0.0f,
+//static const GLfloat triangleData[] = // Vertex koordinaatit kolmion piirtoon.
+//{ 
+//	-0.7f,	-0.6f,	0.1f,
+//	0.7f,	-0.5f,	0.2f,
+//	0.1f,	 0.2f,	0.0f,
+//};
+
+static const GLfloat triangleData[] = // Väritetty versio.
+{
+	-0.5f, 0.5f,
+	1.0f, 0.0f, 0.0f,
+
+	0.5f, -0.5f,
+	0.0f, 1.0f, 0.0f,
+
+	0.5f, 0.5f,
+	0.0f, 0.0f, 1.0f
 };
+
 static const GLuint indexData[] = { 0, 1, 2 };
 
 //GLint FileLength(); // Tarkastetaan .txt tiedoston pituus.
@@ -103,17 +116,38 @@ int main()
 
 
 	// Piirrettään simppeli kolmio. Vertex attribute array sisältää datan verticeistä mitä piirrettään.
-	GLuint vertexID;
-	glGenVertexArrays(1, &vertexID);
-	glBindVertexArray(vertexID);
+	//GLuint vertexID;
+	//glGenVertexArrays(1, &vertexID);
+	//glBindVertexArray(vertexID);
 
-	GLuint vertexBuffer;
-	glGenBuffers(1, &vertexBuffer); // Luodaan yksi buffer objekti.
-	glBindBuffer(GL_ARRAY_BUFFER, vertexBuffer); // Bindataan bufferi vertex data targettiin.
-	glBufferData(GL_ARRAY_BUFFER, sizeof(triangleData), triangleData, GL_STATIC_DRAW); // Luo ja alustaa bufferin sisällön.
+	//GLuint vertexBuffer;
+	//glGenBuffers(1, &vertexBuffer); // Luodaan yksi buffer objekti.
+	//glBindBuffer(GL_ARRAY_BUFFER, vertexBuffer); // Bindataan bufferi vertex data targettiin.
+	//glBufferData(GL_ARRAY_BUFFER, sizeof(triangleData), triangleData, GL_STATIC_DRAW); // Luo ja alustaa bufferin sisällön.
+
+	// Vaihtoehtoinen kolmion piirto:
+	GLuint buffers[2];
+	glGenBuffers(2, buffers);
+	glBindBuffer(GL_ARRAY_BUFFER, buffers[0]); // Vertex datan puskuri.
+	glBufferData(GL_ARRAY_BUFFER, sizeof(triangleData), triangleData, GL_STATIC_DRAW);
+	glBindBuffer(GL_ARRAY_BUFFER, 0u);
+	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, buffers[1]);
+	glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(indexData), indexData, GL_STATIC_DRAW);
+	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0u);
 	
 
-	glClearColor(1.0f, 1.0f, 1.0f, 1.0f);
+
+	// Tekstuurien luonti:
+	GLuint texture;
+	glGenTextures(1, &texture);
+	glBindTexture(GL_TEXTURE_2D, texture);
+	glTexImage2D(GL_TEXTURE_2D, 0, 4, <WIDTH>, <HEIGHT>, 0, <FORMAT>, <TYPE>, <DATA>);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+	glBindTexture(GL_TEXTURE_2D, 0u);
+
+	//Vertex shaderiin koordinaatit -> Fragment -> Texture Coords/Vertexiin -> BindTexture ennen piirtoa -> sampler yks. index
+
+	glClearColor(0.5f, 0.0f, 0.5f, 1.0f);
 	// Käyetään GLSL #version 120 tai aiempaa.
 	// http://www.opengl.org/wiki/Shader_Compilation
 
@@ -145,8 +179,13 @@ int main()
 
 	// Tarkistetaan attribuuttien lokaatio.
 	//GLint triangleLocation = glGetAttribLocation(glObject, "triangleData");
-	GLint glLocation = glGetAttribLocation(glObject, "gl_Position");
-	std::cout << "Attribute index: " << glLocation << std::endl;
+	const GLint posLocation = glGetAttribLocation(glObject, "attrPosition");
+	std::cout << "Attribute index: " << posLocation << std::endl;
+	glEnableVertexAttribArray(posLocation);
+
+	const GLint colorLocation = glGetAttribLocation(glObject, "attrColor");
+	std::cout << "Color index: " << colorLocation << std::endl;
+	glEnableVertexAttribArray(colorLocation);
 
 
 	while (isRunning) // Ohjelman main-looppi.
@@ -165,17 +204,29 @@ int main()
 			glUseProgram(glObject); // Lisätään shader-ohjelma tämänhetkiseen renderöintiin.
 
 			// Kolmion piirtoa varten.
-			glEnableVertexAttribArray(0); // Enable or disable a generic vertex attribute array.
-			glBindBuffer(GL_ARRAY_BUFFER, vertexBuffer); // Bindataan meidän bufferi kohteeseen.
-			glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 0, (void*)0);
-			glDrawArrays(GL_TRIANGLES, 0, 3); // Render primitives from array data.
-			glDisableVertexAttribArray(0);
-			
+			//glEnableVertexAttribArray(0); // Enable or disable a generic vertex attribute array.
+			//glBindBuffer(GL_ARRAY_BUFFER, vertexBuffer); // Bindataan meidän bufferi kohteeseen.
+			//glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 0, (void*)0);
+			//glDrawArrays(GL_TRIANGLES, 0, 3); // Render primitives from array data.
+			//glDisableVertexAttribArray(0);
+
+			// Vaihtoehto kolmion piirrolle:
+			glBindBuffer(GL_ARRAY_BUFFER, buffers[0]);
+			glVertexAttribPointer(posLocation, 2, GL_FLOAT, GL_FALSE, 20u, reinterpret_cast<GLvoid*>(0));
+			glVertexAttribPointer(colorLocation, 3, GL_FLOAT, GL_FALSE, 20u, reinterpret_cast<GLvoid*>(8));
+
+			glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, buffers[1]);
+			glDrawElements(GL_TRIANGLES, 3u, GL_UNSIGNED_INT, reinterpret_cast<GLvoid*>(0));
+
+			glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0u);
+			glBindBuffer(GL_ARRAY_BUFFER, 0u);
 			glUseProgram(0);
 			SwapBuffers(hDC); // Swapataan buffereita piirtoa varten.
 		}
 	}
 
+	glDeleteTextures(1, &texture);
+	glDeleteBuffers(2, buffers);
 	return (int) messages.wParam;
 }
 
