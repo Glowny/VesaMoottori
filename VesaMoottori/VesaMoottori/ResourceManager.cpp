@@ -1,9 +1,9 @@
 #include "ResourceManager.h"
 
-
 ResourceManager::ResourceManager()
 {
 }
+
 void ResourceManager::addImage(std::string filename, DecodedImage img)
 {
 	unsigned int hashedImageName = myHasher(filename);
@@ -41,5 +41,4 @@ unsigned int ResourceManager::myHasher(std::string filename)
 
 ResourceManager::~ResourceManager()
 {
-
 }
