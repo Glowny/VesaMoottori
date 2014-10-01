@@ -90,7 +90,6 @@
     <ClInclude Include="VesaMoottori\WindowHandler.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="VesaMoottori\Debugger.cpp" />
     <ClCompile Include="VesaMoottori\Main.cpp" />
     <ClCompile Include="VesaMoottori\ResourceManager.cpp" />
     <ClCompile Include="VesaMoottori\WindowHandler.cpp" />

@@ -108,9 +108,10 @@ int main()
 	glBindVertexArray(vertexID);
 
 	GLuint vertexBuffer;
-	glGenBuffers(1, &vertexBuffer);
-	glBindBuffer(GL_ARRAY_BUFFER, vertexBuffer);
-	glBufferData(GL_ARRAY_BUFFER, sizeof(triangleData), triangleData, GL_STATIC_DRAW);
+	glGenBuffers(1, &vertexBuffer); // Luodaan yksi buffer objekti.
+	glBindBuffer(GL_ARRAY_BUFFER, vertexBuffer); // Bindataan bufferi vertex data targettiin.
+	glBufferData(GL_ARRAY_BUFFER, sizeof(triangleData), triangleData, GL_STATIC_DRAW); // Luo ja alustaa bufferin sisällön.
+	
 
 	glClearColor(1.0f, 1.0f, 1.0f, 1.0f);
 	// Käyetään GLSL #version 120 tai aiempaa.
@@ -161,7 +162,6 @@ int main()
 			}
 			DispatchMessage(&messages);
 			glClear(GL_COLOR_BUFFER_BIT);
-
 			glUseProgram(glObject); // Lisätään shader-ohjelma tämänhetkiseen renderöintiin.
 
 			// Kolmion piirtoa varten.
@@ -172,11 +172,10 @@ int main()
 			glDisableVertexAttribArray(0);
 			
 			glUseProgram(0);
-
 			SwapBuffers(hDC); // Swapataan buffereita piirtoa varten.
 		}
 	}
-	
+
 	return (int) messages.wParam;
 }
 
