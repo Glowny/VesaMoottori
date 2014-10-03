@@ -4,22 +4,21 @@
 #include <iostream>
 #include <sstream>
 #include <string>
+#include <stdio.h>
+#include <stdarg.h>
 
 class Debugger
 {
 public:
-	Debugger& operator << (const std::string& s) { std::cout << s; return *this; };
-	Debugger& operator << (long long l);			//Kaikki int muuttujat
-	Debugger& operator << (unsigned long long l);	//Kaikki unsigned int muuttujat
-
-	template <typename T>
-	Debugger& operator << (const T& val)		//Kaikki muut muuttujat ostringstreamilla
+	void WriteToConsole(const char* message, ...)
 	{
-		std::ostringstream o;
-		o << val;
-		*this << o.str();
-		return *this;
+		va_list args;
+		va_start(args, message);
+		vfprintf(stderr, message, args);
+		va_end(args);
 	}
+	
+
 };
 
 #endif
