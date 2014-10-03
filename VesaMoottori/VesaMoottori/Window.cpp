@@ -93,12 +93,12 @@ bool Window::Glew()
 void Window::Show()
 {
 	ShowWindow(hWindow, SW_SHOWNORMAL);
-	//SwapBuffers(hDC);
 }
 
 void Window::Update()
 {
 	UpdateWindow(hWindow);
+	SwapBuffers(hDC);
 }
 
 LRESULT CALLBACK Window::WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)

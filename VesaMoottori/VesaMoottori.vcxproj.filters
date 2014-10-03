@@ -19,15 +19,21 @@
     <ClInclude Include="VesaMoottori\Window.h">
       <Filter>Source Files</Filter>
     </ClInclude>
+    <ClInclude Include="VesaMoottori\ShaderManager.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="VesaMoottori\Main.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="VesaMoottori\ResourceManager.cpp">
+    <ClCompile Include="VesaMoottori\Window.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="VesaMoottori\Window.cpp">
+    <ClCompile Include="VesaMoottori\ShaderManager.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="VesaMoottori\ResourceManager.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
