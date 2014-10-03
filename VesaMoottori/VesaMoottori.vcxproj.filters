@@ -13,10 +13,10 @@
     <ClInclude Include="VesaMoottori\Debugger.h">
       <Filter>Source Files</Filter>
     </ClInclude>
-    <ClInclude Include="VesaMoottori\WindowHandler.h">
+    <ClInclude Include="VesaMoottori\ResourceManager.h">
       <Filter>Source Files</Filter>
     </ClInclude>
-    <ClInclude Include="VesaMoottori\ResourceManager.h">
+    <ClInclude Include="VesaMoottori\Window.h">
       <Filter>Source Files</Filter>
     </ClInclude>
   </ItemGroup>
@@ -24,10 +24,10 @@
     <ClCompile Include="VesaMoottori\Main.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="VesaMoottori\WindowHandler.cpp">
+    <ClCompile Include="VesaMoottori\ResourceManager.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="VesaMoottori\ResourceManager.cpp">
+    <ClCompile Include="VesaMoottori\Window.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
