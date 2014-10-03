@@ -9,6 +9,10 @@ void ResourceManager::loadImage(std::string filename)
 	unsigned int hashedImageName = myHasher(filename);
 	if (decodedImages.end() != decodedImages.find(hashedImageName))	// tarkastetaan onko kuvaa vielä lisätty
 	{
+		// error lisätty jo
+	}
+	else
+	{
 		DecodedImage image;
 		unsigned width, height;
 		unsigned error = lodepng::decode(image, width, height, filename);
@@ -48,14 +52,20 @@ char* ResourceManager::findShader(std::string filename)
 	}
 }
 // pistetäänkö myös mappiin?
-char* ResourceManager::shaderReader(std::string filename)
+char *ResourceManager::loadShader(std::string filename)
 {
 	unsigned int hashedShaderName = myHasher(filename);		// haetaan hashattu shaderin nimi
-	if (decodedImages.end() != decodedImages.find(hashedShaderName))	// tarkastetaan onko shaderiä jo upittu
+	if (shaders.end() != shaders.find(hashedShaderName))	// tarkastetaan onko shaderiä jo upittu // VÄÄRINPÄIN SAATANA
+	{
+		// error ei olee shaderia
+		return NULL;
+	}
+	else
 	{
 		std::ifstream readFile(filename, std::ios::in);
 		if (readFile.is_open())
-		{}
+		{
+		}
 		else
 		{
 			//errormessage, could not open file
@@ -69,11 +79,12 @@ char* ResourceManager::shaderReader(std::string filename)
 			//errormessage, file empty
 		}
 		else
-		{}
+		{
+		}
 		std::string fileContents((std::istreambuf_iterator<char>(readFile)), std::istreambuf_iterator<char>());
 		char *tempChar = new char[fileContents.length() + 1];
 		std::strcpy(tempChar, fileContents.c_str());
-	
+
 		readFile.close();
 		shaders.insert(std::pair<unsigned int, char*>(hashedShaderName, tempChar));
 		return tempChar;	// poistetaan käytöstä jos tuntuu tyhmältä ladata joka kerta tiedostosta kun haeteaan shaderi.
