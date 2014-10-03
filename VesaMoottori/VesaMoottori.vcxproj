@@ -86,10 +86,12 @@
   <ItemGroup>
     <ClInclude Include="VesaMoottori\Assert.h" />
     <ClInclude Include="VesaMoottori\Debugger.h" />
+    <ClInclude Include="VesaMoottori\lodepng.h" />
     <ClInclude Include="VesaMoottori\ResourceManager.h" />
     <ClInclude Include="VesaMoottori\WindowHandler.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="VesaMoottori\lodepng.cpp" />
     <ClCompile Include="VesaMoottori\Main.cpp" />
     <ClCompile Include="VesaMoottori\ResourceManager.cpp" />
     <ClCompile Include="VesaMoottori\WindowHandler.cpp" />

@@ -19,6 +19,7 @@
     <ClInclude Include="VesaMoottori\ResourceManager.h">
       <Filter>Source Files</Filter>
     </ClInclude>
+    <ClInclude Include="VesaMoottori\lodepng.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="VesaMoottori\Main.cpp">
@@ -28,6 +29,9 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="VesaMoottori\ResourceManager.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="VesaMoottori\lodepng.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
