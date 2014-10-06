@@ -1,21 +1,18 @@
 #include "ShaderManager.h"
+#include <tchar.h>
+#include <fstream>
+#include <string>
+#include <windows.h>
+#include <stdlib.h>
 
-
-ShaderManager::ShaderManager()
-{}
-
-ShaderManager::~ShaderManager()
-{}
-
-
-void ShaderManager::initialize()
+void ShaderManager::TestShaders()
 {
-	glObject = glCreateProgram(); // Represents compiled executable shader code.
-	glVertexShader = glCreateShader(GL_VERTEX_SHADER); // Represents compiled shader code of a single shader stage.
-	glFragmentShader = glCreateShader(GL_FRAGMENT_SHADER);
-	linkCheck = NULL; // Testaamista varten.
-	vertexCode = ShaderReader("vertexShader.txt"); // Shaderin koodi tekstitiedostosta.
-	fragmentCode = ShaderReader("fragmentShader.txt");
+	glObject				= glCreateProgram(); // Represents compiled executable shader code.
+	GLuint glVertexShader	= glCreateShader(GL_VERTEX_SHADER); // Represents compiled shader code of a single shader stage.
+	GLuint glFragmentShader = glCreateShader(GL_FRAGMENT_SHADER);
+	GLint linkCheck			= NULL; // Testaamista varten.
+	char *vertexCode		= ShaderReader("vertexShader.txt"); // Shaderin koodi tekstitiedostosta.
+	char *fragmentCode		= ShaderReader("fragmentShader.txt");
 
 	// Lis‰t‰‰n shaderin koodi itse shaderiin.
 	glShaderSource(glVertexShader, 1, &vertexCode, NULL);
@@ -39,7 +36,7 @@ void ShaderManager::initialize()
 	std::cout << "Linker bool: " << linkCheck << std::endl;
 }
 
-void ShaderManager::run()
+void ShaderManager::Run()
 {
 	glUseProgram(glObject);
 }

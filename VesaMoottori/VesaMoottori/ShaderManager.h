@@ -1,35 +1,23 @@
 #pragma once
-#include <windows.h>
-#include <stdlib.h>
-#include <string>
-#include <tchar.h>
 #include <iostream>
-#include <fstream>
-#include <cassert>
-
-#include <GL\glew.h>
-#include <GL\GLU.h>
-#include <GL\GL.h>
+#include "GL\glew.h"
 
 class ShaderManager
 {
 public:
-	ShaderManager();
-	~ShaderManager();
-	void initialize();
-	void run();
+	ShaderManager() {};
+	~ShaderManager() {};
+	void TestShaders();
+	void Run();
 	int GetObjects();
 
 private:
 	char *ShaderReader(std::string fileName);
+	GLuint	glObject;
 
-
-
-	GLuint glObject;
-	GLuint glVertexShader;
-	GLuint glFragmentShader;
-	GLint linkCheck = NULL;
-	char *vertexCode;
-	char *fragmentCode;
-
+	//GLuint	glVertexShader;
+	//GLuint	glFragmentShader;
+	//GLint		linkCheck;
+	//char		*vertexCode;
+	//char		*fragmentCode;
 };

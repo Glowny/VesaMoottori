@@ -1,9 +1,5 @@
 #include "ResourceManager.h"
 
-ResourceManager::ResourceManager()
-{
-}
-
 void ResourceManager::loadImage(std::string filename)
 {
 	unsigned int hashedImageName = myHasher(filename);
@@ -100,8 +96,4 @@ unsigned int ResourceManager::myHasher(std::string filename)
 	std::hash<std::string> Hasher;
 	unsigned int hash = Hasher(filename);
 	return hash;
-}
-
-ResourceManager::~ResourceManager()
-{
 }

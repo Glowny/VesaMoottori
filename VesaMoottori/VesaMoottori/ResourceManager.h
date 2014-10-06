@@ -11,8 +11,8 @@ typedef std::vector<unsigned char> DecodedImage;	// voitais käyttää projektissa 
 class ResourceManager
 {
 public:
-	ResourceManager();
-	~ResourceManager();
+	ResourceManager() {};
+	~ResourceManager() {};
 	void loadImage(std::string filename);			// upitaan kuva mappiin
 	DecodedImage* findImage(std::string filename);	//heateaan kuva mapista
 	void addImageLocation(std::string filename);	//kuvan sijainti vektoriin
@@ -23,6 +23,5 @@ private:
 	std::map<unsigned int, DecodedImage> decodedImages; // imagelocationista kuva, joka dekoodataan ja pistetään tänne. Tämä ottaa myös nimen
 	std::vector<std::string> imageLocations; // ei ehkä välttämätön. Helppo muokattavuus jos vaikka tekstifileessä, josta voidaan sitten hakea kaikki tarvittavat kuvat.
 	unsigned int myHasher(std::string filename);	//muuttaa stringin uchariksi;
-
 };
 
