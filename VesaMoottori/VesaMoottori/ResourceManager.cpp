@@ -1,4 +1,5 @@
 #include "ResourceManager.h"
+#include <iostream>
 
 void ResourceManager::loadImage(std::string filename)
 {
@@ -12,6 +13,7 @@ void ResourceManager::loadImage(std::string filename)
 		DecodedImage image;
 		unsigned width, height;
 		unsigned error = lodepng::decode(image, width, height, filename);
+		std::cout << "loadImage: " << error << " : " << lodepng_error_text(error) << std::endl;
 		if (error)
 		{
 			//tulosta errorsoopaan "decoder error" error lodepng_error_text(error)
@@ -91,6 +93,7 @@ void ResourceManager::addImageLocation(std::string filename)
 {
 	imageLocations.push_back(filename);
 }
+
 unsigned int ResourceManager::myHasher(std::string filename)
 {
 	std::hash<std::string> Hasher;

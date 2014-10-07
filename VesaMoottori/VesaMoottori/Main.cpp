@@ -1,20 +1,25 @@
 #include <windows.h>
 #include <stdlib.h>
 #include <iostream>
-#include "ShaderManager.h"
 #include "Window.h"
 #include "ResourceManager.h"
+//#include "ShaderManager.h"
+
+char* ShaderReader(std::string fileName);
 
 static const GLfloat triangleData[] =
 {
-	-0.5f, 0.5f,
+	-0.7f, -0.7f,
 	1.0f, 0.0f, 0.0f,
+	0.0f, 0.0f,
 
-	0.5f, -0.5f,
+	0.0f, 0.7f,
 	0.0f, 1.0f, 0.0f,
+	0.5f, 1.0f,
 
-	0.5f, 0.5f,
-	0.0f, 0.0f, 1.0f
+	0.7f, -0.7f,
+	0.0f, 0.0f, 1.0f,
+	1.0f, 0.0f
 };
 
 static const GLuint indexData[] = { 0, 1, 2 };
@@ -24,13 +29,43 @@ int main()
 	bool			isRunning = true;
 	MSG				messages;
 	Window			pekka;
-	ShaderManager	shaders;
-	ResourceManager ressu;
+	//ShaderManager	shaders;
+	//ResourceManager ressu;
 
 	pekka.Register();
 	pekka.Show();
-	shaders.TestShaders();
-	ressu.loadImage("tex.png");
+	//shaders.TestShaders();
+	//ressu.loadImage("tex.png");
+
+
+	GLuint glObject = glCreateProgram(); // Represents compiled executable shader code.
+	GLuint glVertexShader = glCreateShader(GL_VERTEX_SHADER); // Represents compiled shader code of a single shader stage.
+	GLuint glFragmentShader = glCreateShader(GL_FRAGMENT_SHADER);
+	GLint linkCheck = NULL; // Testaamista varten.
+	char *vertexCode = ShaderReader("vertexShader.txt"); // Shaderin koodi tekstitiedostosta.
+	char *fragmentCode = ShaderReader("fragmentShader.txt");
+
+
+	// Lisätään shaderin koodi itse shaderiin.
+	glShaderSource(glVertexShader, 1, &vertexCode, NULL);
+	glShaderSource(glFragmentShader, 1, &fragmentCode, NULL);
+
+	// Kompiloidaan shadereiden koodit.
+	glCompileShader(glVertexShader);
+	glCompileShader(glFragmentShader);
+
+	// Testataan onnistuiko kompilointi.
+	glGetShaderiv(glVertexShader, GL_COMPILE_STATUS, &linkCheck);
+	std::cout << "Vertex shader compile: " << linkCheck << std::endl;
+	glGetShaderiv(glFragmentShader, GL_COMPILE_STATUS, &linkCheck);
+	std::cout << "Fragment shader compile: " << linkCheck << std::endl;
+
+	// Lisätään shaderit shader-ohjelmaan.
+	glAttachShader(glObject, glVertexShader);
+	glAttachShader(glObject, glFragmentShader);
+	glLinkProgram(glObject); // Linkkaaminen luo executablen shadereihin, jotka siihen on lisätty.
+	glGetProgramiv(glObject, GL_LINK_STATUS, &linkCheck); // Testatataan shadereiden linkkaaminen objektiin.
+	std::cout << "Linker bool: " << linkCheck << std::endl;
 
 
 	// Vaihtoehtoinen kolmion piirto:
@@ -42,28 +77,44 @@ int main()
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, buffers[1]);
 	glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(indexData), indexData, GL_STATIC_DRAW);
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0u);
-	
+
 
 	glClearColor(0.3f, 0.3f, 0.3f, 1.0f);
 
 
+	std::vector<unsigned char> image;
+	unsigned width = 489, height = 550;
+	const char* filename = "goofy.png";
+	unsigned error = lodepng::decode(image, width, height, filename);
+	std::cout << "loadImage: " << error << " : " << lodepng_error_text(error) << std::endl;
+
+
 	// Tekstuurien luonti:
+	glEnable(GL_TEXTURE_2D);
 	GLuint texture;
 	glGenTextures(1, &texture);
 	glBindTexture(GL_TEXTURE_2D, texture);
-	glTexImage2D(GL_TEXTURE_2D, 0, 4, 130, 131, 0, GL_RGB, GL_BITMAP, ressu.findImage("tex.png"));
+	glTexImage2D(GL_TEXTURE_2D, 0, 4, width, height, 0, GL_RGB, GL_UNSIGNED_BYTE, image.data());
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
 	glBindTexture(GL_TEXTURE_2D, 0u);
 
 
 	// Tarkistetaan attribuuttien lokaatio.
-	const GLint posLocation = glGetAttribLocation(shaders.GetObjects(), "attrPosition");
-	std::cout << "Attribute index: " << posLocation << std::endl;
+	//const GLint posLocation = 0;
+	//glBindAttribLocation(glObject, posLocation, "attrPosition");
+	const GLint posLocation = glGetAttribLocation(glObject, "attrPosition");
+	std::cout << "Position Attribute index: " << posLocation << std::endl;
 	glEnableVertexAttribArray(posLocation);
 
-	const GLint colorLocation = glGetAttribLocation(shaders.GetObjects(), "attrColor");
-	std::cout << "Color index: " << colorLocation << std::endl;
-	glEnableVertexAttribArray(colorLocation);
+	const GLint colorLocation = glGetAttribLocation(glObject, "attrColor");
+	std::cout << "Color Attribute index: " << colorLocation << std::endl;
+	//glBindAttribLocation(glObject, 1, "attrColor");
+	//glEnableVertexAttribArray(colorLocation);
+
+	const GLint texLocation = glGetAttribLocation(glObject, "textPosition");
+	std::cout << "Position Texture index: " << texLocation << std::endl;
+	//glBindAttribLocation(glObject, 2, "textPosition");
+	glEnableVertexAttribArray(texLocation);
 
 
 	while (isRunning) // Ohjelman main-looppi.
@@ -77,26 +128,64 @@ int main()
 				break;
 			}
 			DispatchMessage(&messages);
-			//glClear(GL_COLOR_BUFFER_BIT);
 			pekka.Update();
-			shaders.Run(); // Lisätään shader-ohjelma tämänhetkiseen renderöintiin.
+			//shaders.Run(); // Lisätään shader-ohjelma tämänhetkiseen renderöintiin.
+			glUseProgram(glObject);
 
 			// Vaihtoehto kolmion piirrolle:
 			glBindBuffer(GL_ARRAY_BUFFER, buffers[0]);
-			glVertexAttribPointer(posLocation, 2, GL_FLOAT, GL_FALSE, 20u, reinterpret_cast<GLvoid*>(0));
-			glVertexAttribPointer(colorLocation, 3, GL_FLOAT, GL_FALSE, 20u, reinterpret_cast<GLvoid*>(8));
+			glVertexAttribPointer(posLocation, 2, GL_FLOAT, GL_FALSE, 28u, reinterpret_cast<GLvoid*>(0));
+			//glVertexAttribPointer(colorLocation, 3, GL_FLOAT, GL_FALSE, 28u, reinterpret_cast<GLvoid*>(8));
+			glVertexAttribPointer(texLocation, 2, GL_FLOAT, GL_FALSE, 28u, reinterpret_cast<GLvoid*>(20));
 
 			glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, buffers[1]);
+			glBindTexture(GL_TEXTURE_2D, texture);
 			glDrawElements(GL_TRIANGLES, 3u, GL_UNSIGNED_INT, reinterpret_cast<GLvoid*>(0));
-
+			
 			glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0u);
 			glBindBuffer(GL_ARRAY_BUFFER, 0u);
+			glBindTexture(GL_TEXTURE_2D, 0u);
+
 			glUseProgram(0);
-			//SwapBuffers(hDC); // Swapataan buffereita piirtoa varten.
 		}
 	}
 
-	//glDeleteTextures(1, &texture);
+	glDeleteTextures(1, &texture);
 	glDeleteBuffers(2, buffers);
 	return (int) messages.wParam;
+}
+
+char* ShaderReader(std::string fileName)
+{
+	// Avataan luettava tiedosto ja tarkistetaan onnistuminen.
+	std::ifstream readFile(fileName, std::ios::in);
+	if (readFile.is_open())
+		std::cout << "Opening file: " << fileName << std::endl;
+	else
+	{
+		std::cout << "Could not open file: " << fileName << std::endl;
+		return NULL;
+	}
+
+	// Luettavan tiedoston pituus.
+	readFile.seekg(0, readFile.end); // Pistetään char position filun loppuun.
+	int fileLength = (int)readFile.tellg(); // Pistetään pituus ylös.
+	readFile.seekg(0, readFile.beg); // Positio takasin alkuun.
+	if (fileLength == 0)
+	{
+		std::cout << "ERROR: Luettavan tiedoston pituus 0." << std::endl;
+		return NULL;
+	}
+	else
+		std::cout << "Luettavan tiedoston pituus: " << fileLength << std::endl;
+
+	std::string fileContents((std::istreambuf_iterator<char>(readFile)),
+		std::istreambuf_iterator<char>()); // Kopioidaan tiedoston sisältö stringiin.
+	char *tempChar = new char[fileContents.length() + 1];
+	std::strcpy(tempChar, fileContents.c_str()); // Kopioidaan tiedoston sisällöt dynaamisesti luotuun char-merkkijonoon.
+
+	std::cout << "Closing file: " << fileName << std::endl;
+	readFile.close();
+
+	return tempChar;
 }

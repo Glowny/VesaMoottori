@@ -34,6 +34,8 @@ void ShaderManager::TestShaders()
 	glLinkProgram(glObject); // Linkkaaminen luo executablen shadereihin, jotka siihen on lisätty.
 	glGetProgramiv(glObject, GL_LINK_STATUS, &linkCheck); // Testatataan shadereiden linkkaaminen objektiin.
 	std::cout << "Linker bool: " << linkCheck << std::endl;
+
+
 }
 
 void ShaderManager::Run()

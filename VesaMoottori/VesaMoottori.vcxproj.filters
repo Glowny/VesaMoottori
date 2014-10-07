@@ -50,5 +50,8 @@
     <Image Include="tex.png">
       <Filter>Resources</Filter>
     </Image>
+    <Image Include="goofy.png">
+      <Filter>Resources</Filter>
+    </Image>
   </ItemGroup>
 </Project>
