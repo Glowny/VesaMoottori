@@ -10,22 +10,25 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="VesaMoottori\Assert.h">
-      <Filter>Source Files</Filter>
-    </ClInclude>
-    <ClInclude Include="VesaMoottori\Debugger.h">
-      <Filter>Source Files</Filter>
-    </ClInclude>
     <ClInclude Include="VesaMoottori\ResourceManager.h">
-      <Filter>Source Files</Filter>
-    </ClInclude>
-    <ClInclude Include="VesaMoottori\Window.h">
       <Filter>Source Files</Filter>
     </ClInclude>
     <ClInclude Include="VesaMoottori\ShaderManager.h">
       <Filter>Source Files</Filter>
     </ClInclude>
     <ClInclude Include="VesaMoottori\lodepng.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="VesaMoottori\Window.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="VesaMoottori\Assert.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="VesaMoottori\Debugger.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="VesaMoottori\GraphicsDevice.h">
       <Filter>Source Files</Filter>
     </ClInclude>
     <ClInclude Include="resource.h" />
@@ -37,9 +40,6 @@
     <ClCompile Include="VesaMoottori\Main.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="VesaMoottori\Window.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="VesaMoottori\ShaderManager.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -47,6 +47,12 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="VesaMoottori\lodepng.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="VesaMoottori\Window.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="VesaMoottori\GraphicsDevice.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
