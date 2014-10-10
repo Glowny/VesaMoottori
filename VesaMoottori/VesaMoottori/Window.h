@@ -1,37 +1,43 @@
 #pragma once
 #define WIN32_LEAN_AND_MEAN
 #include <windows.h>
-#include <tchar.h>
+#include <string>
 
 class Window
 {
 public:
 	Window() {
-		className		= L"Testi";
-		windowName		= L"Pekka";
-		windowHandle	= 0;
-		deviceContext	= 0;
+		className			= L"Win";
+		windowName			= L"Window";
+		windowHandle		= 0;
+		deviceContext		= 0;
+		style				= 0;
+		clientArea.left		= 0;
+		clientArea.top		= 0;
+		clientArea.right	= 500;
+		clientArea.bottom	= 500;
+		style				= WS_OVERLAPPEDWINDOW;
 	};
 
-	// Ei voi tällä hetkellä kustomoida kuin nimen, korjataan myöhemmin.
-	//Window(TCHAR cName, TCHAR wName) { 
-	//	className	= cName;
-	//	windowName	= wName;
-	//	hWindow		= 0;
-	//	hDC			= 0;
-	//	hGLRC		= 0;
-	//	pixFormat	= NULL; }
+	Window(std::string name, int width, int height) {
+		className			= L"Win";
+		windowName			= (wchar_t*)name.c_str();
+		windowHandle		= 0;
+		deviceContext		= 0;
+		style				= 0;
+		clientArea.left		= 0;
+		clientArea.top		= 0;
+		clientArea.right	= width;
+		clientArea.bottom	= height;
+		style				= WS_OVERLAPPEDWINDOW;
+	}
 
 	// Prosessoi viestejä ikkunalle.
 	static LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam);
 	bool Register();
-	~Window() {};
-
-	//void Show();
-	//void Update();
-
 	HDC GetDevice() { return deviceContext; }
 	HWND GetHandle() { return windowHandle; }
+	~Window() {};
 
 private:
 	wchar_t*				className;
@@ -39,4 +45,6 @@ private:
 	HWND					windowHandle; // Holds window handle.
 	HDC						deviceContext; // Private GDI device context.
 	WNDCLASSEX				win;
+	DWORD					style;
+	RECT					clientArea;
 };

@@ -9,6 +9,12 @@ public:
 		pixelFormat			= 0;
 	}
 
+	GraphicsDevice(std::string name, int width, int height) {
+		window				= Window(name, width, height);
+		renderingContext	= 0;
+		pixelFormat			= 0;
+	}
+
 	bool Register();
 	bool Glew(); // Voisi muokata testaamaan muita GL-versioita.
 

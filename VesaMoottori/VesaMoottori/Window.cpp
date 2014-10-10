@@ -4,6 +4,7 @@
 // Alustaa ja rekisteröi windows-ikkunan. Ei voi tällä hetkellä kustomoida ollenkaan, korjataan myöhemmin.
 bool Window::Register()
 {
+	AdjustWindowRectEx(&clientArea, style, FALSE, 0);
 	win.lpfnWndProc		= WndProc;
 	win.cbSize			= sizeof(WNDCLASSEX);
 	win.style			= CS_OWNDC;
@@ -30,8 +31,10 @@ bool Window::Register()
 		NULL,
 		className,
 		windowName,
-		WS_OVERLAPPEDWINDOW,
-		200, 200, 500, 500,
+		style,
+		0, 0,
+		clientArea.right - clientArea.left,
+		clientArea.bottom - clientArea.top,
 		NULL, NULL,
 		win.hInstance,
 		NULL);

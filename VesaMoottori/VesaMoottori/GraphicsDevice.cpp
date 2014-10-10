@@ -4,11 +4,8 @@
 
 bool GraphicsDevice::Register()
 {
-	//Window normalWindow; // K‰ytt‰‰ t‰ll‰ hetkell‰ default konstruktoria.
-	//hDC = normalWindow.GetDevice();
-	//hWindow = normalWindow.GetHandle();
-
 	window.Register(); // Alustetaan normaali windows-ikkuna.
+
 	winPixel.nSize			= sizeof(PIXELFORMATDESCRIPTOR);
 	winPixel.nVersion		= 1;
 	winPixel.dwFlags		= PFD_DOUBLEBUFFER | PFD_DRAW_TO_WINDOW | LPD_SUPPORT_OPENGL;
