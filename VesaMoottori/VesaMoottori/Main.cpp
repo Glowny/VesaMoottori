@@ -133,6 +133,7 @@ int main()
 
 			// Vaihtoehto kolmion piirrolle:
 			glBindBuffer(GL_ARRAY_BUFFER, vertexBuffer);
+			// kai nääkin saa jotenni shaderille ja texturemongoloideille
 			glVertexAttribPointer(posLocation, 2u, GL_FLOAT, GL_FALSE, 7 * sizeof(GLfloat), reinterpret_cast<GLvoid*>(0));
 			glVertexAttribPointer(colorLocation, 3u, GL_FLOAT, GL_FALSE, 7 * sizeof(GLfloat), reinterpret_cast<GLvoid*>(2 * sizeof(GLfloat)));
 			glVertexAttribPointer(texLocation, 2u, GL_FLOAT, GL_FALSE, 7 * sizeof(GLfloat), reinterpret_cast<GLvoid*>(5 * sizeof(GLfloat)));
@@ -155,37 +156,37 @@ int main()
 	return (int) messages.wParam;
 }
 
-char* ShaderReader(std::string fileName)
-{
-	// Avataan luettava tiedosto ja tarkistetaan onnistuminen.
-	std::ifstream readFile(fileName, std::ios::in);
-	if (readFile.is_open())
-		std::cout << "Opening file: " << fileName << std::endl;
-	else
-	{
-		std::cout << "Could not open file: " << fileName << std::endl;
-		return NULL;
-	}
-
-	// Luettavan tiedoston pituus.
-	readFile.seekg(0, readFile.end); // Pistetään char position filun loppuun.
-	int fileLength = (int)readFile.tellg(); // Pistetään pituus ylös.
-	readFile.seekg(0, readFile.beg); // Positio takasin alkuun.
-	if (fileLength == 0)
-	{
-		std::cout << "ERROR: Luettavan tiedoston pituus 0." << std::endl;
-		return NULL;
-	}
-	else
-		std::cout << "Luettavan tiedoston pituus: " << fileLength << std::endl;
-
-	std::string fileContents((std::istreambuf_iterator<char>(readFile)),
-		std::istreambuf_iterator<char>()); // Kopioidaan tiedoston sisältö stringiin.
-	char *tempChar = new char[fileContents.length() + 1];
-	std::strcpy(tempChar, fileContents.c_str()); // Kopioidaan tiedoston sisällöt dynaamisesti luotuun char-merkkijonoon.
-
-	std::cout << "Closing file: " << fileName << std::endl;
-	readFile.close();
-
-	return tempChar;
-}
+//char* ShaderReader(std::string fileName)
+//{
+//	// Avataan luettava tiedosto ja tarkistetaan onnistuminen.
+//	std::ifstream readFile(fileName, std::ios::in);
+//	if (readFile.is_open())
+//		std::cout << "Opening file: " << fileName << std::endl;
+//	else
+//	{
+//		std::cout << "Could not open file: " << fileName << std::endl;
+//		return NULL;
+//	}
+//
+//	// Luettavan tiedoston pituus.
+//	readFile.seekg(0, readFile.end); // Pistetään char position filun loppuun.
+//	int fileLength = (int)readFile.tellg(); // Pistetään pituus ylös.
+//	readFile.seekg(0, readFile.beg); // Positio takasin alkuun.
+//	if (fileLength == 0)
+//	{
+//		std::cout << "ERROR: Luettavan tiedoston pituus 0." << std::endl;
+//		return NULL;
+//	}
+//	else
+//		std::cout << "Luettavan tiedoston pituus: " << fileLength << std::endl;
+//
+//	std::string fileContents((std::istreambuf_iterator<char>(readFile)),
+//		std::istreambuf_iterator<char>()); // Kopioidaan tiedoston sisältö stringiin.
+//	char *tempChar = new char[fileContents.length() + 1];
+//	std::strcpy(tempChar, fileContents.c_str()); // Kopioidaan tiedoston sisällöt dynaamisesti luotuun char-merkkijonoon.
+//
+//	std::cout << "Closing file: " << fileName << std::endl;
+//	readFile.close();
+//
+//	return tempChar;
+//}

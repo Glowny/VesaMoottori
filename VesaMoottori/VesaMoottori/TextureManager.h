@@ -8,6 +8,7 @@ public:
 	TextureManager();
 	~TextureManager();
 	GLuint CreateTexture(ImageInfo image);
+	void DestroyTexture(GLuint index);
 private:
 	std::vector<GLuint*> textureIndex;
 };
