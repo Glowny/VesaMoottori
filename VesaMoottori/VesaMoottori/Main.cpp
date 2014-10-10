@@ -3,7 +3,9 @@
 #include <iostream>
 #include "GraphicsDevice.h"
 #include "ResourceManager.h"
+#include "TextureManager.h"
 #include "GL\glew.h"
+#include "Buffers.h"
 //#include "ShaderManager.h"
 
 char* ShaderReader(std::string fileName);
@@ -27,9 +29,11 @@ static const GLuint indexData[] = { 0, 1, 2 };
 int main()
 {
 	ResourceManager resourceManager;
+	TextureManager textureManager;
 	bool			isRunning = true;
 	MSG				messages;
 	GraphicsDevice	pekka;
+	Buffers			buffer;
 	//ShaderManager	shaders;
 	//ResourceManager ressu;
 
@@ -69,37 +73,15 @@ int main()
 	std::cout << "Linker bool: " << linkCheck << std::endl;
 
 
-	// Vaihtoehtoinen kolmion piirto:
-	GLuint buffers[2];
-	glGenBuffers(2, buffers);
-	glBindBuffer(GL_ARRAY_BUFFER, buffers[0]); // Vertex datan puskuri.
-	glBufferData(GL_ARRAY_BUFFER, sizeof(triangleData), triangleData, GL_STATIC_DRAW);
-	glBindBuffer(GL_ARRAY_BUFFER, 0u);
-	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, buffers[1]);
-	glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(indexData), indexData, GL_STATIC_DRAW);
-	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0u);
-
+	// Buffereiden luonti
+	GLuint vertexBuffer = buffer.CreateBuffers(GL_ARRAY_BUFFER, triangleData, sizeof(triangleData));
+	GLuint indexBuffer = buffer.CreateBuffers(GL_ELEMENT_ARRAY_BUFFER, indexData, sizeof(indexData));
 
 	glClearColor(0.3f, 0.3f, 0.3f, 1.0f);
 
-
-	//std::vector<unsigned char> image;
-	//unsigned width, height;	// lodepng asettaa arvot
-	//const char* filename = "goofy.png";
-	//unsigned error = lodepng::decode(image, width, height, filename);
-	//std::cout << "loadImage: " << error << " : " << lodepng_error_text(error) << std::endl;
 	resourceManager.RLoadImage("goofy.png");
 	ImageInfo *image= resourceManager.FindImage("goofy.png");
-
-	// Tekstuurien luonti:
-	glEnable(GL_TEXTURE_2D);
-	GLuint texture;
-	glGenTextures(1, &texture);
-	glBindTexture(GL_TEXTURE_2D, texture);
-	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, image->width, image->height, 0, GL_RGBA, GL_UNSIGNED_BYTE, &image->decodedImage[0]);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-	glBindTexture(GL_TEXTURE_2D, 0u);
-
+	GLuint texture = textureManager.CreateTexture(*image);
 
 	// Tarkistetaan attribuuttien lokaatio.
 	//const GLint posLocation = 0;
@@ -135,12 +117,13 @@ int main()
 			glUseProgram(glObject);
 
 			// Vaihtoehto kolmion piirrolle:
-			glBindBuffer(GL_ARRAY_BUFFER, buffers[0]);
+			glBindBuffer(GL_ARRAY_BUFFER, vertexBuffer);
+			// kai nääkin saa jotenni shader- ja texturemanagerille tai jollekkin, joka vahtii kumpaakin.
 			glVertexAttribPointer(posLocation, 2u, GL_FLOAT, GL_FALSE, 7 * sizeof(GLfloat), reinterpret_cast<GLvoid*>(0));
 			glVertexAttribPointer(colorLocation, 3u, GL_FLOAT, GL_FALSE, 7 * sizeof(GLfloat), reinterpret_cast<GLvoid*>(2 * sizeof(GLfloat)));
 			glVertexAttribPointer(texLocation, 2u, GL_FLOAT, GL_FALSE, 7 * sizeof(GLfloat), reinterpret_cast<GLvoid*>(5 * sizeof(GLfloat)));
 
-			glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, buffers[1]);
+			glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, indexBuffer);
 			glBindTexture(GL_TEXTURE_2D, texture);
 			glDrawElements(GL_TRIANGLES, 3u, GL_UNSIGNED_INT, reinterpret_cast<GLvoid*>(0));
 			glBindTexture(GL_TEXTURE_2D, 0u);
@@ -151,43 +134,9 @@ int main()
 			glUseProgram(0);
 		}
 	}
-
 	glDeleteTextures(1, &texture);
-	glDeleteBuffers(2, buffers);
+	glDeleteBuffers(1, &vertexBuffer);
+	glDeleteBuffers(1, &indexBuffer);
 	return (int) messages.wParam;
 }
 
-char* ShaderReader(std::string fileName)
-{
-	// Avataan luettava tiedosto ja tarkistetaan onnistuminen.
-	std::ifstream readFile(fileName, std::ios::in);
-	if (readFile.is_open())
-		std::cout << "Opening file: " << fileName << std::endl;
-	else
-	{
-		std::cout << "Could not open file: " << fileName << std::endl;
-		return NULL;
-	}
-
-	// Luettavan tiedoston pituus.
-	readFile.seekg(0, readFile.end); // Pistetään char position filun loppuun.
-	int fileLength = (int)readFile.tellg(); // Pistetään pituus ylös.
-	readFile.seekg(0, readFile.beg); // Positio takasin alkuun.
-	if (fileLength == 0)
-	{
-		std::cout << "ERROR: Luettavan tiedoston pituus 0." << std::endl;
-		return NULL;
-	}
-	else
-		std::cout << "Luettavan tiedoston pituus: " << fileLength << std::endl;
-
-	std::string fileContents((std::istreambuf_iterator<char>(readFile)),
-		std::istreambuf_iterator<char>()); // Kopioidaan tiedoston sisältö stringiin.
-	char *tempChar = new char[fileContents.length() + 1];
-	std::strcpy(tempChar, fileContents.c_str()); // Kopioidaan tiedoston sisällöt dynaamisesti luotuun char-merkkijonoon.
-
-	std::cout << "Closing file: " << fileName << std::endl;
-	readFile.close();
-
-	return tempChar;
-}
