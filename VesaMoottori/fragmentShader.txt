@@ -1,4 +1,4 @@
-//varying vec3 varyColor;
+varying vec3 varyColor;
 varying vec2 varyPosition;
 sampler2D image;
 
