@@ -10,14 +10,10 @@
 class Buffers
 {
 public:
-	Buffers();
-	~Buffers();
-	void CreateVertexBuffer(GLuint &vertexBuffer);
-	void CreateIndexBuffer(GLuint &indexBuffer);
-	void DeleteBuffers();
+    GLuint CreateBuffers(GLenum target, const void *buffer_data, GLsizei buffer_size);
 
 private:
-	
+
 };
 
 #endif BUFFERS_H
