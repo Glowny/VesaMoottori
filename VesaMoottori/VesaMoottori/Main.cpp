@@ -32,7 +32,7 @@ int main()
 	TextureManager textureManager;
 	bool			isRunning = true;
 	MSG				messages;
-	GraphicsDevice	pekka;
+	GraphicsDevice	pekka("tissit", 20, 20);
 	Buffers			buffer;
 	//ShaderManager	shaders;
 	//ResourceManager ressu;

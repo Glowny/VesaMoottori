@@ -20,8 +20,11 @@ public:
 	};
 
 	Window(std::string name, int width, int height) {
-		className			= L"Win";
-		windowName			= (wchar_t*)name.c_str();
+		className = L"Win";
+		wchar_t* widestr = new wchar_t[name.length() + 1];
+		std::copy(name.begin(), name.end(), widestr);
+		/*widestr[name.length] = 0;*/
+		windowName = widestr;
 		windowHandle		= 0;
 		deviceContext		= 0;
 		style				= 0;
