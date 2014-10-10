@@ -9,5 +9,5 @@ void main(void)
 {
 	varyColor = attrColor;
 	varyPosition = textPosition;
-	gl_Position = vec4(attrPosition, 0.0, 1.0);
+	gl_Position = vec4(attrPosition, 1.0, 1.0);
 }

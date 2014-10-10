@@ -1,6 +1,7 @@
 #include "ResourceManager.h"
 #include <iostream>
 
+// mist‰‰n ei saa irti kokoa! Kuvaolio? Olisko koko paskan luonti (openGL:ll‰) t‰‰ll‰ hyv‰?
 void ResourceManager::LoadImage(std::string filename)
 {
 	unsigned int hashedImageName = MyHasher(filename);

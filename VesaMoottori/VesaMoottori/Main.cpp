@@ -23,9 +23,9 @@ static const GLfloat triangleData[] =
 };
 
 static const GLuint indexData[] = { 0, 1, 2 };
-
 int main()
 {
+	ResourceManager resourceManager;
 	bool			isRunning = true;
 	MSG				messages;
 	Window			pekka;
@@ -42,8 +42,8 @@ int main()
 	GLuint glVertexShader = glCreateShader(GL_VERTEX_SHADER); // Represents compiled shader code of a single shader stage.
 	GLuint glFragmentShader = glCreateShader(GL_FRAGMENT_SHADER);
 	GLint linkCheck = NULL; // Testaamista varten.
-	char *vertexCode = ShaderReader("vertexShader.txt"); // Shaderin koodi tekstitiedostosta.
-	char *fragmentCode = ShaderReader("fragmentShader.txt");
+	char *vertexCode = resourceManager.LoadShader("vertexShader.txt"); // Shaderin koodi tekstitiedostosta.
+	char *fragmentCode = resourceManager.LoadShader("fragmentShader.txt");
 
 
 	// Lis‰t‰‰n shaderin koodi itse shaderiin.
@@ -83,7 +83,7 @@ int main()
 
 
 	std::vector<unsigned char> image;
-	unsigned width = 489, height = 550;
+	unsigned width, height;	// lodepng asettaa arvot
 	const char* filename = "goofy.png";
 	unsigned error = lodepng::decode(image, width, height, filename);
 	std::cout << "loadImage: " << error << " : " << lodepng_error_text(error) << std::endl;
@@ -94,7 +94,7 @@ int main()
 	GLuint texture;
 	glGenTextures(1, &texture);
 	glBindTexture(GL_TEXTURE_2D, texture);
-	glTexImage2D(GL_TEXTURE_2D, 0, 4, width, height, 0, GL_RGB, GL_UNSIGNED_BYTE, image.data());
+	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, width, height, 0, GL_RGBA, GL_UNSIGNED_BYTE, &image[0]);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
 	glBindTexture(GL_TEXTURE_2D, 0u);
 
@@ -134,17 +134,17 @@ int main()
 
 			// Vaihtoehto kolmion piirrolle:
 			glBindBuffer(GL_ARRAY_BUFFER, buffers[0]);
-			glVertexAttribPointer(posLocation, 2, GL_FLOAT, GL_FALSE, 28u, reinterpret_cast<GLvoid*>(0));
-			//glVertexAttribPointer(colorLocation, 3, GL_FLOAT, GL_FALSE, 28u, reinterpret_cast<GLvoid*>(8));
-			glVertexAttribPointer(texLocation, 2, GL_FLOAT, GL_FALSE, 28u, reinterpret_cast<GLvoid*>(20));
+			glVertexAttribPointer(posLocation, 2u, GL_FLOAT, GL_FALSE, 7 * sizeof(GLfloat), reinterpret_cast<GLvoid*>(0));
+			glVertexAttribPointer(colorLocation, 3u, GL_FLOAT, GL_FALSE, 7 * sizeof(GLfloat), reinterpret_cast<GLvoid*>(2 * sizeof(GLfloat)));
+			glVertexAttribPointer(texLocation, 2u, GL_FLOAT, GL_FALSE, 7 * sizeof(GLfloat), reinterpret_cast<GLvoid*>(5 * sizeof(GLfloat)));
 
 			glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, buffers[1]);
 			glBindTexture(GL_TEXTURE_2D, texture);
 			glDrawElements(GL_TRIANGLES, 3u, GL_UNSIGNED_INT, reinterpret_cast<GLvoid*>(0));
-			
+			glBindTexture(GL_TEXTURE_2D, 0u);
+
 			glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0u);
 			glBindBuffer(GL_ARRAY_BUFFER, 0u);
-			glBindTexture(GL_TEXTURE_2D, 0u);
 
 			glUseProgram(0);
 		}

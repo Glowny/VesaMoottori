@@ -1,8 +1,9 @@
 varying vec3 varyColor;
 varying vec2 varyPosition;
-sampler2D image;
+uniform sampler2D image;
 
 void main (void)  
 {     
 	gl_FragColor = texture2D(image, varyPosition);
+	gl_FragColor *= vec4(varyColor, 0.4);
 }
