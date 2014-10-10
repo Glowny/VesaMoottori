@@ -28,6 +28,10 @@
     <ClInclude Include="VesaMoottori\lodepng.h">
       <Filter>Source Files</Filter>
     </ClInclude>
+    <ClInclude Include="resource.h" />
+    <ClInclude Include="VesaMoottori\ImageInfo.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="VesaMoottori\Main.cpp">
@@ -53,5 +57,8 @@
     <Image Include="goofy.png">
       <Filter>Resources</Filter>
     </Image>
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="VesaMoottori.rc" />
   </ItemGroup>
 </Project>
