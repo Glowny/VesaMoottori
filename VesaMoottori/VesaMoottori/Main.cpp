@@ -3,6 +3,7 @@
 #include <iostream>
 #include "GraphicsDevice.h"
 #include "ResourceManager.h"
+#include "TextureManager.h"
 #include "GL\glew.h"
 //#include "ShaderManager.h"
 
@@ -27,6 +28,7 @@ static const GLuint indexData[] = { 0, 1, 2 };
 int main()
 {
 	ResourceManager resourceManager;
+	TextureManager textureManager;
 	bool			isRunning = true;
 	MSG				messages;
 	GraphicsDevice	pekka;
@@ -90,15 +92,15 @@ int main()
 	//std::cout << "loadImage: " << error << " : " << lodepng_error_text(error) << std::endl;
 	resourceManager.RLoadImage("goofy.png");
 	ImageInfo *image= resourceManager.FindImage("goofy.png");
-
+	image->hitler();
 	// Tekstuurien luonti:
-	glEnable(GL_TEXTURE_2D);
-	GLuint texture;
-	glGenTextures(1, &texture);
-	glBindTexture(GL_TEXTURE_2D, texture);
-	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, image->width, image->height, 0, GL_RGBA, GL_UNSIGNED_BYTE, &image->decodedImage[0]);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-	glBindTexture(GL_TEXTURE_2D, 0u);
+	// glEnable(GL_TEXTURE_2D);
+	GLuint texture = textureManager.CreateTexture(*image);
+	//glGenTextures(1, &texture);
+	//glBindTexture(GL_TEXTURE_2D, texture);
+	//glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, image->width, image->height, 0, GL_RGBA, GL_UNSIGNED_BYTE, &image->decodedImage[0]);
+	//glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+	//glBindTexture(GL_TEXTURE_2D, 0u);
 
 
 	// Tarkistetaan attribuuttien lokaatio.
