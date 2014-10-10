@@ -12,12 +12,12 @@ class Buffers
 public:
 	Buffers();
 	~Buffers();
-	void CreateVertexBuffer();
-	void CreateIndexBuffer();
+	void CreateVertexBuffer(GLuint &vertexBuffer);
+	void CreateIndexBuffer(GLuint &indexBuffer);
 	void DeleteBuffers();
 
 private:
-
+	
 };
 
 #endif BUFFERS_H

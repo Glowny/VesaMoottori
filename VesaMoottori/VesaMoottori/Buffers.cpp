@@ -1,6 +1,6 @@
 #include "Buffers.h"
 
-static const GLfloat triangleData[] =
+static const GLfloat vertexData[] =
 {
 	//positions
 	-0.7f, -0.7f,
@@ -23,7 +23,6 @@ static const GLuint indexData[] = { 0, 1, 2 };
 
 Buffers::Buffers()
 {
-
 }
 
 
@@ -31,22 +30,18 @@ Buffers::~Buffers()
 {
 }
 
-void Buffers::CreateVertexBuffer()
+void Buffers::CreateVertexBuffer(GLuint &vertexBuffer)
 {
-	GLuint vBuffer;
-
-	glGenBuffers(1, &vBuffer);
-	glBindBuffer(GL_ARRAY_BUFFER, vBuffer);
-	glBufferData(GL_ARRAY_BUFFER, sizeof(triangleData), triangleData, GL_STATIC_DRAW);
+	glGenBuffers(1, &vertexBuffer);
+	glBindBuffer(GL_ARRAY_BUFFER, vertexBuffer);
+	glBufferData(GL_ARRAY_BUFFER, sizeof(vertexData), vertexData, GL_STATIC_DRAW);
 	glBindBuffer(GL_ARRAY_BUFFER, 0u);
 }
 
-void Buffers::CreateIndexBuffer()
+void Buffers::CreateIndexBuffer(GLuint &indexBuffer)
 {
-	GLuint iBuffer;
-
-	glGenBuffers(1, &iBuffer);
-	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, iBuffer);
+	glGenBuffers(1, &indexBuffer);
+	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, indexBuffer);
 	glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(indexData), indexData, GL_STATIC_DRAW);
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0u);
 }
