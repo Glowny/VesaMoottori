@@ -82,19 +82,20 @@ int main()
 	glClearColor(0.3f, 0.3f, 0.3f, 1.0f);
 
 
-	std::vector<unsigned char> image;
-	unsigned width, height;	// lodepng asettaa arvot
-	const char* filename = "goofy.png";
-	unsigned error = lodepng::decode(image, width, height, filename);
-	std::cout << "loadImage: " << error << " : " << lodepng_error_text(error) << std::endl;
-
+	//std::vector<unsigned char> image;
+	//unsigned width, height;	// lodepng asettaa arvot
+	//const char* filename = "goofy.png";
+	//unsigned error = lodepng::decode(image, width, height, filename);
+	//std::cout << "loadImage: " << error << " : " << lodepng_error_text(error) << std::endl;
+	resourceManager.RLoadImage("goofy.png");
+	ImageInfo *image= resourceManager.FindImage("goofy.png");
 
 	// Tekstuurien luonti:
 	glEnable(GL_TEXTURE_2D);
 	GLuint texture;
 	glGenTextures(1, &texture);
 	glBindTexture(GL_TEXTURE_2D, texture);
-	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, width, height, 0, GL_RGBA, GL_UNSIGNED_BYTE, &image[0]);
+	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, image->width, image->height, 0, GL_RGBA, GL_UNSIGNED_BYTE, &image->decodedImage[0]);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
 	glBindTexture(GL_TEXTURE_2D, 0u);
 

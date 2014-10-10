@@ -1,8 +1,9 @@
 #include "ResourceManager.h"
+
 #include <iostream>
 
-// mist‰‰n ei saa irti kokoa! Kuvaolio? Olisko koko paskan luonti (openGL:ll‰) t‰‰ll‰ hyv‰?
-void ResourceManager::LoadImage(std::string filename)
+// pit‰s saaha width ja height. 
+void ResourceManager::RLoadImage(std::string filename)
 {
 	unsigned int hashedImageName = MyHasher(filename);
 	if (decodedImages.end() != decodedImages.find(hashedImageName))	// tarkastetaan onko kuvaa viel‰ lis‰tty
@@ -15,19 +16,20 @@ void ResourceManager::LoadImage(std::string filename)
 		unsigned width, height;
 		unsigned error = lodepng::decode(image, width, height, filename);
 		std::cout << "loadImage: " << error << " : " << lodepng_error_text(error) << std::endl;
+		ImageInfo imageI(image, width, height);
 		if (error)
 		{
 			//tulosta errorsoopaan "decoder error" error lodepng_error_text(error)
 		}
-		decodedImages.insert(std::pair<unsigned int, DecodedImage>(hashedImageName, image));	// lis‰t‰‰n kuva mappiin
+		decodedImages.insert(std::pair<unsigned int, ImageInfo>(hashedImageName, imageI));	// lis‰t‰‰n kuva mappiin
 	}
 }
 
-DecodedImage* ResourceManager::FindImage(std::string filename)
+ImageInfo* ResourceManager::FindImage(std::string filename)
 {
 	unsigned int hashedImageName = MyHasher(filename);
 
-	std::map<unsigned int, DecodedImage>::iterator it = decodedImages.find(hashedImageName);
+	std::map<unsigned int, ImageInfo>::iterator it = decodedImages.find(hashedImageName);
 	if (decodedImages.end() != it)
 	{
 		return &it->second;
