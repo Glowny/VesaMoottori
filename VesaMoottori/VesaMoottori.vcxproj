@@ -90,6 +90,7 @@
     <ClInclude Include="VesaMoottori\Debugger.h">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
     </ClInclude>
+    <ClInclude Include="VesaMoottori\GraphicsDevice.h" />
     <ClInclude Include="VesaMoottori\lodepng.h" />
     <ClInclude Include="VesaMoottori\ResourceManager.h">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">false</ExcludedFromBuild>
@@ -100,6 +101,7 @@
     <ClInclude Include="VesaMoottori\Window.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="VesaMoottori\GraphicsDevice.cpp" />
     <ClCompile Include="VesaMoottori\lodepng.cpp" />
     <ClCompile Include="VesaMoottori\Main.cpp" />
     <ClCompile Include="VesaMoottori\ResourceManager.cpp">
