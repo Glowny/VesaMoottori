@@ -1,9 +1,9 @@
 #include "ResourceManager.h"
 #include <iostream>
 
-void ResourceManager::loadImage(std::string filename)
+void ResourceManager::LoadImage(std::string filename)
 {
-	unsigned int hashedImageName = myHasher(filename);
+	unsigned int hashedImageName = MyHasher(filename);
 	if (decodedImages.end() != decodedImages.find(hashedImageName))	// tarkastetaan onko kuvaa vielä lisätty
 	{
 		// error lisätty jo
@@ -22,9 +22,9 @@ void ResourceManager::loadImage(std::string filename)
 	}
 }
 
-DecodedImage* ResourceManager::findImage(std::string filename)
+DecodedImage* ResourceManager::FindImage(std::string filename)
 {
-	unsigned int hashedImageName = myHasher(filename);
+	unsigned int hashedImageName = MyHasher(filename);
 
 	std::map<unsigned int, DecodedImage>::iterator it = decodedImages.find(hashedImageName);
 	if (decodedImages.end() != it)
@@ -36,9 +36,9 @@ DecodedImage* ResourceManager::findImage(std::string filename)
 		return NULL;	// varmaan errormessagea
 	}
 }
-char* ResourceManager::findShader(std::string filename)
+char* ResourceManager::FindShader(std::string filename)
 {
-	unsigned int  hashedShaderName = myHasher(filename);
+	unsigned int  hashedShaderName = MyHasher(filename);
 	std::map < unsigned int, char* >::iterator it = shaders.find(hashedShaderName);
 	if (shaders.end() != it)
 	{
@@ -50,9 +50,9 @@ char* ResourceManager::findShader(std::string filename)
 	}
 }
 // pistetäänkö myös mappiin?
-char *ResourceManager::loadShader(std::string filename)
+char *ResourceManager::LoadShader(std::string filename)
 {
-	unsigned int hashedShaderName = myHasher(filename);		// haetaan hashattu shaderin nimi
+	unsigned int hashedShaderName = MyHasher(filename);		// haetaan hashattu shaderin nimi
 	if (shaders.end() != shaders.find(hashedShaderName))	// tarkastetaan onko shaderiä jo upittu // VÄÄRINPÄIN SAATANA
 	{
 		// error ei olee shaderia
@@ -89,12 +89,12 @@ char *ResourceManager::loadShader(std::string filename)
 	}
 }
 
-void ResourceManager::addImageLocation(std::string filename)
+void ResourceManager::AddImageLocation(std::string filename)
 {
 	imageLocations.push_back(filename);
 }
 
-unsigned int ResourceManager::myHasher(std::string filename)
+unsigned int ResourceManager::MyHasher(std::string filename)
 {
 	std::hash<std::string> Hasher;
 	unsigned int hash = Hasher(filename);
