@@ -4,8 +4,32 @@
 #include <string>
 #include <windows.h>
 #include <stdlib.h>
+#include <map>
 
-void ShaderManager::TestShaders()
+
+void ShaderManager::CreateShader(std::string shaderName, std::string fileName, GLenum type)
+{
+	
+	GLuint shaderName_ = glCreateShader(type);
+	GLint linkCheck = NULL;
+	char *Code = ShaderReader(fileName);
+
+	// Lis‰t‰‰n shaderin koodi itse shaderiin.
+	glShaderSource(shaderName_, 1, &Code, NULL);
+
+	// Kompiloidaan shadereiden koodit.
+	glCompileShader(shaderName_);
+
+	// Testataan onnistuiko kompilointi.
+	glGetShaderiv(shaderName_, GL_COMPILE_STATUS, &linkCheck);
+	std::cout << fileName << " compile: " << linkCheck << std::endl;
+
+	// Lis‰t‰‰n shaderit shader-ohjelmaan.
+	glAttachShader(Shaders[shaderName], shaderName_);
+
+};
+
+/*void ShaderManager::TestShaders()
 {
 	glObject				= glCreateProgram(); // Represents compiled executable shader code.
 	GLuint glVertexShader	= glCreateShader(GL_VERTEX_SHADER); // Represents compiled shader code of a single shader stage.
@@ -36,11 +60,26 @@ void ShaderManager::TestShaders()
 	std::cout << "Linker bool: " << linkCheck << std::endl;
 
 
+} */
+
+void ShaderManager::CreateProgram(std::string shaderName)
+{
+	GLuint glObject = glCreateProgram();
+	Shaders.insert(std::make_pair(shaderName, glObject));
 }
 
-void ShaderManager::Run()
+void ShaderManager::Run(std::string shaderName)
 {
-	glUseProgram(glObject);
+	GLint linkCheck = NULL;
+
+	// Linkkaaminen luo executablen shadereihin, jotka siihen on lis‰tty.
+	glLinkProgram(Shaders[shaderName]);
+
+	// Testatataan shadereiden linkkaaminen objektiin.
+	glGetProgramiv(Shaders[shaderName], GL_LINK_STATUS, &linkCheck);
+	std::cout << "Linker bool: " << linkCheck << std::endl;
+
+	glUseProgram(Shaders[shaderName]);
 }
 
 char* ShaderManager::ShaderReader(std::string fileName)
@@ -78,7 +117,7 @@ char* ShaderManager::ShaderReader(std::string fileName)
 	return tempChar;
 }
 
-int ShaderManager::GetObjects()
+int ShaderManager::GetObjects(std::string programName)
 {
-	return glObject;
+	return Shaders[programName];
 }
