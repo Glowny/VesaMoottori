@@ -1,8 +1,9 @@
 #include <windows.h>
 #include <stdlib.h>
 #include <iostream>
-#include "Window.h"
+#include "GraphicsDevice.h"
 #include "ResourceManager.h"
+#include "GL\glew.h"
 //#include "ShaderManager.h"
 
 char* ShaderReader(std::string fileName);
@@ -28,7 +29,7 @@ int main()
 	ResourceManager resourceManager;
 	bool			isRunning = true;
 	MSG				messages;
-	Window			pekka;
+	GraphicsDevice	pekka;
 	//ShaderManager	shaders;
 	//ResourceManager ressu;
 
