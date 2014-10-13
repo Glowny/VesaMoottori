@@ -6,9 +6,7 @@
 #include "TextureManager.h"
 #include "GL\glew.h"
 #include "Buffers.h"
-//#include "ShaderManager.h"
-
-char* ShaderReader(std::string fileName);
+#include "ShaderManager.h"
 
 static const GLfloat triangleData[] =
 {
@@ -26,51 +24,24 @@ static const GLfloat triangleData[] =
 };
 
 static const GLuint indexData[] = { 0, 1, 2 };
+
 int main()
 {
 	ResourceManager resourceManager;
-	TextureManager textureManager;
+	TextureManager	textureManager;
 	bool			isRunning = true;
 	MSG				messages;
-	GraphicsDevice	pekka("tissit", 20, 20);
+	GraphicsDevice	pekka("eitoimicustomnimi", 800, 800);
 	Buffers			buffer;
-	//ShaderManager	shaders;
-	//ResourceManager ressu;
+	ShaderManager	shaders;
 
 	pekka.Register();
 	pekka.Show();
-	//shaders.TestShaders();
-	//ressu.loadImage("tex.png");
 
-
-	GLuint glObject = glCreateProgram(); // Represents compiled executable shader code.
-	GLuint glVertexShader = glCreateShader(GL_VERTEX_SHADER); // Represents compiled shader code of a single shader stage.
-	GLuint glFragmentShader = glCreateShader(GL_FRAGMENT_SHADER);
-	GLint linkCheck = NULL; // Testaamista varten.
-	char *vertexCode = resourceManager.LoadShader("vertexShader.txt"); // Shaderin koodi tekstitiedostosta.
-	char *fragmentCode = resourceManager.LoadShader("fragmentShader.txt");
-
-
-	// Lis‰t‰‰n shaderin koodi itse shaderiin.
-	glShaderSource(glVertexShader, 1, &vertexCode, NULL);
-	glShaderSource(glFragmentShader, 1, &fragmentCode, NULL);
-
-	// Kompiloidaan shadereiden koodit.
-	glCompileShader(glVertexShader);
-	glCompileShader(glFragmentShader);
-
-	// Testataan onnistuiko kompilointi.
-	glGetShaderiv(glVertexShader, GL_COMPILE_STATUS, &linkCheck);
-	std::cout << "Vertex shader compile: " << linkCheck << std::endl;
-	glGetShaderiv(glFragmentShader, GL_COMPILE_STATUS, &linkCheck);
-	std::cout << "Fragment shader compile: " << linkCheck << std::endl;
-
-	// Lis‰t‰‰n shaderit shader-ohjelmaan.
-	glAttachShader(glObject, glVertexShader);
-	glAttachShader(glObject, glFragmentShader);
-	glLinkProgram(glObject); // Linkkaaminen luo executablen shadereihin, jotka siihen on lis‰tty.
-	glGetProgramiv(glObject, GL_LINK_STATUS, &linkCheck); // Testatataan shadereiden linkkaaminen objektiin.
-	std::cout << "Linker bool: " << linkCheck << std::endl;
+	shaders.CreateProgram("saku");
+	shaders.CreateShader("vertexShader.txt", "saku", GL_VERTEX_SHADER);
+	shaders.CreateShader("fragmentShader.txt", "saku", GL_FRAGMENT_SHADER);
+	shaders.LinkProgram("saku");
 
 
 	// Buffereiden luonti
@@ -86,16 +57,16 @@ int main()
 	// Tarkistetaan attribuuttien lokaatio.
 	//const GLint posLocation = 0;
 	//glBindAttribLocation(glObject, posLocation, "attrPosition");
-	const GLint posLocation = glGetAttribLocation(glObject, "attrPosition");
+	const GLint posLocation = glGetAttribLocation(shaders.GetProgram("saku") , "attrPosition");
 	std::cout << "Position Attribute index: " << posLocation << std::endl;
 	glEnableVertexAttribArray(posLocation);
 
-	const GLint colorLocation = glGetAttribLocation(glObject, "attrColor");
+	const GLint colorLocation = glGetAttribLocation(shaders.GetProgram("saku"), "attrColor");
 	std::cout << "Color Attribute index: " << colorLocation << std::endl;
 	//glBindAttribLocation(glObject, 1, "attrColor");
 	//glEnableVertexAttribArray(colorLocation);
 
-	const GLint texLocation = glGetAttribLocation(glObject, "textPosition");
+	const GLint texLocation = glGetAttribLocation(shaders.GetProgram("saku"), "textPosition");
 	std::cout << "Position Texture index: " << texLocation << std::endl;
 	//glBindAttribLocation(glObject, 2, "textPosition");
 	glEnableVertexAttribArray(texLocation);
@@ -114,7 +85,8 @@ int main()
 			DispatchMessage(&messages);
 			pekka.Update();
 			//shaders.Run(); // Lis‰t‰‰n shader-ohjelma t‰m‰nhetkiseen renderˆintiin.
-			glUseProgram(glObject);
+			//glUseProgram(glObject);
+			shaders.RunProgram("saku");
 
 			// Vaihtoehto kolmion piirrolle:
 			glBindBuffer(GL_ARRAY_BUFFER, vertexBuffer);
@@ -130,7 +102,6 @@ int main()
 
 			glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0u);
 			glBindBuffer(GL_ARRAY_BUFFER, 0u);
-
 			glUseProgram(0);
 		}
 	}
@@ -139,4 +110,3 @@ int main()
 	glDeleteBuffers(1, &indexBuffer);
 	return (int) messages.wParam;
 }
-

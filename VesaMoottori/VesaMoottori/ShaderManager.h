@@ -1,25 +1,32 @@
 #pragma once
-#include <iostream>
 #include "GL\glew.h"
-#include <vector>
+#include <string>
 #include <map>
-
-
+		
+	// [CreateProgram]				K‰ytt‰j‰ luo tyhj‰n ohjelman ja antaa sille nimen.
+	// [CreateShader]				Luo shadereita valmiiksi tehdyist‰ (.txt) filuista ja kiinnitt‰‰ ne suoraan johonkin ohjelmaan.
+	// [LinkProgram] [RunProgram]	Linkataan ja k‰ynnistet‰‰n ohjelma milloin halutaan. 
+	// [GetProgram]					Palauttaa ohjelman sijainnin.
+	
 class ShaderManager
 {
 public:
-	ShaderManager(){};
-	void CreateShader(std::string shaderName, std::string fileName, GLenum type);
-	void CreateProgram(std::string shaderName);
+	ShaderManager() {};
 	~ShaderManager() {};
-	void TestShaders();
-	void Run(std::string shaderName);
-	int GetObjects(std::string programName);
 
+	bool CreateShader(std::string shaderName, std::string targetProgram, GLenum type);
+	void CreateProgram(std::string programName);
+	bool LinkProgram(std::string programName);
+
+	void RunProgram(std::string programName) {
+		glUseProgram(Shaders[programName]);
+	}
+
+	int GetProgram(std::string programName) {
+		return Shaders[programName];
+	}
 
 private:
-
 	char *ShaderReader(std::string fileName);
-
 	std::map <std::string, GLuint> Shaders;
 };

@@ -30,8 +30,6 @@ public:
 	~GraphicsDevice() {};
 
 private:
-	//HWND					hWindow; // Window handle talteen.
-	//HDC					hDC; // Otetaan window device context talteen.
 	Window					window;
 	HGLRC					renderingContext; // OpenGL rendering context.
 	PIXELFORMATDESCRIPTOR	winPixel; // Describes the pixel format of a drawing surface.

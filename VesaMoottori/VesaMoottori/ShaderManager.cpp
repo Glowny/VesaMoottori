@@ -1,85 +1,47 @@
 #include "ShaderManager.h"
-#include <tchar.h>
+#include <iostream>
 #include <fstream>
-#include <string>
-#include <windows.h>
-#include <stdlib.h>
-#include <map>
 
-
-void ShaderManager::CreateShader(std::string shaderName, std::string fileName, GLenum type)
+bool ShaderManager::CreateShader(std::string shaderName, std::string targetProgram, GLenum type)
 {
-	
-	GLuint shaderName_ = glCreateShader(type);
+	GLuint newShader = glCreateShader(type); // Luodaan tyhj‰ shaderi.
 	GLint linkCheck = NULL;
-	char *Code = ShaderReader(fileName);
 
-	// Lis‰t‰‰n shaderin koodi itse shaderiin.
-	glShaderSource(shaderName_, 1, &Code, NULL);
+	char *code = ShaderReader(shaderName); // Luetaan koodi ennalta luetusta .txt filusta.
+	if (code == NULL) // Tarkistetaan onnistuiko lukeminen.
+	{
+		std::cout << "Ongelmia " << shaderName << " lukemisesssa." << std::endl;
+		return false;
+	}
 
-	// Kompiloidaan shadereiden koodit.
-	glCompileShader(shaderName_);
+	glShaderSource(newShader, 1, &code, NULL); // Lis‰t‰‰n shaderin koodi itse shaderiin.
+	glCompileShader(newShader); // Kompiloidaan shadereiden koodit.
 
-	// Testataan onnistuiko kompilointi.
-	glGetShaderiv(shaderName_, GL_COMPILE_STATUS, &linkCheck);
-	std::cout << fileName << " compile: " << linkCheck << std::endl;
+	glGetShaderiv(newShader, GL_COMPILE_STATUS, &linkCheck); // Testataan onnistuiko kompilointi.
+	std::cout << shaderName << " compile: " << linkCheck << std::endl;
+	if (linkCheck == 0)
+		return false;
 
-	// Lis‰t‰‰n shaderit shader-ohjelmaan.
-	glAttachShader(Shaders[shaderName], shaderName_);
-
+	glAttachShader(Shaders[targetProgram], newShader); // Lis‰t‰‰n shaderit shader-ohjelmaan.
+	return true;
 };
 
-/*void ShaderManager::TestShaders()
+void ShaderManager::CreateProgram(std::string programName)
 {
-	glObject				= glCreateProgram(); // Represents compiled executable shader code.
-	GLuint glVertexShader	= glCreateShader(GL_VERTEX_SHADER); // Represents compiled shader code of a single shader stage.
-	GLuint glFragmentShader = glCreateShader(GL_FRAGMENT_SHADER);
-	GLint linkCheck			= NULL; // Testaamista varten.
-	char *vertexCode		= ShaderReader("vertexShader.txt"); // Shaderin koodi tekstitiedostosta.
-	char *fragmentCode		= ShaderReader("fragmentShader.txt");
-
-	// Lis‰t‰‰n shaderin koodi itse shaderiin.
-	glShaderSource(glVertexShader, 1, &vertexCode, NULL);
-	glShaderSource(glFragmentShader, 1, &fragmentCode, NULL);
-
-	// Kompiloidaan shadereiden koodit.
-	glCompileShader(glVertexShader);
-	glCompileShader(glFragmentShader);
-
-	// Testataan onnistuiko kompilointi.
-	glGetShaderiv(glVertexShader, GL_COMPILE_STATUS, &linkCheck);
-	std::cout << "Vertex shader compile: " << linkCheck << std::endl;
-	glGetShaderiv(glFragmentShader, GL_COMPILE_STATUS, &linkCheck);
-	std::cout << "Fragment shader compile: " << linkCheck << std::endl;
-
-	// Lis‰t‰‰n shaderit shader-ohjelmaan.
-	glAttachShader(glObject, glVertexShader);
-	glAttachShader(glObject, glFragmentShader);
-	glLinkProgram(glObject); // Linkkaaminen luo executablen shadereihin, jotka siihen on lis‰tty.
-	glGetProgramiv(glObject, GL_LINK_STATUS, &linkCheck); // Testatataan shadereiden linkkaaminen objektiin.
-	std::cout << "Linker bool: " << linkCheck << std::endl;
-
-
-} */
-
-void ShaderManager::CreateProgram(std::string shaderName)
-{
-	GLuint glObject = glCreateProgram();
-	Shaders.insert(std::make_pair(shaderName, glObject));
+	GLuint glObject = glCreateProgram(); // Luodaan uusi glProgram.
+	Shaders.insert(std::make_pair(programName, glObject)); // Ja tungetaan se mappiin nimell‰. 
 }
 
-void ShaderManager::Run(std::string shaderName)
+bool ShaderManager::LinkProgram(std::string programName)
 {
 	GLint linkCheck = NULL;
-
-	// Linkkaaminen luo executablen shadereihin, jotka siihen on lis‰tty.
-	glLinkProgram(Shaders[shaderName]);
-
-	// Testatataan shadereiden linkkaaminen objektiin.
-	glGetProgramiv(Shaders[shaderName], GL_LINK_STATUS, &linkCheck);
-	std::cout << "Linker bool: " << linkCheck << std::endl;
-
-	glUseProgram(Shaders[shaderName]);
+	glLinkProgram(Shaders[programName]); // Linkkaaminen luo executablen shadereihin, jotka siihen on lis‰tty.
+	glGetProgramiv(Shaders[programName], GL_LINK_STATUS, &linkCheck); // Testatataan shadereiden linkkaaminen objektiin.
+	std::cout << programName << " linker bool: " << linkCheck << std::endl;
+	if (linkCheck == 0)
+		return false;
+	else
+		return true;
 }
 
 char* ShaderManager::ShaderReader(std::string fileName)
@@ -115,9 +77,4 @@ char* ShaderManager::ShaderReader(std::string fileName)
 	readFile.close();
 
 	return tempChar;
-}
-
-int ShaderManager::GetObjects(std::string programName)
-{
-	return Shaders[programName];
 }

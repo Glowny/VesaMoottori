@@ -8,6 +8,12 @@
     <Filter Include="Resources">
       <UniqueIdentifier>{e1e1b4f3-d7b7-4f37-bd0c-200b231fb262}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source Files\TODO">
+      <UniqueIdentifier>{ad5f920f-d816-4ae7-b0f3-321825fdfa34}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\DEPENDENCY">
+      <UniqueIdentifier>{e4d37f70-82c3-4f9e-afe4-c8d35f0d387c}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="VesaMoottori\ResourceManager.h">
@@ -16,19 +22,7 @@
     <ClInclude Include="VesaMoottori\ShaderManager.h">
       <Filter>Source Files</Filter>
     </ClInclude>
-    <ClInclude Include="VesaMoottori\lodepng.h">
-      <Filter>Source Files</Filter>
-    </ClInclude>
     <ClInclude Include="VesaMoottori\Window.h">
-      <Filter>Source Files</Filter>
-    </ClInclude>
-    <ClInclude Include="VesaMoottori\Assert.h">
-      <Filter>Source Files</Filter>
-    </ClInclude>
-    <ClInclude Include="VesaMoottori\Debugger.h">
-      <Filter>Source Files</Filter>
-    </ClInclude>
-    <ClInclude Include="VesaMoottori\ImageInfo.h">
       <Filter>Source Files</Filter>
     </ClInclude>
     <ClInclude Include="VesaMoottori\GraphicsDevice.h">
@@ -36,6 +30,21 @@
     </ClInclude>
     <ClInclude Include="VesaMoottori\TextureManager.h">
       <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="VesaMoottori\Buffers.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="VesaMoottori\Assert.h">
+      <Filter>Source Files\TODO</Filter>
+    </ClInclude>
+    <ClInclude Include="VesaMoottori\Debugger.h">
+      <Filter>Source Files\TODO</Filter>
+    </ClInclude>
+    <ClInclude Include="VesaMoottori\ImageInfo.h">
+      <Filter>Source Files\TODO</Filter>
+    </ClInclude>
+    <ClInclude Include="VesaMoottori\lodepng.h">
+      <Filter>Source Files\DEPENDENCY</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -48,9 +57,6 @@
     <ClCompile Include="VesaMoottori\ResourceManager.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="VesaMoottori\lodepng.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="VesaMoottori\Window.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -59,6 +65,12 @@
     </ClCompile>
     <ClCompile Include="VesaMoottori\TextureManager.cpp">
       <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="VesaMoottori\Buffers.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="VesaMoottori\lodepng.cpp">
+      <Filter>Source Files\DEPENDENCY</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
