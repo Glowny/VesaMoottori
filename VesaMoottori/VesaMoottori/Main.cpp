@@ -49,7 +49,9 @@ int main()
 	GLuint vertexBuffer = buffer.CreateBuffers(GL_ARRAY_BUFFER, triangleData, sizeof(triangleData));
 	GLuint indexBuffer = buffer.CreateBuffers(GL_ELEMENT_ARRAY_BUFFER, indexData, sizeof(indexData));
 
-	glClearColor(0.3f, 0.3f, 0.3f, 1.0f);
+	glClearColor(0.0f, 0.8f, 0.0f, 0.0f);
+	glEnable(GL_BLEND);
+	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
 	resourceManager.RLoadImage("goofy.png");
 	ImageInfo *image= resourceManager.FindImage("goofy.png");
@@ -61,14 +63,6 @@ int main()
 	const GLint posLocation = shaders.GetAttributeLocation("saku", "attrPosition");
 	const GLint colorLocation = shaders.GetAttributeLocation("saku", "attrColor");
 	const GLint texLocation = shaders.GetAttributeLocation("saku", "textPosition");
-
-	std::cout << "Position Attribute index: " << posLocation << std::endl;
-	std::cout << "Color Attribute index: " << colorLocation << std::endl;
-	std::cout << "Position Texture index: " << texLocation << std::endl;
-
-	glEnableVertexAttribArray(posLocation);
-	glEnableVertexAttribArray(colorLocation);
-	glEnableVertexAttribArray(texLocation);
 
 
 	while (isRunning)
@@ -85,11 +79,16 @@ int main()
 			DispatchMessage(&messages);
 			pekka.Update();
 			shaders.RunProgram("saku");
+			glClear(GL_COLOR_BUFFER_BIT);
 
 			glBindBuffer(GL_ARRAY_BUFFER, vertexBuffer);
 			glVertexAttribPointer(posLocation, 2u, GL_FLOAT, GL_FALSE, 7 * sizeof(GLfloat), reinterpret_cast<GLvoid*>(0));
 			glVertexAttribPointer(colorLocation, 3u, GL_FLOAT, GL_FALSE, 7 * sizeof(GLfloat), reinterpret_cast<GLvoid*>(2 * sizeof(GLfloat)));
 			glVertexAttribPointer(texLocation, 2u, GL_FLOAT, GL_FALSE, 7 * sizeof(GLfloat), reinterpret_cast<GLvoid*>(5 * sizeof(GLfloat)));
+
+			glEnableVertexAttribArray(posLocation);
+			glEnableVertexAttribArray(colorLocation);
+			glEnableVertexAttribArray(texLocation);
 
 			glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, indexBuffer);
 			glBindTexture(GL_TEXTURE_2D, texture);

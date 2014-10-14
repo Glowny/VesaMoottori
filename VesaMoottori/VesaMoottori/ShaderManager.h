@@ -27,7 +27,9 @@ public:
 	}
 
 	int GetAttributeLocation(std::string programName, std::string attributeName) {
-		return glGetAttribLocation(Shaders[programName], attributeName.c_str());
+		GLuint tempLocation = glGetAttribLocation(Shaders[programName], attributeName.c_str());
+		std::cout << "Searching " << programName << " for " << attributeName << ", location is: " << tempLocation << std::endl;
+		return tempLocation;
 	}
 
 private:
