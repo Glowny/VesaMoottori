@@ -22,8 +22,12 @@ public:
 		glUseProgram(Shaders[programName]);
 	}
 
-	int GetProgram(std::string programName) {
+	int GetProgramLocation(std::string programName) {
 		return Shaders[programName];
+	}
+
+	int GetAttributeLocation(std::string programName, std::string attributeName) {
+		return glGetAttribLocation(Shaders[programName], attributeName.c_str());
 	}
 
 private:

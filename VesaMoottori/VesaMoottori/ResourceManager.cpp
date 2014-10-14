@@ -1,5 +1,7 @@
 #include "ResourceManager.h"
-
+#include "lodepng.h"
+#include <fstream>
+#include <functional>
 #include <iostream>
 
 // pitäs saaha width ja height. 
@@ -39,6 +41,7 @@ ImageInfo* ResourceManager::FindImage(std::string filename)
 		return NULL;	// varmaan errormessagea
 	}
 }
+
 char* ResourceManager::FindShader(std::string filename)
 {
 	unsigned int  hashedShaderName = MyHasher(filename);
@@ -52,6 +55,7 @@ char* ResourceManager::FindShader(std::string filename)
 		return NULL;	//varmaan errormessagea
 	}
 }
+
 // pistetäänkö myös mappiin?
 char *ResourceManager::LoadShader(std::string filename)
 {

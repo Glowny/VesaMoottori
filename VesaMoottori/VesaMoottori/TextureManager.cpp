@@ -1,10 +1,4 @@
 #include "TextureManager.h"
-TextureManager::TextureManager()
-{
-
-}
-TextureManager::~TextureManager()
-{}
 
 GLuint TextureManager::CreateTexture(ImageInfo image)
 {
@@ -19,6 +13,7 @@ GLuint TextureManager::CreateTexture(ImageInfo image)
 	glBindTexture(GL_TEXTURE_2D, 0u);
 	return texture;
 }
+
 void TextureManager::DestroyTexture(GLuint index)
 {
 	glDeleteTextures(1, &index);

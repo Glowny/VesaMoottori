@@ -1,6 +1,5 @@
 #include "Buffers.h"
 
-
 GLuint Buffers::CreateBuffers(GLenum target, const void *buffer_data, GLsizei buffer_size)
 {
 	GLuint buffer;

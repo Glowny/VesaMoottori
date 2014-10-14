@@ -51,6 +51,7 @@ bool Window::Register()
 	return true;
 }
 
+// Normi ikkunassa ei ole update/draw funktioita vielä.
 /* void Window::Show()
 {
 	ShowWindow(hWindow, SW_SHOWNORMAL);
