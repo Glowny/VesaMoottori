@@ -1,29 +1,82 @@
 #include "Buffers.h"
 
-
-GLuint Buffers::CreateVertexBuffers(const int amount, const void *bufferData, GLsizei bufferSize)
+static const GLfloat triangleData[] =
 {
-	GLuint *buffer = new GLuint[amount];
+	-0.8f, -0.8f, // Positio.
+	1.0f, 0.0f, 0.0f, // Väri.
+	0.0f, 0.0f, // Tekstuuri.
 
-	for (int i = 0; i < amount; i++)
-	{
-		glGenBuffers(1, &buffer[i]);
-		glBindBuffer(GL_ARRAY_BUFFER, buffer[i]);
+	-0.8f, 0.8f,
+	0.0f, 1.0f, 0.0f,
+	0.0f, -1.0f,
+
+	0.8f, 0.8f,
+	0.0f, 0.0f, 1.0f,
+	1.0f, -1.0f,
+
+	0.8f, -0.8f,
+	0.0f, 0.0f, 1.0f,
+	1.0f, 0.0f
+};
+
+static const GLuint indexData[] = { 0, 1, 2, 3 };
+
+
+
+//CREATING VERTEX BUFFERS
+GLuint Buffers::CreateVertexBuffers(const void *bufferData, GLsizei bufferSize)
+{
+	GLuint buffer;
+
+		glGenBuffers(1, &buffer);
+		glBindBuffer(GL_ARRAY_BUFFER, buffer);
 		glBufferData(GL_ARRAY_BUFFER, bufferSize, bufferData, GL_STATIC_DRAW);
-	}
+	
 
-	return *buffer;
+	return buffer;
+}
+//CREATING INDEX BUFFERS
+GLuint Buffers::CreateIndexBuffers(const void *bufferData, GLsizei bufferSize)
+{
+	GLuint buffer;
+
+		glGenBuffers(1, &buffer);
+		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, buffer);
+		glBufferData(GL_ELEMENT_ARRAY_BUFFER, bufferSize, bufferData, GL_STATIC_DRAW);
+	
+	return buffer;
 }
 
-GLuint Buffers::CreateIndexBuffers(int amount, const void *bufferData, GLsizei bufferSize)
+GLuint Buffers::BindBuffers(GLuint bufferName)
 {
-	GLuint *buffer = new GLuint[amount];
+		glBindBuffer(GL_ARRAY_BUFFER, bufferName);
+		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, bufferName);
 
-	for (int i = 0; i < amount; i++)
-	{
-		glGenBuffers(1, &buffer[i]);
-		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, buffer[i]);
-		glBufferData(GL_ELEMENT_ARRAY_BUFFER, bufferSize, bufferData, GL_STATIC_DRAW);
-	}
-	return *buffer;
+	return true;
+}
+
+GLuint Buffers::UnBindBuffers()
+{
+
+	glBindBuffer(GL_ARRAY_BUFFER, 0u);
+	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0u);
+	
+
+	return true;
+}
+
+
+GLuint Buffers::GetBuffer() //GIVE BUFFERS VALUE
+{
+	return true;
+}
+
+GLuint Buffers::CreateBuffers() //CREATE BUFFERS HERE
+{
+	GLuint buffers[2];
+
+	buffers[0] = CreateVertexBuffers(triangleData, sizeof(triangleData));
+	buffers[1] = CreateIndexBuffers(indexData, sizeof(indexData));
+
+	return *buffers;
 }
