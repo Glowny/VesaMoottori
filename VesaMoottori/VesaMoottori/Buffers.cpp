@@ -1,10 +1,29 @@
 #include "Buffers.h"
 
-GLuint Buffers::CreateBuffers(GLenum target, const void *buffer_data, GLsizei buffer_size)
+
+GLuint Buffers::CreateVertexBuffers(const int amount, const void *bufferData, GLsizei bufferSize)
 {
-	GLuint buffer;
-	glGenBuffers(1, &buffer);
-	glBindBuffer(target, buffer);
-	glBufferData(target, buffer_size, buffer_data, GL_STATIC_DRAW);
-	return buffer;
+	GLuint *buffer = new GLuint[amount];
+
+	for (int i = 0; i < amount; i++)
+	{
+		glGenBuffers(1, &buffer[i]);
+		glBindBuffer(GL_ARRAY_BUFFER, buffer[i]);
+		glBufferData(GL_ARRAY_BUFFER, bufferSize, bufferData, GL_STATIC_DRAW);
+	}
+
+	return *buffer;
+}
+
+GLuint Buffers::CreateIndexBuffers(int amount, const void *bufferData, GLsizei bufferSize)
+{
+	GLuint *buffer = new GLuint[amount];
+
+	for (int i = 0; i < amount; i++)
+	{
+		glGenBuffers(1, &buffer[i]);
+		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, buffer[i]);
+		glBufferData(GL_ELEMENT_ARRAY_BUFFER, bufferSize, bufferData, GL_STATIC_DRAW);
+	}
+	return *buffer;
 }

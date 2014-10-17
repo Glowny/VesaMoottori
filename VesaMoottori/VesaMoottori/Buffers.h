@@ -6,7 +6,8 @@
 class Buffers
 {
 public:
-    GLuint CreateBuffers(GLenum target, const void *buffer_data, GLsizei buffer_size);
+	GLuint CreateVertexBuffers(const int amount, const void *bufferData, GLsizei bufferSize);
+	GLuint CreateIndexBuffers(int amount, const void *bufferData, GLsizei bufferSize);
 };
 
 #endif BUFFERS_H
