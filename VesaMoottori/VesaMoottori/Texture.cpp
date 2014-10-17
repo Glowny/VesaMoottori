@@ -8,14 +8,14 @@ Texture::Texture(DecodedImage *image, int width, int height)
 	// Texture class sisältää kuvan tiedot.
 	this->width = width;
 	this->height = height;
-	imageLocation = image;
+	this->image = image;
 
 	// Ei ole hyvin kustomoitu tämä texture.
 	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA,
 		width,
 		height,
 		0, GL_RGBA, GL_UNSIGNED_BYTE,
-		imageLocation->data());
+		image->data());
 
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
 	glBindTexture(GL_TEXTURE_2D, 0u);

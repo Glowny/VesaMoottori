@@ -21,6 +21,6 @@ public:
 private:
 	GLuint texture; // Bindattu indeksi.
 	int width, height; // S‰ilytt‰‰ kuvan mittasuhteet.
-	DecodedImage* imageLocation; // Texture muista lokaation omaan imageensa.
+	DecodedImage* image; // Texture muista lokaation omaan imageensa.
 	//std::vector<GLuint*> textureIndex;
 };

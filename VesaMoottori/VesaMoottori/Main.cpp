@@ -4,7 +4,7 @@
 #include "GL\glew.h"
 #include "Buffers.h"
 #include "ShaderProgram.h"
-
+#include "Sprite.h"
 static const GLfloat triangleData[] =
 {
 	-0.8f, -0.8f,		// Positio.
@@ -35,6 +35,7 @@ int main()
 	GraphicsDevice	pekka("eitoimicustomnimi", 800, 800);
 	Buffers			buffer;
 	ShaderProgram	shaders;
+	Sprite			sprite();
 
 	pekka.Register();
 	pekka.Show();

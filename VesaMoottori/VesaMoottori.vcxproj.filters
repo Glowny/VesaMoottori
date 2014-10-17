@@ -43,7 +43,11 @@
     <ClInclude Include="VesaMoottori\Texture.h">
       <Filter>Source Files</Filter>
     </ClInclude>
-    <ClInclude Include="VesaMoottori\ShaderProgram.h">
+    <ClInclude Include="VesaMoottori\ShaderProgram.h" />
+    <ClInclude Include="VesaMoottori\Sprite.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="VesaMoottori\vector2i.h">
       <Filter>Source Files</Filter>
     </ClInclude>
   </ItemGroup>
@@ -70,6 +74,9 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="VesaMoottori\ShaderProgram.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="VesaMoottori\Sprite.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
