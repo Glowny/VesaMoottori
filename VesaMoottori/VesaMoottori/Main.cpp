@@ -1,6 +1,6 @@
 #include "GraphicsDevice.h"
 #include "ResourceManager.h"
-#include "TextureManager.h"
+#include "Texture.h"
 #include "GL\glew.h"
 #include "Buffers.h"
 #include "ShaderProgram.h"
@@ -29,7 +29,7 @@ static const GLuint indexData[] = { 0, 1, 2, 3 };
 int main()
 {
 	ResourceManager resourceManager;
-	TextureManager	textureManager;
+	Texture			texture;
 	bool			isRunning = true;
 	MSG				messages;
 	GraphicsDevice	pekka("eitoimicustomnimi", 800, 800);
@@ -52,9 +52,13 @@ int main()
 	glEnable(GL_BLEND);
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
-	resourceManager.RLoadImage("goofy.png");
-	ImageInfo *image= resourceManager.FindImage("goofy.png");
-	GLuint texture = textureManager.CreateTexture(*image);
+	resourceManager.LoadPicture("goofy.png");
+	texture = Texture(resourceManager.FindImage("goofy.png"), 489, 550);
+
+
+	//resourceManager.RLoadImage("goofy.png");
+	//ImageInfo *image= resourceManager.FindImage("goofy.png");
+	//GLuint texture = textureManager.CreateTexture(*image);
 	//GLuint texture = resourceManager.FindImage("goofy.png");
 
 
@@ -77,7 +81,7 @@ int main()
 
 			DispatchMessage(&messages);
 			pekka.Update();
-			shaders.RunProgram("ProShader");
+			shaders.RunProgram();
 			glClear(GL_COLOR_BUFFER_BIT);
 
 			glBindBuffer(GL_ARRAY_BUFFER, vertexBuffer);
@@ -90,7 +94,7 @@ int main()
 			glEnableVertexAttribArray(texLocation);
 
 			glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, indexBuffer);
-			glBindTexture(GL_TEXTURE_2D, texture);
+			glBindTexture(GL_TEXTURE_2D, texture.GetTexture());
 			glDrawElements(GL_QUADS, 4u, GL_UNSIGNED_INT, reinterpret_cast<GLvoid*>(0));
 
 			glBindTexture(GL_TEXTURE_2D, 0u);
@@ -100,7 +104,7 @@ int main()
 		}
 	}
 
-	glDeleteTextures(1, &texture);
+	//glDeleteTextures(1, &texture);
 	glDeleteBuffers(1, &vertexBuffer);
 	glDeleteBuffers(1, &indexBuffer);
 	return (int) messages.wParam;

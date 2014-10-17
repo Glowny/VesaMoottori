@@ -19,8 +19,8 @@ public:
 	bool CreateShader(std::string shaderName, GLenum type);
 	bool LinkProgram();
 
-	void RunProgram(std::string programName) {
-		glUseProgram(Shaders[programName]);
+	void RunProgram() {
+		glUseProgram(glObject);
 	}
 
 	int GetProgramLocation(std::string programName) {

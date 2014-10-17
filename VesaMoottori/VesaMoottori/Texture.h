@@ -9,7 +9,7 @@ class Texture
 {
 public:
 	Texture() {}; // Default konstruktoria ei tueta atm.
-	Texture(DecodedImage &image, int width, int height);
+	Texture(DecodedImage *image, int width, int height);
 	~Texture() {};
 
 	GLuint GetTexture() { return texture; } // Palauttaa bindatun indeksin textureen.
@@ -21,6 +21,6 @@ public:
 private:
 	GLuint texture; // Bindattu indeksi.
 	int width, height; // S‰ilytt‰‰ kuvan mittasuhteet.
-	DecodedImage* image; // Texture muista lokaation omaan imageensa.
+	DecodedImage* imageLocation; // Texture muista lokaation omaan imageensa.
 	//std::vector<GLuint*> textureIndex;
 };

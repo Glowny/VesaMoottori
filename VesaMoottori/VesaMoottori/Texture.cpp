@@ -1,6 +1,6 @@
 #include "Texture.h"
 
-Texture::Texture(DecodedImage &image, int width, int height)
+Texture::Texture(DecodedImage *image, int width, int height)
 {
 	glGenTextures(1, &texture);
 	glBindTexture(GL_TEXTURE_2D, texture);
@@ -8,14 +8,14 @@ Texture::Texture(DecodedImage &image, int width, int height)
 	// Texture class sisältää kuvan tiedot.
 	this->width = width;
 	this->height = height;
-	this->image = &image;
+	imageLocation = image;
 
 	// Ei ole hyvin kustomoitu tämä texture.
 	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA,
 		width,
 		height,
 		0, GL_RGBA, GL_UNSIGNED_BYTE,
-		&image);
+		imageLocation->data());
 
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
 	glBindTexture(GL_TEXTURE_2D, 0u);
