@@ -28,9 +28,6 @@
     <ClInclude Include="VesaMoottori\GraphicsDevice.h">
       <Filter>Source Files</Filter>
     </ClInclude>
-    <ClInclude Include="VesaMoottori\TextureManager.h">
-      <Filter>Source Files</Filter>
-    </ClInclude>
     <ClInclude Include="VesaMoottori\Buffers.h">
       <Filter>Source Files</Filter>
     </ClInclude>
@@ -45,6 +42,9 @@
     </ClInclude>
     <ClInclude Include="VesaMoottori\lodepng.h">
       <Filter>Source Files\DEPENDENCY</Filter>
+    </ClInclude>
+    <ClInclude Include="VesaMoottori\Texture.h">
+      <Filter>Source Files</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -63,14 +63,14 @@
     <ClCompile Include="VesaMoottori\GraphicsDevice.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="VesaMoottori\TextureManager.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="VesaMoottori\Buffers.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="VesaMoottori\lodepng.cpp">
       <Filter>Source Files\DEPENDENCY</Filter>
+    </ClCompile>
+    <ClCompile Include="VesaMoottori\Texture.cpp">
+      <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

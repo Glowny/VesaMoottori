@@ -1,52 +1,67 @@
 #include "ResourceManager.h"
-#include "lodepng.h"
 #include <fstream>
 #include <functional>
 #include <iostream>
+#include "lodepng.h"
 
-// pitäs saaha width ja height. 
-void ResourceManager::RLoadImage(std::string filename)
+bool ResourceManager::LoadPicture(std::string filename)
 {
-	unsigned int hashedImageName = MyHasher(filename);
-	if (decodedImages.end() != decodedImages.find(hashedImageName))	// tarkastetaan onko kuvaa vielä lisätty
+	unsigned int hashedImageName = MyHasher(filename); // Hasheri checkkiä varten.
+
+	if(decodedImages.end() != decodedImages.find(hashedImageName))	// Tarkastetaan onko kuvaa vielä lisätty.
 	{
-		// error lisätty jo
+		std::cout << filename << " already in map." << std::endl;
+		return false;
 	}
 	else
 	{
 		DecodedImage image;
 		unsigned width, height;
-		unsigned error = lodepng::decode(image, width, height, filename);
-		std::cout << "loadImage: " << error << " : " << lodepng_error_text(error) << std::endl;
-		ImageInfo imageI(image, width, height);
-		if (error)
+		unsigned error = lodepng::decode(image, width, height, filename); // Pituus ja leveys ei oleellisia.
+		if(error != 0)
 		{
-			//tulosta errorsoopaan "decoder error" error lodepng_error_text(error)
+			std::cout << "loadImage: " << error << " = " << lodepng_error_text(error) << std::endl;
+			return false;
 		}
-		decodedImages.insert(std::pair<unsigned int, ImageInfo>(hashedImageName, imageI));	// lisätään kuva mappiin
+
+		decodedImages.insert(std::pair<unsigned int, DecodedImage>(hashedImageName, image));	// Lisätään kuva mappiin.
+		return true;
+
+		//ImageInfo imageI(image, width, height);
+		//if (error)
+		//{
+		//	//tulosta errorsoopaan "decoder error" error lodepng_error_text(error)
+		//}
 	}
 }
 
-ImageInfo* ResourceManager::FindImage(std::string filename)
+DecodedImage* ResourceManager::FindImage(std::string filename)
 {
 	unsigned int hashedImageName = MyHasher(filename);
 
-	std::map<unsigned int, ImageInfo>::iterator it = decodedImages.find(hashedImageName);
+	std::map<unsigned int, DecodedImage>::iterator it = decodedImages.find(hashedImageName);
 	if (decodedImages.end() != it)
-	{
 		return &it->second;
-	}
 	else
 	{
-		return NULL;	// varmaan errormessagea
+		std::cout << "Ei löydetty kuvaa: " << filename << std::endl;
+		return NULL;
 	}
 }
 
-char* ResourceManager::FindShader(std::string filename)
+unsigned int ResourceManager::MyHasher(std::string filename)
+{
+	std::hash<std::string> Hasher;
+	unsigned int hash = Hasher(filename);
+	return hash;
+}
+
+
+/* char* ResourceManager::FindShader(std::string filename)
 {
 	unsigned int  hashedShaderName = MyHasher(filename);
 	std::map < unsigned int, char* >::iterator it = shaders.find(hashedShaderName);
-	if (shaders.end() != it)
+	if(shaders.end() != it)
 	{
 		return it->second;		// !!!!!!!!!
 	}
@@ -60,7 +75,7 @@ char* ResourceManager::FindShader(std::string filename)
 char *ResourceManager::LoadShader(std::string filename)
 {
 	unsigned int hashedShaderName = MyHasher(filename);		// haetaan hashattu shaderin nimi
-	if (shaders.end() != shaders.find(hashedShaderName))	// tarkastetaan onko shaderiä jo upittu // VÄÄRINPÄIN SAATANA
+	if(shaders.end() != shaders.find(hashedShaderName))	// tarkastetaan onko shaderiä jo upittu // VÄÄRINPÄIN SAATANA
 	{
 		// error ei olee shaderia
 		return NULL;
@@ -68,7 +83,7 @@ char *ResourceManager::LoadShader(std::string filename)
 	else
 	{
 		std::ifstream readFile(filename, std::ios::in);
-		if (readFile.is_open())
+		if(readFile.is_open())
 		{
 		}
 		else
@@ -77,9 +92,9 @@ char *ResourceManager::LoadShader(std::string filename)
 			return NULL;
 		}
 		readFile.seekg(0, readFile.end);
-		int fileLength = (int) readFile.tellg();
+		int fileLength = (int)readFile.tellg();
 		readFile.seekg(0, readFile.beg);
-		if (fileLength == 0)
+		if(fileLength == 0)
 		{
 			//errormessage, file empty
 		}
@@ -99,11 +114,4 @@ char *ResourceManager::LoadShader(std::string filename)
 void ResourceManager::AddImageLocation(std::string filename)
 {
 	imageLocations.push_back(filename);
-}
-
-unsigned int ResourceManager::MyHasher(std::string filename)
-{
-	std::hash<std::string> Hasher;
-	unsigned int hash = Hasher(filename);
-	return hash;
-}
+} */
