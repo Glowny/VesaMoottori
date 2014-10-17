@@ -99,7 +99,7 @@
     <ClInclude Include="VesaMoottori\ResourceManager.h">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">false</ExcludedFromBuild>
     </ClInclude>
-    <ClInclude Include="VesaMoottori\ShaderManager.h">
+    <ClInclude Include="VesaMoottori\ShaderProgram.h">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">false</ExcludedFromBuild>
     </ClInclude>
     <ClInclude Include="VesaMoottori\Texture.h" />
@@ -113,7 +113,7 @@
     <ClCompile Include="VesaMoottori\ResourceManager.cpp">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">false</ExcludedFromBuild>
     </ClCompile>
-    <ClCompile Include="VesaMoottori\ShaderManager.cpp">
+    <ClCompile Include="VesaMoottori\ShaderProgram.cpp">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">false</ExcludedFromBuild>
     </ClCompile>
     <ClCompile Include="VesaMoottori\Texture.cpp" />
