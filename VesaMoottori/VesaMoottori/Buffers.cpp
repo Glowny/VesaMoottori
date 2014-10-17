@@ -21,7 +21,7 @@ static const GLfloat triangleData[] =
 
 static const GLuint indexData[] = { 0, 1, 2, 3 };
 
-
+Buffers::Buffers() {}
 
 //CREATING VERTEX BUFFERS
 GLuint Buffers::CreateVertexBuffers(const void *bufferData, GLsizei bufferSize)
@@ -66,9 +66,9 @@ GLuint Buffers::UnBindBuffers()
 }
 
 
-GLuint Buffers::GetBuffer() //GIVE BUFFERS VALUE
+GLuint Buffers::GetBuffer(GLuint target) //RETURN BUFFER
 {
-	return true;
+	return target;
 }
 
 GLuint Buffers::CreateBuffers() //CREATE BUFFERS HERE
