@@ -19,9 +19,6 @@
     <ClInclude Include="VesaMoottori\ResourceManager.h">
       <Filter>Source Files</Filter>
     </ClInclude>
-    <ClInclude Include="VesaMoottori\ShaderManager.h">
-      <Filter>Source Files</Filter>
-    </ClInclude>
     <ClInclude Include="VesaMoottori\Window.h">
       <Filter>Source Files</Filter>
     </ClInclude>
@@ -46,12 +43,12 @@
     <ClInclude Include="VesaMoottori\lodepng.h">
       <Filter>Source Files\DEPENDENCY</Filter>
     </ClInclude>
+    <ClInclude Include="VesaMoottori\ShaderProgram.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="VesaMoottori\Main.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="VesaMoottori\ShaderManager.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="VesaMoottori\ResourceManager.cpp">
@@ -71,6 +68,9 @@
     </ClCompile>
     <ClCompile Include="VesaMoottori\lodepng.cpp">
       <Filter>Source Files\DEPENDENCY</Filter>
+    </ClCompile>
+    <ClCompile Include="VesaMoottori\ShaderProgram.cpp">
+      <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

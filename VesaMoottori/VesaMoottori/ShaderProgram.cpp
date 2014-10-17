@@ -1,9 +1,24 @@
-#include "ShaderManager.h"
+#include "ShaderProgram.h"
 #include <iostream>
 #include <fstream>
 
-bool ShaderManager::CreateShader(std::string shaderName, std::string targetProgram, GLenum type)
+ShaderProgram::ShaderProgram()
 {
+	created = false;
+	glObject = 0;
+	// Luodaan uusi glProgram.
+	//Shaders.insert(std::make_pair(programName, glObject));	// Ja tungetaan se mappiin nimell‰.
+	//HUOM: Jos tehd‰‰ CreateProgram funktio niin n‰m‰ sinne ^
+}
+
+bool ShaderProgram::CreateShader(std::string shaderName, GLenum type)
+{
+	if(!created)
+	{
+		glObject = glCreateProgram();
+		created = true;
+	}
+
 	GLuint newShader = glCreateShader(type); // Luodaan tyhj‰ shaderi.
 	GLint linkCheck = NULL;
 
@@ -22,29 +37,23 @@ bool ShaderManager::CreateShader(std::string shaderName, std::string targetProgr
 	if (linkCheck == 0)
 		return false;
 
-	glAttachShader(Shaders[targetProgram], newShader); // Lis‰t‰‰n shaderit shader-ohjelmaan.
+	glAttachShader(glObject, newShader); // Lis‰t‰‰n shaderit shader-ohjelmaan.
 	return true;
 };
 
-void ShaderManager::CreateProgram(std::string programName)
-{
-	GLuint glObject = glCreateProgram(); // Luodaan uusi glProgram.
-	Shaders.insert(std::make_pair(programName, glObject)); // Ja tungetaan se mappiin nimell‰. 
-}
-
-bool ShaderManager::LinkProgram(std::string programName)
+bool ShaderProgram::LinkProgram()
 {
 	GLint linkCheck = NULL;
-	glLinkProgram(Shaders[programName]); // Linkkaaminen luo executablen shadereihin, jotka siihen on lis‰tty.
-	glGetProgramiv(Shaders[programName], GL_LINK_STATUS, &linkCheck); // Testatataan shadereiden linkkaaminen objektiin.
-	std::cout << programName << " linker bool: " << linkCheck << std::endl;
+	glLinkProgram(glObject); // Linkkaaminen luo executablen shadereihin, jotka siihen on lis‰tty.
+	glGetProgramiv(glObject, GL_LINK_STATUS, &linkCheck); // Testatataan shadereiden linkkaaminen objektiin.
+	std::cout << glObject << " linker bool: " << linkCheck << std::endl;
 	if (linkCheck == 0)
 		return false;
 	else
 		return true;
 }
 
-char* ShaderManager::ShaderReader(std::string fileName)
+char* ShaderProgram::ShaderReader(std::string fileName)
 {
 	// Avataan luettava tiedosto ja tarkistetaan onnistuminen.
 	std::ifstream readFile(fileName, std::ios::in);

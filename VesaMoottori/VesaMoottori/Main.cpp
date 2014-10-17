@@ -3,13 +3,13 @@
 #include "TextureManager.h"
 #include "GL\glew.h"
 #include "Buffers.h"
-#include "ShaderManager.h"
+#include "ShaderProgram.h"
 
 static const GLfloat triangleData[] =
 {
-	-0.8f, -0.8f, // Positio.
-	1.0f, 0.0f, 0.0f, // Väri.
-	0.0f, 0.0f, // Tekstuuri.
+	-0.8f, -0.8f,		// Positio.
+	1.0f, 0.0f, 0.0f,	// Väri.
+	0.0f, 0.0f,			// Tekstuuri.
 
 	-0.8f, 0.8f,
 	0.0f, 1.0f, 0.0f,
@@ -34,15 +34,14 @@ int main()
 	MSG				messages;
 	GraphicsDevice	pekka("eitoimicustomnimi", 800, 800);
 	Buffers			buffer;
-	ShaderManager	shaders;
+	ShaderProgram	shaders;
 
 	pekka.Register();
 	pekka.Show();
 
-	shaders.CreateProgram("saku");
-	shaders.CreateShader("vertexShader.txt", "saku", GL_VERTEX_SHADER);
-	shaders.CreateShader("fragmentShader.txt", "saku", GL_FRAGMENT_SHADER);
-	shaders.LinkProgram("saku");
+	shaders.CreateShader("vertexShader.txt",  GL_VERTEX_SHADER);
+	shaders.CreateShader("fragmentShader.txt",  GL_FRAGMENT_SHADER);
+	shaders.LinkProgram();
 
 
 	// Buffereiden luonti
@@ -60,9 +59,9 @@ int main()
 
 
 	// Tarkistetaan attribuuttien lokaatio.
-	const GLint posLocation = shaders.GetAttributeLocation("saku", "attrPosition");
-	const GLint colorLocation = shaders.GetAttributeLocation("saku", "attrColor");
-	const GLint texLocation = shaders.GetAttributeLocation("saku", "textPosition");
+	const GLint posLocation = shaders.GetAttributeLocation("attrPosition");
+	const GLint colorLocation = shaders.GetAttributeLocation("attrColor");
+	const GLint texLocation = shaders.GetAttributeLocation("textPosition");
 
 
 	while (isRunning)
@@ -78,7 +77,7 @@ int main()
 
 			DispatchMessage(&messages);
 			pekka.Update();
-			shaders.RunProgram("saku");
+			shaders.RunProgram("ProShader");
 			glClear(GL_COLOR_BUFFER_BIT);
 
 			glBindBuffer(GL_ARRAY_BUFFER, vertexBuffer);
