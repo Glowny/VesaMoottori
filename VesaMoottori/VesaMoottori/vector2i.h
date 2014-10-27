@@ -7,8 +7,10 @@ struct vector2i
 		x = X;
 		y = Y;
 	}
+
 	vector2i()
 	{}
+
 	int x;
 	int y;
 };

@@ -14,6 +14,9 @@
     <Filter Include="Source Files\DEPENDENCY">
       <UniqueIdentifier>{e4d37f70-82c3-4f9e-afe4-c8d35f0d387c}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source Files\STRUCTS">
+      <UniqueIdentifier>{2e04c52d-573d-4db9-862a-a6b16098f271}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="VesaMoottori\ResourceManager.h">
@@ -43,12 +46,14 @@
     <ClInclude Include="VesaMoottori\Texture.h">
       <Filter>Source Files</Filter>
     </ClInclude>
-    <ClInclude Include="VesaMoottori\ShaderProgram.h" />
     <ClInclude Include="VesaMoottori\Sprite.h">
       <Filter>Source Files</Filter>
     </ClInclude>
-    <ClInclude Include="VesaMoottori\vector2i.h">
+    <ClInclude Include="VesaMoottori\ShaderProgram.h">
       <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="VesaMoottori\vector2i.h">
+      <Filter>Source Files\STRUCTS</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

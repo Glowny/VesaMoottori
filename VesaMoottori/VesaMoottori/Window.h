@@ -21,10 +21,12 @@ public:
 
 	Window(std::string name, int width, int height) {
 		className			= L"Win";
+
 		/* Ikkunalle custom-nimen luonti:
 		wchar_t* widestr = new wchar_t[name.length() + 1];
 		std::copy(name.begin(), name.end(), widestr);
 		widestr[name.length] = 0; */
+
 		windowName			= L"TO-DO";
 		windowHandle		= 0;
 		deviceContext		= 0;

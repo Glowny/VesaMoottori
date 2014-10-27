@@ -4,7 +4,9 @@
 #include <map>
 #include <iostream>
 		
-	// [CreateProgram]				K‰ytt‰j‰ luo tyhj‰n ohjelman ja antaa sille nimen.
+	// ShaderProgram sis‰lt‰‰ shader objektin jota muokataan ja johon voi lis‰t‰ shadereita.
+	// Shader objekti alustetaan vasta kun ensimm‰inen shader-ohjelma lis‰t‰‰n siihen.
+
 	// [CreateShader]				Luo shadereita valmiiksi tehdyist‰ (.txt) filuista ja kiinnitt‰‰ ne suoraan johonkin ohjelmaan.
 	// [LinkProgram] [RunProgram]	Linkataan ja k‰ynnistet‰‰n ohjelma milloin halutaan. 
 	// [GetProgram]					Palauttaa ohjelman sijainnin.
@@ -13,10 +15,9 @@ class ShaderProgram
 {
 public:
 	ShaderProgram();
-	//ShaderProgram(){ glObject = glCreateProgram(); }
 	~ShaderProgram() {};
 
-	bool CreateShader(std::string shaderName, GLenum type);
+	bool CreateShader(std::string textFile, GLenum type);
 	bool LinkProgram();
 
 	void RunProgram() {
@@ -24,7 +25,7 @@ public:
 	}
 
 	int GetProgramLocation(std::string programName) {
-		return Shaders[programName];
+		return glObject;
 	}
 
 	int GetAttributeLocation(std::string attributeName) {
@@ -36,7 +37,6 @@ public:
 
 private:
 	char *ShaderReader(std::string fileName);
-	std::map <std::string, GLuint> Shaders;
 	GLuint glObject;
 	bool created;
 };
