@@ -68,11 +68,11 @@ GLuint Buffers::CreateIndexBuffers(const void *bufferData, GLsizei bufferSize)
 //
 //	return *buffers;
 //}
-=======
+
 	GLuint buffer;
 	glGenBuffers(1, &buffer);
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, buffer);
 	glBufferData(GL_ELEMENT_ARRAY_BUFFER, bufferSize, bufferData, GL_STATIC_DRAW);
 	return buffer;
 } */
->>>>>>> origin/master
+

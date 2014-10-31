@@ -45,19 +45,12 @@ int main()
 	shaders.LinkProgram();
 
 	// Buffereiden luonti
-<<<<<<< HEAD
 	Sprite testSprite;
 
-	GLuint SpriteVertexBuffer = buffer.CreateBuffers(testSprite.getVertexData(), 28*4);	// virhe oli kuraa :D
-	GLuint SpriteIndexBuffer = buffer.CreateIndexBuffers(testSprite.getIndexData(), 6*4);
 
-	//GLuint vertexBuffer = buffer.CreateBuffers(triangleData, sizeof(triangleData));
-	//GLuint indexBuffer = buffer.CreateBuffers(indexData, sizeof(indexData));
-=======
-	//GLuint vertexBuffer = buffer.CreateBuffers(triangleData, sizeof(triangleData));
-	//GLuint indexBuffer = buffer.CreateBuffers(indexData, sizeof(indexData));
-	buffer.CreateSpriteBuffer(triangleData, sizeof(triangleData), indexData, sizeof(indexData));
->>>>>>> origin/master
+	buffer.CreateSpriteBuffer(testSprite.getVertexData(), 28 * 4, testSprite.getIndexData(), 6 * 4);
+	// juu elikkäs pitäs saaha ne bufferit uloski :D:D:D:D:D:D:D:D:D:D:D:D::DD:D:D:DD:D:D::DD:D:DD
+	// tuukka koodaa pls
 
 	resourceManager.LoadPicture("goofy.png");
 	texture = Texture(resourceManager.FindImage("goofy.png"));
@@ -85,12 +78,9 @@ int main()
 			pekka.Draw();
 			shaders.RunProgram();
 
-<<<<<<< HEAD
 			glBindBuffer(GL_ARRAY_BUFFER, SpriteVertexBuffer);
-=======
 			glBindBuffer(GL_ARRAY_BUFFER, 1);
 
->>>>>>> origin/master
 			glVertexAttribPointer(posLocation, 2u, GL_FLOAT, GL_FALSE, 7 * sizeof(GLfloat), reinterpret_cast<GLvoid*>(0));
 			glVertexAttribPointer(colorLocation, 3u, GL_FLOAT, GL_FALSE, 7 * sizeof(GLfloat), reinterpret_cast<GLvoid*>(2 * sizeof(GLfloat)));
 			glVertexAttribPointer(texLocation, 2u, GL_FLOAT, GL_FALSE, 7 * sizeof(GLfloat), reinterpret_cast<GLvoid*>(5 * sizeof(GLfloat)));
@@ -98,7 +88,6 @@ int main()
 			glEnableVertexAttribArray(colorLocation);
 			glEnableVertexAttribArray(texLocation);
 
-<<<<<<< HEAD
 
 			glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, SpriteIndexBuffer);
 			glBindTexture(GL_TEXTURE_2D, texture.GetTexture());
@@ -108,28 +97,10 @@ int main()
 			glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0u);
 			glBindBuffer(GL_ARRAY_BUFFER, 0u); 
 
-			//glBindBuffer(GL_ARRAY_BUFFER, vertexBuffer);
-			//glVertexAttribPointer(posLocation, 2u, GL_FLOAT, GL_FALSE, 7 * sizeof(GLfloat), reinterpret_cast<GLvoid*>(0));
-			//glVertexAttribPointer(colorLocation, 3u, GL_FLOAT, GL_FALSE, 7 * sizeof(GLfloat), reinterpret_cast<GLvoid*>(2 * sizeof(GLfloat)));
-			//glVertexAttribPointer(texLocation, 2u, GL_FLOAT, GL_FALSE, 7 * sizeof(GLfloat), reinterpret_cast<GLvoid*>(5 * sizeof(GLfloat)));
 
-
-			//glEnableVertexAttribArray(posLocation);
-			//glEnableVertexAttribArray(colorLocation);
-			//glEnableVertexAttribArray(texLocation);
-
-			//glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, indexBuffer);
-			//glBindTexture(GL_TEXTURE_2D, texture.GetTexture());
-			//glDrawElements(GL_TRIANGLES, 6u, GL_UNSIGNED_INT, reinterpret_cast<GLvoid*>(0));
-
-			//glBindTexture(GL_TEXTURE_2D, 0u);
-			//glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0u);
-			//glBindBuffer(GL_ARRAY_BUFFER, 0u);
-=======
 			glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 2);
 			glBindTexture(GL_TEXTURE_2D, texture.GetTexture());
 			glDrawElements(GL_TRIANGLES, 6u, GL_UNSIGNED_INT, reinterpret_cast<GLvoid*>(0));
->>>>>>> origin/master
 		}
 	}
 
