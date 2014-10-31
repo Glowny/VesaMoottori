@@ -36,17 +36,17 @@ GLuint Buffers::GetBuffer(GLuint target) //RETURN BUFFER
 	return target;
 }
 
-//CREATING INDEX BUFFERS
-//GLuint Buffers::CreateIndexBuffers(const void *bufferData, GLsizei bufferSize)
-//{
-//	GLuint buffer;
-//
-//		glGenBuffers(1, &buffer);
-//		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, buffer);
-//		glBufferData(GL_ELEMENT_ARRAY_BUFFER, bufferSize, bufferData, GL_STATIC_DRAW);
-//	
-//	return buffer;
-//}
+
+GLuint Buffers::CreateIndexBuffers(const void *bufferData, GLsizei bufferSize)
+{
+	GLuint buffer;
+
+		glGenBuffers(1, &buffer);
+		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, buffer);
+		glBufferData(GL_ELEMENT_ARRAY_BUFFER, bufferSize, bufferData, GL_STATIC_DRAW);
+	
+	return buffer;
+}
 
 //GLuint Buffers::CreateBuffers() //CREATE BUFFERS HERE
 //{

@@ -4,6 +4,7 @@ class Buffers
 {
 public:
 	GLuint CreateBuffers(const void *bufferData, GLsizei bufferSize);
+	GLuint CreateIndexBuffers(const void *bufferData, GLsizei bufferSize); // !!!
 	GLuint BindBuffers(GLuint bufferName);
 	GLuint UnBindBuffers();
 	GLuint GetBuffer(GLuint target);

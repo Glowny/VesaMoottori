@@ -107,7 +107,7 @@
     </ClInclude>
     <ClInclude Include="VesaMoottori\Texture.h" />
     <ClInclude Include="VesaMoottori\vector2i.h">
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">false</ExcludedFromBuild>
     </ClInclude>
     <ClInclude Include="VesaMoottori\Window.h" />
   </ItemGroup>
