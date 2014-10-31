@@ -92,8 +92,8 @@
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
     </ClInclude>
     <ClInclude Include="VesaMoottori\GraphicsDevice.h" />
-    <ClInclude Include="VesaMoottori\ImageInfo.h">
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
+    <ClInclude Include="VesaMoottori\Image.h">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">false</ExcludedFromBuild>
     </ClInclude>
     <ClInclude Include="VesaMoottori\lodepng.h" />
     <ClInclude Include="VesaMoottori\ResourceManager.h">

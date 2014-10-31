@@ -4,27 +4,30 @@
 #include <iostream>
 #include "lodepng.h"
 
-bool ResourceManager::LoadPicture(std::string filename)
+bool ResourceManager::LoadPicture(std::string fileName)
 {
-	unsigned int hashedImageName = MyHasher(filename); // Hasheri checkki‰ varten.
+	unsigned int hashedImageName = MyHasher(fileName); // Hasheri checkki‰ varten.
 
 	if(decodedImages.end() != decodedImages.find(hashedImageName))	// Tarkastetaan onko kuvaa viel‰ lis‰tty.
 	{
-		std::cout << filename << " already in map." << std::endl;
+		std::cout << fileName << " already in map." << std::endl;
 		return false;
 	}
 	else
 	{
-		DecodedImage image;
+		std::vector<unsigned char> decodedImage;
 		unsigned width, height;
-		unsigned error = lodepng::decode(image, width, height, filename); // Pituus ja leveys ei oleellisia.
+		unsigned error = lodepng::decode(decodedImage, width, height, fileName); // Pituus ja leveys ei oleellisia.
+
+		Image image = {decodedImage, width, height};
+
 		if(error != 0)
 		{
 			std::cout << "loadImage: " << error << " = " << lodepng_error_text(error) << std::endl;
 			return false;
 		}
 
-		decodedImages.insert(std::pair<unsigned int, DecodedImage>(hashedImageName, image));	// Lis‰t‰‰n kuva mappiin.
+		decodedImages.insert(std::pair<unsigned int, Image>(hashedImageName, image));	// Lis‰t‰‰n kuva mappiin.
 		return true;
 
 		//ImageInfo imageI(image, width, height);
@@ -35,16 +38,16 @@ bool ResourceManager::LoadPicture(std::string filename)
 	}
 }
 
-DecodedImage* ResourceManager::FindImage(std::string filename)
+Image* ResourceManager::FindImage(std::string fileName)
 {
-	unsigned int hashedImageName = MyHasher(filename);
+	unsigned int hashedImageName = MyHasher(fileName);
 
-	std::map<unsigned int, DecodedImage>::iterator it = decodedImages.find(hashedImageName);
+	std::map<unsigned int, Image>::iterator it = decodedImages.find(hashedImageName);
 	if (decodedImages.end() != it)
 		return &it->second;
 	else
 	{
-		std::cout << "Ei lˆydetty kuvaa: " << filename << std::endl;
+		std::cout << "Ei lˆydetty kuvaa: " << fileName << std::endl;
 		return NULL;
 	}
 }
