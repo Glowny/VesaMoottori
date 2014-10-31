@@ -45,8 +45,8 @@ int main()
 
 
 	// Buffereiden luonti
-	GLuint vertexBuffer = buffer.CreateVertexBuffers(triangleData, sizeof(triangleData));
-	GLuint indexBuffer = buffer.CreateIndexBuffers(indexData, sizeof(indexData));
+	GLuint vertexBuffer = buffer.CreateBuffers(triangleData, sizeof(triangleData));
+	GLuint indexBuffer = buffer.CreateBuffers(indexData, sizeof(indexData));
 
 	glClearColor(0.0f, 0.8f, 0.0f, 0.0f);
 	glEnable(GL_BLEND);
