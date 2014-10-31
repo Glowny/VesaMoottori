@@ -1,21 +1,21 @@
 #include "Texture.h"
 
-Texture::Texture(DecodedImage *image, int width, int height)
+Texture::Texture(Image *image)
 {
 	glGenTextures(1, &texture);
 	glBindTexture(GL_TEXTURE_2D, texture);
 
 	// Texture class sisältää kuvan tiedot.
-	this->width = width;
-	this->height = height;
-	this->image = image;
+	//this->width = width;
+	//this->height = height;
+	//this->image = image;
 
 	// Ei ole hyvin kustomoitu tämä texture.
 	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA,
-		width,
-		height,
+		image->width,
+		image->height,
 		0, GL_RGBA, GL_UNSIGNED_BYTE,
-		image->data());
+		image->decodedImage.data());
 
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
 	glBindTexture(GL_TEXTURE_2D, 0u);

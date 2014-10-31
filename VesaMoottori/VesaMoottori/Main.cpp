@@ -53,7 +53,7 @@ int main()
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
 	resourceManager.LoadPicture("goofy.png");
-	texture = Texture(resourceManager.FindImage("goofy.png"), 489, 550);
+	texture = Texture(resourceManager.FindImage("goofy.png"));
 
 
 	//resourceManager.RLoadImage("goofy.png");
