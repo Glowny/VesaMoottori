@@ -1,6 +1,27 @@
 #include "Buffers.h"
+#include <iostream>
 
-//CREATING VERTEX BUFFERS
+SpriteBuffer Buffers::CreateSpriteBuffer(const void *data, GLsizei dataSize, const void *index, GLsizei indexSize)
+{
+	GLuint buffer;
+	SpriteBuffer tempBuffer;
+	tempBuffer.dataSize = dataSize;
+	tempBuffer.indexSize = indexSize;
+
+	glGenBuffers(1, &buffer); // Returns a list of integers that are not currently used as buffer names.
+	glBindBuffer(GL_ARRAY_BUFFER, buffer); // Buffer created on bind.
+	glBufferData(GL_ARRAY_BUFFER, dataSize, data, GL_STATIC_DRAW);
+	tempBuffer.arrayLocation = buffer;
+
+	glGenBuffers(1, &buffer);
+	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, buffer);
+	glBufferData(GL_ELEMENT_ARRAY_BUFFER, indexSize, index, GL_STATIC_DRAW);
+	tempBuffer.elementArrayLocation = buffer;
+
+	return tempBuffer;
+}
+
+/* CREATING VERTEX BUFFERS
 GLuint Buffers::CreateBuffers(const void *bufferData, GLsizei bufferSize)
 {
 	GLuint buffer;
@@ -12,7 +33,6 @@ GLuint Buffers::CreateBuffers(const void *bufferData, GLsizei bufferSize)
 
 	return buffer;
 }
-
 GLuint Buffers::BindBuffers(GLuint bufferName)
 {
 	glBindBuffer(GL_ARRAY_BUFFER, bufferName);
@@ -20,7 +40,6 @@ GLuint Buffers::BindBuffers(GLuint bufferName)
 
 	return true;
 }
-
 GLuint Buffers::UnBindBuffers()
 {
 
@@ -29,31 +48,27 @@ GLuint Buffers::UnBindBuffers()
 
 	return true;
 }
-
-
 GLuint Buffers::GetBuffer(GLuint target) //RETURN BUFFER
 {
 	return target;
 }
+CREATING INDEX BUFFERS
+GLuint Buffers::CreateIndexBuffers(const void *bufferData, GLsizei bufferSize)
+{
+	GLuint buffer;
 
-//CREATING INDEX BUFFERS
-//GLuint Buffers::CreateIndexBuffers(const void *bufferData, GLsizei bufferSize)
-//{
-//	GLuint buffer;
-//
-//		glGenBuffers(1, &buffer);
-//		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, buffer);
-//		glBufferData(GL_ELEMENT_ARRAY_BUFFER, bufferSize, bufferData, GL_STATIC_DRAW);
-//	
-//	return buffer;
-//}
+		glGenBuffers(1, &buffer);
+		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, buffer);
+		glBufferData(GL_ELEMENT_ARRAY_BUFFER, bufferSize, bufferData, GL_STATIC_DRAW);
+	
+	return buffer;
+}
+GLuint Buffers::CreateBuffers() //CREATE BUFFERS HERE
+{
+	GLuint buffers[2];
 
-//GLuint Buffers::CreateBuffers() //CREATE BUFFERS HERE
-//{
-//	GLuint buffers[2];
-//
-//	buffers[0] = CreateVertexBuffers(triangleData, sizeof(triangleData));
-//	buffers[1] = CreateIndexBuffers(indexData, sizeof(indexData));
-//
-//	return *buffers;
-//}
+	buffers[0] = CreateVertexBuffers(triangleData, sizeof(triangleData));
+	buffers[1] = CreateIndexBuffers(indexData, sizeof(indexData));
+
+	return *buffers;
+} */

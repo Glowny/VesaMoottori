@@ -58,6 +58,9 @@
     <ClInclude Include="VesaMoottori\Image.h">
       <Filter>Source Files\STRUCTS</Filter>
     </ClInclude>
+    <ClInclude Include="VesaMoottori\SpriteBuffer.h">
+      <Filter>Source Files\STRUCTS</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="VesaMoottori\Main.cpp">

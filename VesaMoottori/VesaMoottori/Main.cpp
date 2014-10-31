@@ -45,8 +45,9 @@ int main()
 
 
 	// Buffereiden luonti
-	GLuint vertexBuffer = buffer.CreateBuffers(triangleData, sizeof(triangleData));
-	GLuint indexBuffer = buffer.CreateBuffers(indexData, sizeof(indexData));
+	//GLuint vertexBuffer = buffer.CreateBuffers(triangleData, sizeof(triangleData));
+	//GLuint indexBuffer = buffer.CreateBuffers(indexData, sizeof(indexData));
+	buffer.CreateSpriteBuffer(triangleData, sizeof(triangleData), indexData, sizeof(indexData));
 
 	resourceManager.LoadPicture("goofy.png");
 	texture = Texture(resourceManager.FindImage("goofy.png"));
@@ -73,22 +74,18 @@ int main()
 			pekka.Draw();
 			shaders.RunProgram();
 
-			glBindBuffer(GL_ARRAY_BUFFER, vertexBuffer);
+			glBindBuffer(GL_ARRAY_BUFFER, 1);
+
 			glVertexAttribPointer(posLocation, 2u, GL_FLOAT, GL_FALSE, 7 * sizeof(GLfloat), reinterpret_cast<GLvoid*>(0));
 			glVertexAttribPointer(colorLocation, 3u, GL_FLOAT, GL_FALSE, 7 * sizeof(GLfloat), reinterpret_cast<GLvoid*>(2 * sizeof(GLfloat)));
 			glVertexAttribPointer(texLocation, 2u, GL_FLOAT, GL_FALSE, 7 * sizeof(GLfloat), reinterpret_cast<GLvoid*>(5 * sizeof(GLfloat)));
-
 			glEnableVertexAttribArray(posLocation);
 			glEnableVertexAttribArray(colorLocation);
 			glEnableVertexAttribArray(texLocation);
 
-			glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, indexBuffer);
+			glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 2);
 			glBindTexture(GL_TEXTURE_2D, texture.GetTexture());
 			glDrawElements(GL_TRIANGLES, 6u, GL_UNSIGNED_INT, reinterpret_cast<GLvoid*>(0));
-
-			glBindTexture(GL_TEXTURE_2D, 0u);
-			glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0u);
-			glBindBuffer(GL_ARRAY_BUFFER, 0u);
 		}
 	}
 
@@ -96,5 +93,8 @@ int main()
 }
 
 
+//glBindTexture(GL_TEXTURE_2D, 0u);
+//glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0u);
+//glBindBuffer(GL_ARRAY_BUFFER, 0u);
 //glDeleteTextures(1, &texture);
 //glUseProgram(0);
