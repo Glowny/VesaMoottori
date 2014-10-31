@@ -92,7 +92,6 @@ int main()
 	return (int) messages.wParam;
 }
 
-
 //glBindTexture(GL_TEXTURE_2D, 0u);
 //glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0u);
 //glBindBuffer(GL_ARRAY_BUFFER, 0u);
