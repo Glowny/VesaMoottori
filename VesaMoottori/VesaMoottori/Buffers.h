@@ -1,24 +1,20 @@
-#ifndef BUFFERS_H
-#define BUFFERS_H
-
-#include <vector>
 #include <GL\glew.h>
 
 class Buffers
 {
 public:
-	Buffers();
 	GLuint CreateBuffers(const void *bufferData, GLsizei bufferSize);
-	//GLuint CreateIndexBuffers(const void *bufferData, GLsizei bufferSize);
 	GLuint BindBuffers(GLuint bufferName);
 	GLuint UnBindBuffers();
-
 	GLuint GetBuffer(GLuint target);
 
+	//GLuint CreateIndexBuffers(const void *bufferData, GLsizei bufferSize);
 	//GLuint CreateBuffers();
+
 
 private:
 	
 };
 
-#endif BUFFERS_H
+//glDeleteBuffers(1, &vertexBuffer);
+//glDeleteBuffers(1, &indexBuffer);

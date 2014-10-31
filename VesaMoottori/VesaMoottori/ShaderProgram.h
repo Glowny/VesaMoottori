@@ -40,4 +40,3 @@ private:
 	GLuint glObject;
 	bool created;
 };
-

@@ -16,17 +16,10 @@ public:
 	}
 
 	bool Register();
+	void Update();
+	void Show();
+	void Draw();
 	bool Glew(); // Voisi muokata testaamaan muita GL-versioita.
-
-	 void Show() {
-		ShowWindow(window.GetHandle(), SW_SHOWNORMAL);
-	}
-
-	void Update() {
-		UpdateWindow(window.GetHandle());
-		SwapBuffers(window.GetDevice());
-	} 
-
 	~GraphicsDevice() {};
 
 private:
@@ -35,3 +28,5 @@ private:
 	PIXELFORMATDESCRIPTOR	winPixel; // Describes the pixel format of a drawing surface.
 	int						pixelFormat;
 };
+
+//wglDeleteContext(hGLRC); // Tuhotaan renderöinti sisältö - pitää vielä koodata windowiin.

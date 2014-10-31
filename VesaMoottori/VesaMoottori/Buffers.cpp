@@ -1,27 +1,4 @@
 #include "Buffers.h"
-//
-//static const GLfloat triangleData[] =
-//{
-//	-0.8f, -0.8f, // Positio.
-//	1.0f, 0.0f, 0.0f, // Väri.
-//	0.0f, 0.0f, // Tekstuuri.
-//
-//	-0.8f, 0.8f,
-//	0.0f, 1.0f, 0.0f,
-//	0.0f, -1.0f,
-//
-//	0.8f, 0.8f,
-//	0.0f, 0.0f, 1.0f,
-//	1.0f, -1.0f,
-//
-//	0.8f, -0.8f,
-//	0.0f, 0.0f, 1.0f,
-//	1.0f, 0.0f
-//};
-//
-//static const GLuint indexData[] = { 0, 1, 2, 3 };
-
-Buffers::Buffers() {}
 
 //CREATING VERTEX BUFFERS
 GLuint Buffers::CreateBuffers(const void *bufferData, GLsizei bufferSize)
@@ -35,6 +12,30 @@ GLuint Buffers::CreateBuffers(const void *bufferData, GLsizei bufferSize)
 
 	return buffer;
 }
+
+GLuint Buffers::BindBuffers(GLuint bufferName)
+{
+	glBindBuffer(GL_ARRAY_BUFFER, bufferName);
+	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, bufferName);
+
+	return true;
+}
+
+GLuint Buffers::UnBindBuffers()
+{
+
+	glBindBuffer(GL_ARRAY_BUFFER, 0u);
+	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0u);
+
+	return true;
+}
+
+
+GLuint Buffers::GetBuffer(GLuint target) //RETURN BUFFER
+{
+	return target;
+}
+
 //CREATING INDEX BUFFERS
 //GLuint Buffers::CreateIndexBuffers(const void *bufferData, GLsizei bufferSize)
 //{
@@ -46,30 +47,6 @@ GLuint Buffers::CreateBuffers(const void *bufferData, GLsizei bufferSize)
 //	
 //	return buffer;
 //}
-
-GLuint Buffers::BindBuffers(GLuint bufferName)
-{
-		glBindBuffer(GL_ARRAY_BUFFER, bufferName);
-		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, bufferName);
-
-	return true;
-}
-
-GLuint Buffers::UnBindBuffers()
-{
-
-	glBindBuffer(GL_ARRAY_BUFFER, 0u);
-	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0u);
-	
-
-	return true;
-}
-
-
-GLuint Buffers::GetBuffer(GLuint target) //RETURN BUFFER
-{
-	return target;
-}
 
 //GLuint Buffers::CreateBuffers() //CREATE BUFFERS HERE
 //{

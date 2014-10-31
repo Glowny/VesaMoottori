@@ -46,5 +46,26 @@ bool GraphicsDevice::Glew()
 		std::cout << "OpenGL 2.1 not supported." << std::endl;
 		return false;
 	}
+
+	glClearColor(0.0f, 0.8f, 0.0f, 0.0f);
+	glEnable(GL_BLEND);
+	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+
 	return true;
+}
+
+void GraphicsDevice::Update()
+{
+	UpdateWindow(window.GetHandle());
+	SwapBuffers(window.GetDevice());
+}
+
+void GraphicsDevice::Show()
+{
+	ShowWindow(window.GetHandle(), SW_SHOWNORMAL);
+}
+
+void GraphicsDevice::Draw()
+{
+	glClear(GL_COLOR_BUFFER_BIT);
 }

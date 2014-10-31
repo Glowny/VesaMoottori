@@ -17,11 +17,11 @@
     <Filter Include="Source Files\STRUCTS">
       <UniqueIdentifier>{2e04c52d-573d-4db9-862a-a6b16098f271}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source Files\RESOURCE MAGE">
+      <UniqueIdentifier>{defdef71-b77c-474e-aad4-c6f09cb1ae25}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="VesaMoottori\ResourceManager.h">
-      <Filter>Source Files</Filter>
-    </ClInclude>
     <ClInclude Include="VesaMoottori\Window.h">
       <Filter>Source Files</Filter>
     </ClInclude>
@@ -40,9 +40,6 @@
     <ClInclude Include="VesaMoottori\lodepng.h">
       <Filter>Source Files\DEPENDENCY</Filter>
     </ClInclude>
-    <ClInclude Include="VesaMoottori\Texture.h">
-      <Filter>Source Files</Filter>
-    </ClInclude>
     <ClInclude Include="VesaMoottori\Sprite.h">
       <Filter>Source Files</Filter>
     </ClInclude>
@@ -52,15 +49,18 @@
     <ClInclude Include="VesaMoottori\vector2i.h">
       <Filter>Source Files\STRUCTS</Filter>
     </ClInclude>
+    <ClInclude Include="VesaMoottori\Texture.h">
+      <Filter>Source Files\RESOURCE MAGE</Filter>
+    </ClInclude>
+    <ClInclude Include="VesaMoottori\ResourceManager.h">
+      <Filter>Source Files\RESOURCE MAGE</Filter>
+    </ClInclude>
     <ClInclude Include="VesaMoottori\Image.h">
-      <Filter>Source Files\TODO</Filter>
+      <Filter>Source Files\STRUCTS</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="VesaMoottori\Main.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="VesaMoottori\ResourceManager.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="VesaMoottori\Window.cpp">
@@ -75,14 +75,17 @@
     <ClCompile Include="VesaMoottori\lodepng.cpp">
       <Filter>Source Files\DEPENDENCY</Filter>
     </ClCompile>
-    <ClCompile Include="VesaMoottori\Texture.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="VesaMoottori\ShaderProgram.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="VesaMoottori\Sprite.cpp">
       <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="VesaMoottori\Texture.cpp">
+      <Filter>Source Files\RESOURCE MAGE</Filter>
+    </ClCompile>
+    <ClCompile Include="VesaMoottori\ResourceManager.cpp">
+      <Filter>Source Files\RESOURCE MAGE</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

@@ -48,18 +48,8 @@ int main()
 	GLuint vertexBuffer = buffer.CreateBuffers(triangleData, sizeof(triangleData));
 	GLuint indexBuffer = buffer.CreateBuffers(indexData, sizeof(indexData));
 
-	glClearColor(0.0f, 0.8f, 0.0f, 0.0f);
-	glEnable(GL_BLEND);
-	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-
 	resourceManager.LoadPicture("goofy.png");
 	texture = Texture(resourceManager.FindImage("goofy.png"));
-
-
-	//resourceManager.RLoadImage("goofy.png");
-	//ImageInfo *image= resourceManager.FindImage("goofy.png");
-	//GLuint texture = textureManager.CreateTexture(*image);
-	//GLuint texture = resourceManager.FindImage("goofy.png");
 
 
 	// Tarkistetaan attribuuttien lokaatio.
@@ -75,14 +65,13 @@ int main()
 			if (messages.message == WM_QUIT)
 			{
 				isRunning = false;
-				//wglDeleteContext(hGLRC); // Tuhotaan renderöinti sisältö - pitää vielä koodata windowiin.
 				break;
 			}
 
 			DispatchMessage(&messages);
 			pekka.Update();
+			pekka.Draw();
 			shaders.RunProgram();
-			glClear(GL_COLOR_BUFFER_BIT);
 
 			glBindBuffer(GL_ARRAY_BUFFER, vertexBuffer);
 			glVertexAttribPointer(posLocation, 2u, GL_FLOAT, GL_FALSE, 7 * sizeof(GLfloat), reinterpret_cast<GLvoid*>(0));
@@ -100,12 +89,12 @@ int main()
 			glBindTexture(GL_TEXTURE_2D, 0u);
 			glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0u);
 			glBindBuffer(GL_ARRAY_BUFFER, 0u);
-			glUseProgram(0);
 		}
 	}
 
-	//glDeleteTextures(1, &texture);
-	glDeleteBuffers(1, &vertexBuffer);
-	glDeleteBuffers(1, &indexBuffer);
 	return (int) messages.wParam;
 }
+
+
+//glDeleteTextures(1, &texture);
+//glUseProgram(0);
