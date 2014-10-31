@@ -36,7 +36,7 @@ public:
 	
 
 private:
-	char *ShaderReader(std::string fileName);
+//	char *ShaderReader(std::string fileName);
 	GLuint glObject;
 	bool created;
 };
