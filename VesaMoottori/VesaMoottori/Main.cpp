@@ -24,7 +24,7 @@ static const GLfloat triangleData[] =
 	1.0f, 0.0f
 };
 
-static const GLuint indexData[] = { 0, 1, 2, 3 };
+static const GLuint indexData[] = { 0, 1, 2, 0, 2, 3 };
 
 int main()
 {
@@ -95,7 +95,7 @@ int main()
 
 			glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, indexBuffer);
 			glBindTexture(GL_TEXTURE_2D, texture.GetTexture());
-			glDrawElements(GL_QUADS, 4u, GL_UNSIGNED_INT, reinterpret_cast<GLvoid*>(0));
+			glDrawElements(GL_TRIANGLES, 6u, GL_UNSIGNED_INT, reinterpret_cast<GLvoid*>(0));
 
 			glBindTexture(GL_TEXTURE_2D, 0u);
 			glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0u);
