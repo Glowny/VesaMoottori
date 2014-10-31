@@ -1,10 +1,8 @@
 #include "Sprite.h"
 
 
-Sprite::Sprite(std::vector<unsigned char> decodedTexture, vector2i textureSize)
+Sprite::Sprite(Image img)
 {
-	_texture = decodedTexture;
-	_textureSize = textureSize;
 	_position = vector2i(0, 0);
 	_sourceRectSize = _textureSize;
 	_sourceRectPosition = vector2i(0, 0);
@@ -14,11 +12,12 @@ Sprite::Sprite(std::vector<unsigned char> decodedTexture, vector2i textureSize)
 
 std::vector<unsigned char> Sprite::getTexture()
 {
-	return _texture;
+	return _image.decodedImage;
 }
 vector2i Sprite::getTextureSize()
 {
-	return _textureSize;
+	vector2i size(_image.width, _image.height);
+	return size;
 }
 
 void Sprite::setPosition(vector2i position)
@@ -78,22 +77,22 @@ float Sprite::getColorB()
 
 GLfloat* Sprite::getVertexData()
 {
-
+	// nelikulmioita vain piirrett‰v‰n‰ atm. T‰h‰n setteri? Jostakin pit‰‰ saada koko-tiedot.
 	GLfloat AVERTEX_DATA[28] =
 	{
-		_position.x, _position.y,
+		_position.x-_origin.x, _position.y-_origin.y,
 		_red, _blue, _green,
 		0.0f, -1.0f,
 
-		_position.x, _position.y + _sourceRectSize.y,
+		_position.x-_origin.x, _position.y-_origin.y + _sourceRectSize.y,
 		_red, _blue, _green,
 		0.0f, 0.0f,
 
-		_sourceRectSize.x + _position.x, _sourceRectSize.y + _position.y,
+		_position.x + _sourceRectSize.x - _origin.x, _position.y + _sourceRectSize.y - _origin.y,
 		_red, _blue, _green,
 		1.0f, 0.0f,
 
-		_sourceRectSize.x + _position.x, _position.y,
+		_position.x + _sourceRectSize.x - _origin.x, _position.y - _origin.y,
 		_red, _blue, _green,
 		1.0f, -1.0f
 	};
@@ -103,7 +102,15 @@ GLfloat* Sprite::getVertexData()
 	}
 	return &VERTEX_DATA[0];
 }
-
+GLfloat* Sprite::getIndexData()
+{
+	GLfloat AINDEX_DATA [] = { 0, 1, 2, 0, 2, 3 };	// Nelikulmio piirrettyn‰ kahdella kolmiolla, kustomoitavissa t‰m‰, esim setteri?
+	for (int i = 0; i < 6; i++)
+	{
+		INDEX_DATA[i] = AINDEX_DATA[i];
+	}
+	return INDEX_DATA;
+}
 
 Sprite::~Sprite()
 {
