@@ -20,6 +20,7 @@ public:
 	//char* LoadShader(std::string filename);		//palauttaa tällä hetkellä shaderin & uppii shadermappiin
 	//char* FindShader(std::string filename);		//palauttaa shaderin shadermapista
 
+	void CreateTexture(Image *image);
 	GLuint GetTexture() { return texture; }
 	char *ShaderReader(std::string fileName);
 
