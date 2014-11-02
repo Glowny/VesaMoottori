@@ -43,7 +43,7 @@ int main()
 
 	Resources.LoadPicture("goofy.png");
 	Gooby = Resources.CreateTexture("goofy.png", "gooby");
-	Gooby->CreateBuffer(triangleData, 28, indexData, 6);
+	Gooby->CreateBuffer(triangleData, sizeof(triangleData), indexData, sizeof(indexData));
 
 
 	// Tarkistetaan attribuuttien lokaatio.
