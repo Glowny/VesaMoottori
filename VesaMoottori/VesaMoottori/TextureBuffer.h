@@ -1,6 +1,6 @@
 #pragma once
 #include <GL\glew.h>
-struct SpriteBuffer
+struct TextureBuffer
 {
 	GLuint arrayLocation;
 	GLsizei dataSize;

@@ -47,7 +47,7 @@ bool GraphicsDevice::Glew()
 		return false;
 	}
 
-	glClearColor(0.0f, 0.8f, 0.0f, 0.0f);
+	glClearColor(0.0f, 1.0f, 0.0f, 0.0f);
 	glEnable(GL_BLEND);
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
@@ -65,7 +65,7 @@ void GraphicsDevice::Show()
 	ShowWindow(window.GetHandle(), SW_SHOWNORMAL);
 }
 
-void GraphicsDevice::Draw()
+void GraphicsDevice::Clear()
 {
 	glClear(GL_COLOR_BUFFER_BIT);
 }

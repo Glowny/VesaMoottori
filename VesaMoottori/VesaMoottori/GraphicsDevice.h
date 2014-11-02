@@ -18,7 +18,7 @@ public:
 	bool Register();
 	void Update();
 	void Show();
-	void Draw();
+	void Clear();
 	bool Glew(); // Voisi muokata testaamaan muita GL-versioita.
 	~GraphicsDevice() {};
 

@@ -1,21 +1,14 @@
 #include "ShaderProgram.h"
-#include "ResourceManager.h"
 #include <iostream>
 #include <fstream>
-
-ResourceManager resourceManager;
 
 ShaderProgram::ShaderProgram()
 {
 	created = false;
 	glObject = 0;
-
-	//Luodaan uusi glProgram.
-	//Shaders.insert(std::make_pair(programName, glObject));	// Ja tungetaan se mappiin nimellä.
-	//HUOM: Jos tehdää CreateProgram funktio niin nämä sinne ^
 }
 
-bool ShaderProgram::CreateShader(std::string textFile, GLenum type)
+bool ShaderProgram::AddShader(char* shaderCode, GLenum type)
 {
 	if(!created)
 	{
@@ -26,18 +19,18 @@ bool ShaderProgram::CreateShader(std::string textFile, GLenum type)
 	GLuint newShader = glCreateShader(type); // Luodaan tyhjä shaderi.
 	GLint linkCheck = NULL;
 
-	char *code = resourceManager.ShaderReader(textFile); // Luetaan koodi ennalta luetusta .txt filusta.
-	if (code == NULL) // Tarkistetaan onnistuiko lukeminen.
+	/*char *code = resourceManager.ShaderReader(textFile); // Luetaan koodi ennalta luetusta .txt filusta.
+	if (shaderCode == NULL) // Tarkistetaan onnistuiko lukeminen.
 	{
 		std::cout << "Ongelmia " << textFile << " lukemisesssa." << std::endl;
 		return false;
-	}
+	}*/
 
-	glShaderSource(newShader, 1, &code, NULL); // Lisätään shaderin koodi itse shaderiin.
+	glShaderSource(newShader, 1, &shaderCode, NULL); // Lisätään shaderin koodi itse shaderiin.
 	glCompileShader(newShader); // Kompiloidaan shadereiden koodit.
 
 	glGetShaderiv(newShader, GL_COMPILE_STATUS, &linkCheck); // Testataan onnistuiko kompilointi.
-	std::cout << textFile << " compile: " << linkCheck << std::endl;
+	std::cout << type << " compile: " << linkCheck << std::endl;
 	if (linkCheck == 0)
 		return false;
 
@@ -56,47 +49,3 @@ bool ShaderProgram::LinkProgram()
 	else
 		return true;
 }
-
-
-//char* ShaderProgram::ShaderReader(std::string fileName)
-//{
-//	// Avataan luettava tiedosto ja tarkistetaan onnistuminen.
-//	std::ifstream readFile(fileName, std::ios::in);
-//
-//	/* if (readFile.is_open())
-//		std::cout << "Opening file: " << fileName << std::endl;
-//	else
-//	{
-//		std::cout << "Could not open file: " << fileName << std::endl;
-//		return NULL;
-//	} Kommentoidaan check-spammia vähän pois. */
-//
-//	if (!readFile.is_open())
-//		return NULL;
-//
-//	// Luettavan tiedoston pituus.
-//	readFile.seekg(0, readFile.end); // Pistetään char position filun loppuun.
-//	int fileLength = (int)readFile.tellg(); // Pistetään pituus ylös.
-//	readFile.seekg(0, readFile.beg); // Positio takasin alkuun.
-//
-//	/* if (fileLength == 0)
-//	{
-//		std::cout << "ERROR: Luettavan tiedoston pituus 0." << std::endl;
-//		return NULL;
-//	}
-//	else
-//		std::cout << "Luettavan tiedoston pituus: " << fileLength << std::endl; */
-//
-//	if (fileLength == 0)
-//		return NULL;
-//
-//	std::string fileContents((std::istreambuf_iterator<char>(readFile)),
-//		std::istreambuf_iterator<char>()); // Kopioidaan tiedoston sisältö stringiin.
-//	char *tempChar = new char[fileContents.length() + 1];
-//	std::strcpy(tempChar, fileContents.c_str()); // Kopioidaan tiedoston sisällöt dynaamisesti luotuun char-merkkijonoon.
-//
-//	//std::cout << "Closing file: " << fileName << std::endl;
-//
-//	readFile.close();
-//	return tempChar;
-//}

@@ -17,7 +17,7 @@ public:
 	ShaderProgram();
 	~ShaderProgram() {};
 
-	bool CreateShader(std::string textFile, GLenum type);
+	bool AddShader(char* shaderCode, GLenum type);
 	bool LinkProgram();
 
 	void RunProgram() {
@@ -33,10 +33,8 @@ public:
 		std::cout << "Searching for " << attributeName << ", location is: " << tempLocation << std::endl;
 		return tempLocation;
 	}
-	
 
 private:
-//	char *ShaderReader(std::string fileName);
 	GLuint glObject;
 	bool created;
 };
