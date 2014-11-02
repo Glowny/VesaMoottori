@@ -1,19 +1,10 @@
 #include <GL\glew.h>
-#include "SpriteBuffer.h"
-
+#include "TextureBuffer.h"
 class Buffers
 {
 public:
-
-	GLuint CreateBuffers(const void *bufferData, GLsizei bufferSize);
-	GLuint CreateIndexBuffers(const void *bufferData, GLsizei bufferSize); // !!!
-	GLuint BindBuffers(GLuint bufferName);
-	GLuint UnBindBuffers();
-	GLuint GetBuffer(GLuint target);
-
-	SpriteBuffer CreateSpriteBuffer(const void *data, GLsizei dataSize, const void *index, GLsizei indexSize);
-
-
+	//SpriteBuffer CreateSpriteBuffer(const void *data, GLsizei dataSize, const void *index, GLsizei indexSize);
+	TextureBuffer CreateTextureBuffer(const void *data, GLsizei dataSize, const void *index, GLsizei indexSize);
 };
 
 //GLuint CreateBuffers(const void *bufferData, GLsizei bufferSize);

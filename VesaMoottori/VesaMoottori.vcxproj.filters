@@ -20,15 +20,15 @@
     <Filter Include="Source Files\RESOURCE MAGE">
       <UniqueIdentifier>{defdef71-b77c-474e-aad4-c6f09cb1ae25}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source Files\SCRAP">
+      <UniqueIdentifier>{94191c3a-a871-4736-9f18-7bbd0c81ea8f}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="VesaMoottori\Window.h">
       <Filter>Source Files</Filter>
     </ClInclude>
     <ClInclude Include="VesaMoottori\GraphicsDevice.h">
-      <Filter>Source Files</Filter>
-    </ClInclude>
-    <ClInclude Include="VesaMoottori\Buffers.h">
       <Filter>Source Files</Filter>
     </ClInclude>
     <ClInclude Include="VesaMoottori\Assert.h">
@@ -46,9 +46,6 @@
     <ClInclude Include="VesaMoottori\ShaderProgram.h">
       <Filter>Source Files</Filter>
     </ClInclude>
-    <ClInclude Include="VesaMoottori\vector2i.h">
-      <Filter>Source Files\STRUCTS</Filter>
-    </ClInclude>
     <ClInclude Include="VesaMoottori\Texture.h">
       <Filter>Source Files\RESOURCE MAGE</Filter>
     </ClInclude>
@@ -58,8 +55,14 @@
     <ClInclude Include="VesaMoottori\Image.h">
       <Filter>Source Files\STRUCTS</Filter>
     </ClInclude>
-    <ClInclude Include="VesaMoottori\SpriteBuffer.h">
+    <ClInclude Include="VesaMoottori\vector2.h">
       <Filter>Source Files\STRUCTS</Filter>
+    </ClInclude>
+    <ClInclude Include="VesaMoottori\TextureBuffer.h">
+      <Filter>Source Files\STRUCTS</Filter>
+    </ClInclude>
+    <ClInclude Include="VesaMoottori\Buffers.h">
+      <Filter>Source Files\SCRAP</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -70,9 +73,6 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="VesaMoottori\GraphicsDevice.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="VesaMoottori\Buffers.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="VesaMoottori\lodepng.cpp">
@@ -89,6 +89,9 @@
     </ClCompile>
     <ClCompile Include="VesaMoottori\ResourceManager.cpp">
       <Filter>Source Files\RESOURCE MAGE</Filter>
+    </ClCompile>
+    <ClCompile Include="VesaMoottori\Buffers.cpp">
+      <Filter>Source Files\SCRAP</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

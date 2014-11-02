@@ -1,7 +1,27 @@
 #include "Buffers.h"
 #include <iostream>
 
-SpriteBuffer Buffers::CreateSpriteBuffer(const void *data, GLsizei dataSize, const void *index, GLsizei indexSize)
+TextureBuffer Buffers::CreateTextureBuffer(const void *data, GLsizei dataSize, const void *index, GLsizei indexSize)
+{
+	GLuint buffer;
+	TextureBuffer tempBuffer;
+	tempBuffer.dataSize = dataSize;
+	tempBuffer.indexSize = indexSize;
+
+	glGenBuffers(1, &buffer); // Returns a list of integers that are not currently used as buffer names.
+	glBindBuffer(GL_ARRAY_BUFFER, buffer); // Buffer created on bind.
+	glBufferData(GL_ARRAY_BUFFER, dataSize, data, GL_STATIC_DRAW);
+	tempBuffer.arrayLocation = buffer;
+
+	glGenBuffers(1, &buffer);
+	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, buffer);
+	glBufferData(GL_ELEMENT_ARRAY_BUFFER, indexSize, index, GL_STATIC_DRAW);
+	tempBuffer.elementArrayLocation = buffer;
+
+	return tempBuffer;
+}
+
+/*SpriteBuffer Buffers::CreateSpriteBuffer(const void *data, GLsizei dataSize, const void *index, GLsizei indexSize)
 {
 	GLuint buffer;
 	SpriteBuffer tempBuffer;
@@ -21,7 +41,7 @@ SpriteBuffer Buffers::CreateSpriteBuffer(const void *data, GLsizei dataSize, con
 	return tempBuffer;
 }
 
-/* GLuint Buffers::CreateBuffers(const void *bufferData, GLsizei bufferSize)
+ GLuint Buffers::CreateBuffers(const void *bufferData, GLsizei bufferSize)
 {
 	GLuint buffer;
 	glGenBuffers(1, &buffer);
@@ -75,4 +95,3 @@ GLuint Buffers::CreateIndexBuffers(const void *bufferData, GLsizei bufferSize)
 	glBufferData(GL_ELEMENT_ARRAY_BUFFER, bufferSize, bufferData, GL_STATIC_DRAW);
 	return buffer;
 } */
-

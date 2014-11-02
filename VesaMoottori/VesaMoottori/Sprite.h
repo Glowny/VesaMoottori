@@ -1,15 +1,16 @@
 #pragma once
-#include "vector2i.h"
 #include <vector>
+#include "vector2.h"
 #include "GL\glew.h"
-#include "Image.h"
+#include "Texture.h"
+
 class Sprite
 {
 public:
 	Sprite();
+	~Sprite() {};
 
-	void setImage(Image *img);
-	// VAI getImage?;
+	/*void setImage(Image *img);
 	std::vector<unsigned char> getTexture();
 	vector2f getTextureSize();
 
@@ -19,7 +20,7 @@ public:
 	void setSourceRPosition(vector2f position);
 	vector2f getSourceRPosition();
 
-	void setSourceRSize(vector2f size);	// näille pitää keksiä joku käyttö
+	void setSourceRSize(vector2f size);
 	vector2f getSourceRSize();
 
 	void setOrigin(vector2f origin);
@@ -32,20 +33,19 @@ public:
 	float getColorB();
 
 	GLfloat* getVertexData();
-	GLuint* getIndexData();
-	// ROTATE?
-	~Sprite();
+	GLuint* getIndexData();*/
+
 private:
+	Texture *texture;
+	GLfloat *vertexData;
+	GLuint *indexData;
+	vector2f position;
+	vector2f origin;
+	GLfloat red, blue, green;
 
-	Image _image;
-	vector2f _position;
-	vector2f _sourceRectSize;
-	vector2f _sourceRectPosition;
-	vector2f _origin;
-	float _red, _blue, _green;
-
-
+	/*vector2f sourceRectSize;
+	vector2f sourceRectPosition;
 	GLfloat VERTEX_DATA[28];
-	GLuint INDEX_DATA[6];
+	GLuint INDEX_DATA[6];*/
 };
 

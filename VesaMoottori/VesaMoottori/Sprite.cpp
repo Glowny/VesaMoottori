@@ -1,7 +1,18 @@
 #include "Sprite.h"
 
-
 Sprite::Sprite()
+{
+	texture = NULL;
+	vertexData = NULL;
+	indexData = NULL;
+	position = vector2f(0.0f, 0.0f);
+	origin = vector2f(0.0f, 0.0f);
+	red = 1.0f;
+	blue = 1.0f;
+	green = 1.0f;
+}
+
+/*Sprite::Sprite()
 {
 	_sourceRectSize.x = 0.0f;
 	_sourceRectSize.y = 0.0f;
@@ -22,6 +33,7 @@ std::vector<unsigned char> Sprite::getTexture()
 {
 	return _image.decodedImage;
 }
+
 vector2f Sprite::getTextureSize()
 {
 	vector2f size(_image.width, _image.height);
@@ -64,20 +76,24 @@ vector2f Sprite::getOrigin()
 {
 	return _origin;
 }
+
 void Sprite::setColorRGB(float red, float blue, float green)
 {
 	_red = red;
 	_blue = blue;
 	_green = green;
 }
+
 float Sprite::getColorR()
 {
 	return _red;
 }
+
 float Sprite::getColorG()
 {
 	return _green;
 }
+
 float Sprite::getColorB()
 {
 	return _blue;
@@ -109,9 +125,8 @@ GLfloat* Sprite::getVertexData()
 		VERTEX_DATA[i] = vertex[i];
 
 	return &VERTEX_DATA[0];
-
-
 }
+
 GLuint* Sprite::getIndexData()
 {
 
@@ -122,10 +137,4 @@ GLuint* Sprite::getIndexData()
 		INDEX_DATA[i] = index[i];
 
 	return &INDEX_DATA [0];
-
-}
-
-Sprite::~Sprite()
-{
-
-}
+}*/

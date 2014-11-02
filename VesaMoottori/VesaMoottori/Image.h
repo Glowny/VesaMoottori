@@ -12,4 +12,10 @@ struct Image
 		width = Width;
 		height = Height;
 	}
+
+	Image()
+	{
+		width = 0;
+		height = 0;
+	}
 };

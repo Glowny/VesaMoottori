@@ -38,39 +38,49 @@ bool ResourceManager::LoadPicture(std::string fileName)
 	}
 }
 
-Image* ResourceManager::FindImage(std::string fileName)
+Image* ResourceManager::FindImage(std::string pictureName)
 {
-	unsigned int hashedImageName = MyHasher(fileName);
+	unsigned int hashedImageName = MyHasher(pictureName);
 
 	std::map<unsigned int, Image>::iterator it = decodedImages.find(hashedImageName);
 	if (decodedImages.end() != it)
 		return &it->second;
 	else
 	{
-		std::cout << "Ei löydetty kuvaa: " << fileName << std::endl;
+		std::cout << "Ei löydetty kuvaa: " << pictureName << std::endl;
 		return NULL;
 	}
 }
 
-void ResourceManager::CreateTexture(Image *image)
+unsigned int ResourceManager::MyHasher(std::string filename)
 {
-	glGenTextures(1, &texture);
-	glBindTexture(GL_TEXTURE_2D, texture);
+	std::hash<std::string> Hasher;
+	unsigned int hash = Hasher(filename);
+	return hash;
+}
 
-	// Texture class sisältää kuvan tiedot.
-	//this->width = width;
-	//this->height = height;
-	//this->image = image;
+Texture* ResourceManager::CreateTexture(std::string pictureName, std::string textureName)
+{
+	Texture tempTexture = Texture(FindImage(pictureName)); // Luodaan tekstuuri kuvan perusteella.
+	textures.insert(std::pair<std::string, Texture>(textureName, tempTexture)); // Lisätään texture-mappiin.
+	return &textures[textureName]; // Palautetaan suoraan pointteri luotuun tekstuuriin.
+}
 
-	// Ei ole hyvin kustomoitu tämä texture.
-	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA,
-		image->width,
-		image->height,
-		0, GL_RGBA, GL_UNSIGNED_BYTE,
-		image->decodedImage.data());
+Texture* ResourceManager::FindTexture(std::string textureName)
+{
+	return &textures[textureName];
+}
 
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-	glBindTexture(GL_TEXTURE_2D, 0u);
+char* ResourceManager::LoadShader(std::string fileName, std::string shaderName)
+{
+	char *code = ShaderReader(fileName);
+	shaders.insert(std::pair<std::string, char*>(shaderName, code));
+	return shaders[shaderName];
+}
+
+char* ResourceManager::FindShader(std::string shaderName)
+{
+	return shaders[shaderName];
 }
 
 char* ResourceManager::ShaderReader(std::string fileName)
@@ -86,7 +96,7 @@ char* ResourceManager::ShaderReader(std::string fileName)
 	return NULL;
 	} Kommentoidaan check-spammia vähän pois. */
 
-	if (!readFile.is_open())
+	if(!readFile.is_open())
 		return NULL;
 
 	// Luettavan tiedoston pituus.
@@ -102,11 +112,11 @@ char* ResourceManager::ShaderReader(std::string fileName)
 	else
 	std::cout << "Luettavan tiedoston pituus: " << fileLength << std::endl; */
 
-	if (fileLength == 0)
+	if(fileLength == 0)
 		return NULL;
 
 	std::string fileContents((std::istreambuf_iterator<char>(readFile)),
-		std::istreambuf_iterator<char>()); // Kopioidaan tiedoston sisältö stringiin.
+							 std::istreambuf_iterator<char>()); // Kopioidaan tiedoston sisältö stringiin.
 	char *tempChar = new char[fileContents.length() + 1];
 	std::strcpy(tempChar, fileContents.c_str()); // Kopioidaan tiedoston sisällöt dynaamisesti luotuun char-merkkijonoon.
 
@@ -116,15 +126,7 @@ char* ResourceManager::ShaderReader(std::string fileName)
 	return tempChar;
 }
 
-unsigned int ResourceManager::MyHasher(std::string filename)
-{
-	std::hash<std::string> Hasher;
-	unsigned int hash = Hasher(filename);
-	return hash;
-}
-
-
-/* char* ResourceManager::FindShader(std::string filename)
+/*char* ResourceManager::FindShader(std::string filename)
 {
 	unsigned int  hashedShaderName = MyHasher(filename);
 	std::map < unsigned int, char* >::iterator it = shaders.find(hashedShaderName);
