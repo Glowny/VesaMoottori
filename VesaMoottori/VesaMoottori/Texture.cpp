@@ -1,12 +1,18 @@
 #include "Texture.h"
 
-GLfloat Texture::vertexData[16] = { 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f,
-0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f };
-
-const GLuint Texture::indexData[6] = { 0, 1, 2, 0, 2, 3 };
-
-Texture::Texture(Image *image, float position, float size)
+Texture::Texture(Image *image, vector2f position, float scale)
 {
+	(this->scale) = scale;
+	(this->position) = position;
+
+	//indexData[6] = { 0, 1, 2, 0, 2, 3 };
+	// PositionX PositionY TextureX TextureY
+	GLfloat tempData[16] = { 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 1.0f,
+		0.0f, 0.0f, 1.0f, 1.0f, 0.0f, 0.0f, 1.0f, 0.0f };
+	vertexData = tempData;
+
+	SetPosition(position);
+
 	glGenTextures(1, &textureIndex);
 	glBindTexture(GL_TEXTURE_2D, textureIndex);
 
@@ -19,7 +25,22 @@ Texture::Texture(Image *image, float position, float size)
 		image->decodedImage.data());
 
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+
+	CreateBuffer(vertexData, sizeof(vertexData), indexData, sizeof(indexData));
+
 	glBindTexture(GL_TEXTURE_2D, 0u);
+}
+
+void Texture::SetPosition(vector2f position)
+{
+	vertexData[0] = position.x;
+	vertexData[1] = position.y;
+	vertexData[4] = position.x;
+	vertexData[5] = position.y + scale;
+	vertexData[8] = position.x + scale;
+	vertexData[9] = position.y + scale;
+	vertexData[12] = position.x + scale;
+	vertexData[13] = position.y;
 }
 
 void Texture::CreateBuffer(const void *data, GLsizei dataSize, const void *index, GLsizei indexSize)

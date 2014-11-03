@@ -3,21 +3,31 @@
 #include "lodepng.h"
 #include "Image.h"
 #include "TextureBuffer.h"
+#include "vector2.h"
 
 class Texture
 {
 public:
 	Texture() {}; // Default konstruktoria ei tueta atm.
-	Texture(Image *image, float position, float size);
+	Texture(Image *image, vector2f position, float scale);
 	void Draw();
+
+	void SetPosition(vector2f position);
+	void SetScale(float scale) {
+		(this->scale) = scale;
+	}
+
 	void CreateBuffer(const void *data, GLsizei dataSize, const void *index, GLsizei indexSize);
 	GLuint GetTexture() { return textureIndex; } // Palauttaa bindatun indeksin textureen.
 	//void DestroyTexture(GLuint index);
-	~Texture() {};
+	~Texture() { delete vertexData; };
 
 private:
 	TextureBuffer buffer;
 	GLuint textureIndex; // Texturen bindattu indeksi.
-	static GLfloat vertexData[16];
-	static const GLuint indexData[6];
+	GLfloat scale;
+	vector2f position;
+
+	GLfloat *vertexData;
+	const GLuint indexData[6] = { 0, 1, 2, 0, 2, 3 };
 };

@@ -4,26 +4,26 @@
 #include "ShaderProgram.h"
 //#include "Sprite.h"
 
-static const GLfloat triangleData[] =
-{
-	-0.8f, -0.8f,		// Positio.
-	0.0f, 0.0f, 0.0f,	// Väri.
-	0.0f, 0.0f,			// Tekstuuri.
-
-	-0.8f, 0.8f,
-	0.0f, 0.0f, 0.0f,
-	0.0f, 1.0f,
-
-	0.8f, 0.8f,
-	0.0f, 0.0f, 0.0f,
-	1.0f, 1.0f,
-
-	0.8f, -0.8f,
-	0.0f, 0.0f, 0.0f,
-	1.0f, 0.0f
-};
-
-static const GLuint indexData[] = { 0, 1, 2, 0, 2, 3 };
+//static const GLfloat triangleData[] =
+//{
+//	-0.8f, -0.8f,		// Positio.
+//	0.0f, 0.0f, 0.0f,	// Väri.
+//	0.0f, 0.0f,			// Tekstuuri.
+//
+//	-0.8f, 0.8f,
+//	0.0f, 0.0f, 0.0f,
+//	0.0f, 1.0f,
+//
+//	0.8f, 0.8f,
+//	0.0f, 0.0f, 0.0f,
+//	1.0f, 1.0f,
+//
+//	0.8f, -0.8f,
+//	0.0f, 0.0f, 0.0f,
+//	1.0f, 0.0f
+//};
+//
+//static const GLuint indexData[] = { 0, 1, 2, 0, 2, 3 };
 
 int main()
 {
@@ -43,7 +43,7 @@ int main()
 
 	Resources.LoadPicture("goofy.png");
 	Gooby = Resources.CreateTexture("goofy.png", "gooby");
-	Gooby->CreateBuffer(triangleData, sizeof(triangleData), indexData, sizeof(indexData));
+	//Gooby->CreateBuffer(triangleData, sizeof(triangleData), indexData, sizeof(indexData));
 
 
 	// Tarkistetaan attribuuttien lokaatio.
