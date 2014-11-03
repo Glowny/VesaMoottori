@@ -1,6 +1,11 @@
 #include "Texture.h"
 
-Texture::Texture(Image *image)
+GLfloat Texture::vertexData[16] = { 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f,
+0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f };
+
+const GLuint Texture::indexData[6] = { 0, 1, 2, 0, 2, 3 };
+
+Texture::Texture(Image *image, float position, float size)
 {
 	glGenTextures(1, &textureIndex);
 	glBindTexture(GL_TEXTURE_2D, textureIndex);

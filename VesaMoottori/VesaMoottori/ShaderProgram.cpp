@@ -30,7 +30,7 @@ bool ShaderProgram::AddShader(char* shaderCode, GLenum type)
 	glCompileShader(newShader); // Kompiloidaan shadereiden koodit.
 
 	glGetShaderiv(newShader, GL_COMPILE_STATUS, &linkCheck); // Testataan onnistuiko kompilointi.
-	std::cout << type << " compile: " << linkCheck << std::endl;
+	std::cout << "AddShader type (" << type << ") compile: " << linkCheck << std::endl;
 	if (linkCheck == 0)
 		return false;
 
