@@ -61,7 +61,7 @@ unsigned int ResourceManager::MyHasher(std::string filename)
 
 Texture* ResourceManager::CreateTexture(std::string pictureName, std::string textureName)
 {
-	Texture tempTexture = Texture(FindImage(pictureName)); // Luodaan tekstuuri kuvan perusteella.
+	Texture tempTexture = Texture(FindImage(pictureName),vector2f(0,0), 1); // Luodaan tekstuuri kuvan perusteella.
 	textures.insert(std::pair<std::string, Texture>(textureName, tempTexture)); // Lis‰t‰‰n texture-mappiin.
 	return &textures[textureName]; // Palautetaan suoraan pointteri luotuun tekstuuriin.
 }

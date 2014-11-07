@@ -9,6 +9,7 @@ class Texture
 {
 public:
 	Texture() {}; // Default konstruktoria ei tueta atm.
+
 	Texture(Image *image, vector2f position, float scale);
 	void Draw();
 
@@ -29,5 +30,6 @@ private:
 	vector2f position;
 
 	GLfloat *vertexData;
-	const GLuint indexData[6] = { 0, 1, 2, 0, 2, 3 };
+	/*const GLuint indexData[6];*/
+	GLuint indexData[6];
 };
