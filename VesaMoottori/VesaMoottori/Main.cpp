@@ -2,6 +2,8 @@
 #include "ResourceManager.h"
 #include "Texture.h"
 #include "ShaderProgram.h"
+//#define NDEBUG	// poista kommentointi tästä niin assertit poistetaan käytöstä.
+#include <cassert>
 //#include "Sprite.h"
 
 //static const GLfloat triangleData[] =
@@ -52,6 +54,9 @@ int main()
 	const GLint colorLocation = Shader.GetAttributeLocation("attrColor");
 	const GLint texLocation = Shader.GetAttributeLocation("textPosition");
 
+	assert(posLocation != -1);
+	assert(colorLocation != -1);
+	assert(texLocation != -1);
 
 	while (isRunning)
 	{

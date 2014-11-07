@@ -1,7 +1,8 @@
 #include "ShaderProgram.h"
 #include <iostream>
 #include <fstream>
-
+//#define NDEBUG	// poista kommentointi tästä niin assertit poistetaan käytöstä.
+#include <cassert>
 ShaderProgram::ShaderProgram()
 {
 	created = false;
@@ -31,6 +32,7 @@ bool ShaderProgram::AddShader(char* shaderCode, GLenum type)
 
 	glGetShaderiv(newShader, GL_COMPILE_STATUS, &linkCheck); // Testataan onnistuiko kompilointi.
 	std::cout << "AddShader type (" << type << ") compile: " << linkCheck << std::endl;
+	assert(linkCheck);	// pistin kaatumaan jos failaa, koska atm missään ei checkata tämän funktion palauttamaa boolia.
 	if (linkCheck == 0)
 		return false;
 
@@ -44,6 +46,7 @@ bool ShaderProgram::LinkProgram()
 	glLinkProgram(glObject); // Linkkaaminen luo executablen shadereihin, jotka siihen on lisätty.
 	glGetProgramiv(glObject, GL_LINK_STATUS, &linkCheck); // Testatataan shadereiden linkkaaminen objektiin.
 	std::cout << "Program [" << glObject << "] linker bool: " << linkCheck << std::endl;
+	assert(linkCheck); // Kaatumaan jos failaa, koska tämän palauttamaa boolia ei checkata atm.
 	if (linkCheck == 0)
 		return false;
 	else
