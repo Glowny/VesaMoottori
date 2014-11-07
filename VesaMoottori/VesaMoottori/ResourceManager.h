@@ -14,8 +14,9 @@ public:
 	bool LoadPicture(std::string fileName); // Lis‰t‰‰n kuva mappiin.
 	Image* FindImage(std::string pictureName); // Haeteaan kuva mapista.
 
-	Texture* CreateTexture(std::string pictureName, std::string textureName);
-	Texture* FindTexture(std::string textureName);
+	//Texture* CreateTexture(std::string pictureName, std::string textureName);
+	Texture* CreateTexture(std::string pictureName, std::string textureName, vector2f position, float scale);
+	//Texture* FindTexture(std::string textureName);
 
 	char* LoadShader(std::string fileName, std::string shaderName);
 	char* FindShader(std::string shaderName);
@@ -29,7 +30,7 @@ public:
 private:
 	unsigned int MyHasher(std::string fileName); // Muuttaa stringin uchariksi.
 	std::map<unsigned int, Image> decodedImages; // Sis‰lt‰‰ ladatut kuvat.
-	std::map<std::string, Texture> textures;
+	std::map<std::string, Texture*> textures;
 	std::map<std::string, char*> shaders;
 	char* ShaderReader(std::string fileName);
 

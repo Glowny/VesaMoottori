@@ -1,22 +1,22 @@
 #include "Texture.h"
 
-
-
 Texture::Texture(Image *image, vector2f position, float scale)
 {
 	(this->scale) = scale;
 	(this->position) = position;
 
-	/*indexData[6] = { 0, 1, 2, 0, 2, 3 };*/  // ei passaa
-	int index[6] = { 0, 1, 2, 0, 2, 3 };
+	//indexData[6] = { 0, 1, 2, 0, 2, 3 };
+	int index[6] = { 0, 1, 2, 0, 2, 3 }; // Indexit neliölle.
 	for (unsigned i = 0; i < 6; ++i)
 		indexData[i] = index[i];
 
-
 	// PositionX PositionY TextureX TextureY
-	GLfloat tempData[16] = { 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 1.0f,
+	GLfloat* vertex = new GLfloat[16]; // Dynaamisesti vertex datat.
+	GLfloat data[16] = { 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 1.0f,
 		0.0f, 0.0f, 1.0f, 1.0f, 0.0f, 0.0f, 1.0f, 0.0f };
-	vertexData = tempData;
+	for(unsigned i = 0; i < 16; ++i) // Alustetaan array.
+		vertex[i] = data[i];
+	vertexData = vertex; // Annettaan lokaatio luokalle.
 
 	SetPosition(position);
 
@@ -32,9 +32,7 @@ Texture::Texture(Image *image, vector2f position, float scale)
 		image->decodedImage.data());
 
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-
 	CreateBuffer(vertexData, sizeof(vertexData), indexData, sizeof(indexData));
-
 	glBindTexture(GL_TEXTURE_2D, 0u);
 }
 

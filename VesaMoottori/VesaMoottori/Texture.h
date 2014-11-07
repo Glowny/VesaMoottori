@@ -30,6 +30,6 @@ private:
 	vector2f position;
 
 	GLfloat *vertexData;
-	/*const GLuint indexData[6];*/
 	GLuint indexData[6];
+	//const GLuint indexData[6];
 };

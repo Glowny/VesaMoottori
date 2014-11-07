@@ -42,7 +42,8 @@ int main()
 	Shader.LinkProgram();
 
 	Resources.LoadPicture("goofy.png");
-	Gooby = Resources.CreateTexture("goofy.png", "gooby");
+	Gooby = Resources.CreateTexture("goofy.png", "gooby", vector2f(100.0f, 100.0f), 200.0f);
+	//Gooby = Resources.CreateTexture("goofy.png", "gooby");
 	//Gooby->CreateBuffer(triangleData, sizeof(triangleData), indexData, sizeof(indexData));
 
 
