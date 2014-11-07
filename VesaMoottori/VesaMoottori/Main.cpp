@@ -43,7 +43,7 @@ int main()
 	Shader.AddShader(Resources.LoadShader("fragmentShader.txt", "fragment"), GL_FRAGMENT_SHADER);
 	Shader.LinkProgram();
 
-	Resources.LoadPicture("goofy.png");
+	Resources.LoadPicture("gooby.png");
 	Gooby = Resources.CreateTexture("goofy.png", "gooby", vector2f(0.0f, 0.0f), 1.0f);
 	//Gooby = Resources.CreateTexture("goofy.png", "gooby");
 	//Gooby->CreateBuffer(triangleData, sizeof(triangleData), indexData, sizeof(indexData));
