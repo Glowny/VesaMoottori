@@ -44,7 +44,7 @@ int main()
 	Shader.LinkProgram();
 
 	Resources.LoadPicture("goofy.png");
-	Gooby = Resources.CreateTexture("goofy.png", "gooby", vector2f(100.0f, 100.0f), 200.0f);
+	Gooby = Resources.CreateTexture("goofy.png", "gooby", vector2f(0.0f, 0.0f), 1.0f);
 	//Gooby = Resources.CreateTexture("goofy.png", "gooby");
 	//Gooby->CreateBuffer(triangleData, sizeof(triangleData), indexData, sizeof(indexData));
 
@@ -62,18 +62,21 @@ int main()
 	{
 		while (PeekMessage(&Messages, NULL, 0, 0, PM_REMOVE)) // Ikkuna ottaa vastaan viestejä.
 		{
+			DispatchMessage(&Messages);
 			if (Messages.message == WM_QUIT)
 			{
 				isRunning = false;
 				break;
 			}
 
-			DispatchMessage(&Messages);
 			Window.Update();
 			Window.Clear();
 
 			Shader.RunProgram();
 			Gooby->Draw();
+
+			//glVertexAttribPointer(posLocation, 2u, GL_FLOAT, GL_FALSE, 4 * sizeof(GLfloat), reinterpret_cast<GLvoid*>(0));
+			//glVertexAttribPointer(texLocation, 2u, GL_FLOAT, GL_FALSE, 4 * sizeof(GLfloat), reinterpret_cast<GLvoid*>(2 * sizeof(GLfloat)));
 
 			glVertexAttribPointer(posLocation, 2u, GL_FLOAT, GL_FALSE, 7 * sizeof(GLfloat), reinterpret_cast<GLvoid*>(0));
 			glVertexAttribPointer(colorLocation, 3u, GL_FLOAT, GL_FALSE, 7 * sizeof(GLfloat), reinterpret_cast<GLvoid*>(2 * sizeof(GLfloat)));

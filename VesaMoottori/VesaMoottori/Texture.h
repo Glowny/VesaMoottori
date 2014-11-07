@@ -21,7 +21,7 @@ public:
 	void CreateBuffer(const void *data, GLsizei dataSize, const void *index, GLsizei indexSize);
 	GLuint GetTexture() { return textureIndex; } // Palauttaa bindatun indeksin textureen.
 	//void DestroyTexture(GLuint index);
-	~Texture() { delete vertexData; };
+	~Texture() {};
 
 private:
 	TextureBuffer buffer;
@@ -29,7 +29,7 @@ private:
 	GLfloat scale;
 	vector2f position;
 
-	GLfloat *vertexData;
+	GLfloat vertexData[28];
 	GLuint indexData[6];
 	//const GLuint indexData[6];
 };

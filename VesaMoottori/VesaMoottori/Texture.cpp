@@ -11,12 +11,26 @@ Texture::Texture(Image *image, vector2f position, float scale)
 		indexData[i] = index[i];
 
 	// PositionX PositionY TextureX TextureY
-	GLfloat* vertex = new GLfloat[16]; // Dynaamisesti vertex datat.
-	GLfloat data[16] = { 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 1.0f,
-		0.0f, 0.0f, 1.0f, 1.0f, 0.0f, 0.0f, 1.0f, 0.0f };
-	for(unsigned i = 0; i < 16; ++i) // Alustetaan array.
-		vertex[i] = data[i];
-	vertexData = vertex; // Annettaan lokaatio luokalle.
+	//GLfloat* vertex = new GLfloat[16]; // Dynaamisesti vertex datat.
+	GLfloat data[28] = { 0.0f, 0.0f,
+		0.0f, 0.0f, 0.0f,
+		0.0f, 0.0f,
+
+		0.0f, 0.0f,
+		0.0f, 0.0f, 0.0f,
+		0.0f, 1.0f,
+
+		0.0f, 0.0f,
+		0.0f, 0.0f, 0.0f, 
+		1.0f, 1.0f,
+		
+		0.0f, 0.0f,
+		0.0f, 0.0f, 0.0f, 
+		1.0f, 0.0f};
+
+	for(unsigned i = 0; i < 28; ++i) // Alustetaan array.
+		vertexData[i] = data[i];
+	//vertexData = vertex; // Annettaan lokaatio luokalle.
 
 	SetPosition(position);
 
@@ -33,19 +47,19 @@ Texture::Texture(Image *image, vector2f position, float scale)
 
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
 	CreateBuffer(vertexData, sizeof(vertexData), indexData, sizeof(indexData));
-	glBindTexture(GL_TEXTURE_2D, 0u);
+	//glBindTexture(GL_TEXTURE_2D, 0u);
 }
 
 void Texture::SetPosition(vector2f position)
 {
 	vertexData[0] = position.x;
 	vertexData[1] = position.y;
-	vertexData[4] = position.x;
-	vertexData[5] = position.y + scale;
-	vertexData[8] = position.x + scale;
-	vertexData[9] = position.y + scale;
-	vertexData[12] = position.x + scale;
-	vertexData[13] = position.y;
+	vertexData[7] = position.x;
+	vertexData[8] = position.y + scale;
+	vertexData[14] = position.x + scale;
+	vertexData[15] = position.y + scale;
+	vertexData[21] = position.x + scale;
+	vertexData[22] = position.y;
 }
 
 void Texture::CreateBuffer(const void *data, GLsizei dataSize, const void *index, GLsizei indexSize)
