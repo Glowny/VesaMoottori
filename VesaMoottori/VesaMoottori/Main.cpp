@@ -2,8 +2,6 @@
 #include "ResourceManager.h"
 #include "Texture.h"
 #include "ShaderProgram.h"
-//#define NDEBUG	// poista kommentointi tästä niin assertit poistetaan käytöstä.
-#include <cassert>
 //#include "Sprite.h"
 
 //static const GLfloat triangleData[] =
@@ -45,7 +43,6 @@ int main()
 
 	Resources.LoadPicture("goofy.png");
 	Gooby = Resources.CreateTexture("goofy.png", "gooby", vector2f(0.0f, 0.0f), 1.0f);
-	//Gooby = Resources.CreateTexture("goofy.png", "gooby");
 	//Gooby->CreateBuffer(triangleData, sizeof(triangleData), indexData, sizeof(indexData));
 
 
@@ -54,29 +51,15 @@ int main()
 	const GLint colorLocation = Shader.GetAttributeLocation("attrColor");
 	const GLint texLocation = Shader.GetAttributeLocation("textPosition");
 
-	assert(posLocation != -1);
-	assert(colorLocation != -1);
-	assert(texLocation != -1);
 
-	while (isRunning)
+	while (Window.IsOpen())
 	{
-		while (PeekMessage(&Messages, NULL, 0, 0, PM_REMOVE)) // Ikkuna ottaa vastaan viestejä.
-		{
-			DispatchMessage(&Messages);
-			if (Messages.message == WM_QUIT)
-			{
-				isRunning = false;
-				break;
-			}
-
+			
 			Window.Update();
 			Window.Clear();
 
 			Shader.RunProgram();
 			Gooby->Draw();
-
-			//glVertexAttribPointer(posLocation, 2u, GL_FLOAT, GL_FALSE, 4 * sizeof(GLfloat), reinterpret_cast<GLvoid*>(0));
-			//glVertexAttribPointer(texLocation, 2u, GL_FLOAT, GL_FALSE, 4 * sizeof(GLfloat), reinterpret_cast<GLvoid*>(2 * sizeof(GLfloat)));
 
 			glVertexAttribPointer(posLocation, 2u, GL_FLOAT, GL_FALSE, 7 * sizeof(GLfloat), reinterpret_cast<GLvoid*>(0));
 			glVertexAttribPointer(colorLocation, 3u, GL_FLOAT, GL_FALSE, 7 * sizeof(GLfloat), reinterpret_cast<GLvoid*>(2 * sizeof(GLfloat)));
@@ -86,10 +69,11 @@ int main()
 			glEnableVertexAttribArray(texLocation);
 
 			glDrawElements(GL_TRIANGLES, 6u, GL_UNSIGNED_INT, reinterpret_cast<GLvoid*>(0));
-		}
+		
 	}
 
-	return (int) Messages.wParam;
+	//return (int) Messages.wParam;
+	return 0;
 }
 
 //glBindTexture(GL_TEXTURE_2D, 0u);

@@ -44,6 +44,9 @@ public:
 	HDC GetDevice() { return deviceContext; }
 	HWND GetHandle() { return windowHandle; }
 	~Window() {};
+	bool IsOpen();
+	bool Close();
+	void Update();
 
 private:
 	wchar_t*				className;
@@ -53,4 +56,7 @@ private:
 	WNDCLASSEX				win;
 	DWORD					style;
 	RECT					clientArea;
+	bool					running;
+	MSG						Messages;
+	
 };

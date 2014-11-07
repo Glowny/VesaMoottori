@@ -18,6 +18,7 @@ bool Window::Register()
 	win.lpszMenuName	= NULL;
 	win.hIconSm			= NULL;
 
+	running				= true;
 	if(!RegisterClassEx(&win)) // Rekisteröidään ikkuna ja tarkistetaan onnistuuko se.
 	{
 		std::cout << "RegisterClassEx failed!" << std::endl;
@@ -62,6 +63,30 @@ void Window::Update()
 	UpdateWindow(hWindow);
 	SwapBuffers(hDC);
 } */
+
+bool Window::IsOpen()
+{
+	return running;
+}
+bool Window::Close()
+{
+	running = false;
+	return running;
+}
+
+void Window::Update()
+{
+	while (PeekMessage(&Messages, NULL, 0, 0, PM_REMOVE)) // Ikkuna ottaa vastaan viestejä.
+	{
+		if (Messages.message == WM_QUIT)
+		{
+			running = false;
+			break;
+		}
+
+		DispatchMessage(&Messages);
+	}
+}
 
 LRESULT CALLBACK Window::WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 {

@@ -15,6 +15,8 @@ public:
 		pixelFormat			= 0;
 	}
 
+	bool IsOpen();
+	bool Close();
 	bool Register();
 	void Update();
 	void Show();

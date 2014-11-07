@@ -58,6 +58,7 @@ void GraphicsDevice::Update()
 {
 	UpdateWindow(window.GetHandle());
 	SwapBuffers(window.GetDevice());
+	window.Update();
 }
 
 void GraphicsDevice::Show()
@@ -68,4 +69,14 @@ void GraphicsDevice::Show()
 void GraphicsDevice::Clear()
 {
 	glClear(GL_COLOR_BUFFER_BIT);
+}
+
+bool GraphicsDevice::IsOpen()
+{
+	return window.IsOpen();
+}
+
+bool GraphicsDevice::Close()
+{
+	return window.Close();
 }
