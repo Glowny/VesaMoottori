@@ -27,7 +27,7 @@ public:
 		std::copy(name.begin(), name.end(), widestr);
 		widestr[name.length] = 0; */
 
-		windowName			= L"TO-DO";
+		windowName			= L"Window";
 		windowHandle		= 0;
 		deviceContext		= 0;
 		style				= 0;
