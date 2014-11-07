@@ -14,19 +14,19 @@ Sprite::Sprite()
 
 /*Sprite::Sprite()
 {
-	_sourceRectSize.x = 0.0f;
-	_sourceRectSize.y = 0.0f;
-	_position = vector2f(0.0f, 0.0f);
-	_sourceRectPosition = vector2f(0.0f, 0.0f);
-	_origin = vector2f(0.0f, 0.0f);
-	_red = 1.0f; _blue = 1.0f; _green = 1.0f;
+	sourceRectSize.x = 0.0f;
+	sourceRectSize.y = 0.0f;
+	position = vector2f(0.0f, 0.0f);
+	sourceRectPosition = vector2f(0.0f, 0.0f);
+	origin = vector2f(0.0f, 0.0f);
+	red = 1.0f; blue = 1.0f; green = 1.0f;
 }
 
 void Sprite::setImage(Image *img)
 {
 	_image = *img;
-	_sourceRectSize.x = _image.width;
-	_sourceRectSize.y = _image.height;
+	_sourceRectSize.x = image.width;
+	_sourceRectSize.y = image.height;
 }
 
 std::vector<unsigned char> Sprite::getTexture()
@@ -46,57 +46,57 @@ void Sprite::setPosition(vector2f position)
 }
 vector2f Sprite::getPosition()
 {
-	return _position;
+	return position;
 }
 
 void Sprite::setSourceRPosition(vector2f position)
 {
-	_sourceRectPosition = position;
+	sourceRectPosition = position;
 }
 vector2f Sprite::getSourceRPosition()
 {
-	return _sourceRectPosition;
+	return sourceRectPosition;
 }
 
 void Sprite::setSourceRSize(vector2f size)
 {
-	_sourceRectSize = size;
+	sourceRectSize = size;
 }
 vector2f Sprite::getSourceRSize()
 {
-	return _sourceRectSize;
+	return sourceRectSize;
 }
 
 void Sprite::setOrigin(vector2f origin)
 {
-	_origin = origin;
+	this->origin = origin;
 }
 
 vector2f Sprite::getOrigin()
 {
-	return _origin;
+	return origin;
 }
 
 void Sprite::setColorRGB(float red, float blue, float green)
 {
-	_red = red;
-	_blue = blue;
-	_green = green;
+	this->red = red;
+	this->blue = blue;
+	this->green = green;
 }
 
 float Sprite::getColorR()
 {
-	return _red;
+	return red;
 }
 
 float Sprite::getColorG()
 {
-	return _green;
+	return green;
 }
 
 float Sprite::getColorB()
 {
-	return _blue;
+	return blue;
 }
 
 GLfloat* Sprite::getVertexData()
@@ -104,20 +104,20 @@ GLfloat* Sprite::getVertexData()
 	//croppaus oisko mit‰‰
 	GLfloat vertex[] = 
 	{
-		_position.x - _origin.x, _position.y - _origin.y,
-		_red, _blue, _green,
+		position.x - origin.x, position.y - origin.y,
+		red, blue, green,
 		0.0f, -1.0f,
 
-		_position.x - _origin.x, _position.y - _origin.y + 0.8f,
-		_red, _blue, _green,
+		position.x - origin.x, position.y - origin.y + 0.8f,
+		red, blue, green,
 		0.0f, 0.0f,
 
-		_position.x + 0.8f - _origin.x, _position.y + 0.8f - _origin.y,
-		_red, _blue, _green,
+		position.x + 0.8f - origin.x, position.y + 0.8f - origin.y,
+		red, blue, green,
 		1.0f, 0.0f,
 
-		_position.x + 0.8f - _origin.x, _position.y - _origin.y,
-		_red, _blue, _green,
+		position.x + 0.8f - origin.x, position.y - origin.y,
+		red, blue, green,
 		1.0f, -1.0f
 	};
 
