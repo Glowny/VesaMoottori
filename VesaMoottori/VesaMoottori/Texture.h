@@ -14,6 +14,10 @@ public:
 	void Draw();
 
 	void SetPosition(vector2f position);
+	vector2f GetSize()
+	{
+		return vector2f(image->width, image->height);
+	}
 	void SetScale(float scale) {
 		(this->scale) = scale;
 	}
@@ -28,7 +32,7 @@ private:
 	GLuint textureIndex; // Texturen bindattu indeksi.
 	GLfloat scale;
 	vector2f position;
-
+	Image *image;
 	GLfloat vertexData[28];
 	GLuint indexData[6];
 	//const GLuint indexData[6];

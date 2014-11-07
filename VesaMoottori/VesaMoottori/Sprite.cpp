@@ -12,8 +12,10 @@ Sprite::Sprite()
 	green = 1.0f;
 }
 
-/*Sprite::Sprite()
+Sprite::Sprite()
 {
+	// SpriteBatchissa tehdään muutokset opengl koordinaatteihin (-1 - 1)
+	// Tähän annetaan pikselikoordinaatit
 	sourceRectSize.x = 0.0f;
 	sourceRectSize.y = 0.0f;
 	position = vector2f(0.0f, 0.0f);
@@ -22,27 +24,22 @@ Sprite::Sprite()
 	red = 1.0f; blue = 1.0f; green = 1.0f;
 }
 
-void Sprite::setImage(Image *img)
+void Sprite::setTexture(Texture *tex)
 {
-	_image = *img;
-	_sourceRectSize.x = image.width;
-	_sourceRectSize.y = image.height;
+	texture = tex;
+	sourceRectSize = tex->GetSize();
+	size = tex->GetSize();
 }
 
-std::vector<unsigned char> Sprite::getTexture()
-{
-	return _image.decodedImage;
-}
 
 vector2f Sprite::getTextureSize()
 {
-	vector2f size(_image.width, _image.height);
-	return size;
+	return texture->GetSize();
 }
 
 void Sprite::setPosition(vector2f position)
 {
-	_position = position;
+	position = position;
 }
 vector2f Sprite::getPosition()
 {
@@ -100,25 +97,31 @@ float Sprite::getColorB()
 }
 
 GLfloat* Sprite::getVertexData()
-{	
-	//croppaus oisko mitää
+{
+	//Nimet saattaa olla vähä vitullaa.
+	vector2f topLeft = ToGLCoord(sourceRectPosition.x, sourceRectPosition.y);
+	vector2f bottomLeft = ToGLCoord(sourceRectPosition.x, sourceRectPosition.y + sourceRectSize.y);
+	vector2f topRight = ToGLCoord(sourceRectPosition.x + sourceRectSize.x, sourceRectPosition.y);
+	vector2f bottomRight = ToGLCoord(sourceRectPosition.x + sourceRectSize.x, sourceRectPosition.y + sourceRectSize.y);
+	// kai ne menee oikein. EI TAKUITA MYÖNNETÄ
+	// sitten pitäs repiä jossakin välissä osiin, ettei KAIKKEA tarvi päivittää yhtä osaa (kuten väriä) muuttaessa,
 	GLfloat vertex[] = 
 	{
 		position.x - origin.x, position.y - origin.y,
 		red, blue, green,
-		0.0f, -1.0f,
+		topLeft.x, topLeft.y,	
 
-		position.x - origin.x, position.y - origin.y + 0.8f,
+		position.x - origin.x, position.y - origin.y + size.y,
 		red, blue, green,
-		0.0f, 0.0f,
+		bottomLeft.x, bottomLeft.y,
 
-		position.x + 0.8f - origin.x, position.y + 0.8f - origin.y,
+		position.x - origin.x + size.x, position.y - origin.y,
 		red, blue, green,
-		1.0f, 0.0f,
+		topRight.x, topRight.y,
 
-		position.x + 0.8f - origin.x, position.y - origin.y,
+		position.x - origin.x + size.x, position.y - origin.y + size.y,
 		red, blue, green,
-		1.0f, -1.0f
+		bottomRight.x, bottomRight.y
 	};
 
 	for (unsigned i = 0; i < 28; ++i)
@@ -137,4 +140,13 @@ GLuint* Sprite::getIndexData()
 		INDEX_DATA[i] = index[i];
 
 	return &INDEX_DATA [0];
-}*/
+}
+
+vector2f Sprite::ToGLCoord(float x, float y)
+{
+	vector2f temp;
+	temp.x = (2 * x / size.x);
+	temp.y = (2 * y / size.y);
+	return temp;
+}
+

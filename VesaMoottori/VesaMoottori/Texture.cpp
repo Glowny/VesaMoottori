@@ -2,6 +2,7 @@
 
 Texture::Texture(Image *image, vector2f position, float scale)
 {
+	this->image = image;
 	(this->scale) = scale;
 	(this->position) = position;
 
@@ -10,9 +11,10 @@ Texture::Texture(Image *image, vector2f position, float scale)
 	for (unsigned i = 0; i < 6; ++i)
 		indexData[i] = index[i];
 
-	// PositionX PositionY Color RGB TextureX TextureY
+	// PositionX PositionY TextureX TextureY
 	//GLfloat* vertex = new GLfloat[16]; // Dynaamisesti vertex datat.
-	GLfloat data[28] = { 0.0f, 0.0f,
+	GLfloat data[28] = {
+		0.0f, 0.0f,
 		0.0f, 0.0f, 0.0f,
 		0.0f, 0.0f,
 

@@ -10,8 +10,7 @@ public:
 	Sprite();
 	~Sprite() {};
 
-	/*void setImage(Image *img);
-	std::vector<unsigned char> getTexture();
+	void setTexture(Texture *tex);
 	vector2f getTextureSize();
 
 	void setPosition(vector2f);
@@ -33,19 +32,21 @@ public:
 	float getColorB();
 
 	GLfloat* getVertexData();
-	GLuint* getIndexData();*/
+	GLuint* getIndexData();
 
 private:
+	vector2f ToGLCoord(float x, float y);
+
 	Texture *texture;
 	GLfloat *vertexData;
 	GLuint *indexData;
 	vector2f position;
 	vector2f origin;
+	vector2f size;
 	GLfloat red, blue, green;
-
-	/*vector2f sourceRectSize;
+	vector2f sourceRectSize;
 	vector2f sourceRectPosition;
 	GLfloat VERTEX_DATA[28];
-	GLuint INDEX_DATA[6];*/
+	GLuint INDEX_DATA[6];
 };
 

@@ -6,7 +6,7 @@
 
 //static const GLfloat triangleData[] =
 //{
-//	-0.8f, -0.8f,		// Positio.
+//	-0.8f, -0.8f,		// iiron ass.
 //	0.0f, 0.0f, 0.0f,	// Väri.
 //	0.0f, 0.0f,			// Tekstuuri.
 //
