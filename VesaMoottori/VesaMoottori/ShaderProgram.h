@@ -34,6 +34,8 @@ public:
 		return tempLocation;
 	}
 
+	void GetAttribPointer(GLuint pos, GLuint color, GLuint tex);
+
 private:
 	GLuint glObject;
 	bool created;
