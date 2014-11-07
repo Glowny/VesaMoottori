@@ -30,7 +30,7 @@
 int main()
 {
 	ResourceManager Resources;
-	Texture			*Gooby;
+	Texture			*GoobyTexture;
 	bool			isRunning = true;
 	MSG				Messages;
 	GraphicsDevice	Window("eitoimicustomnimi", 800, 800);
@@ -44,9 +44,9 @@ int main()
 	Shader.LinkProgram();
 
 	Resources.LoadPicture("goofy.png");
-	Gooby = Resources.CreateTexture("goofy.png", "gooby", vector2f(100.0f, 100.0f), 200.0f);
-	//Gooby = Resources.CreateTexture("goofy.png", "gooby");
-	//Gooby->CreateBuffer(triangleData, sizeof(triangleData), indexData, sizeof(indexData));
+	GoobyTexture = Resources.CreateTexture("goofy.png", "gooby", vector2f(100.0f, 100.0f), 200.0f);
+	//GoobyTexture = Resources.CreateTexture("goofy.png", "gooby");
+	//GoobyTexture->CreateBuffer(triangleData, sizeof(triangleData), indexData, sizeof(indexData));
 
 
 	// Tarkistetaan attribuuttien lokaatio.
@@ -73,7 +73,7 @@ int main()
 			Window.Clear();
 
 			Shader.RunProgram();
-			Gooby->Draw();
+			GoobyTexture->Draw();
 
 			glVertexAttribPointer(posLocation, 2u, GL_FLOAT, GL_FALSE, 7 * sizeof(GLfloat), reinterpret_cast<GLvoid*>(0));
 			glVertexAttribPointer(colorLocation, 3u, GL_FLOAT, GL_FALSE, 7 * sizeof(GLfloat), reinterpret_cast<GLvoid*>(2 * sizeof(GLfloat)));
@@ -92,5 +92,5 @@ int main()
 //glBindTexture(GL_TEXTURE_2D, 0u);
 //glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0u);
 //glBindBuffer(GL_ARRAY_BUFFER, 0u);
-//glDeleteTextures(1, &texture);
+//glDeleteTextures(1, &GoobyTexture);
 //glUseProgram(0);
