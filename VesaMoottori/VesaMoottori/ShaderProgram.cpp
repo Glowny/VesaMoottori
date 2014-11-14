@@ -52,6 +52,7 @@ bool ShaderProgram::LinkProgram()
 	else
 		return true;
 }
+
 void ShaderProgram::GetAttribPointer(GLuint pos,GLuint color, GLuint tex)
 {
 	glVertexAttribPointer(pos, 2u, GL_FLOAT, GL_FALSE, 7 * sizeof(GLfloat),
@@ -64,3 +65,4 @@ void ShaderProgram::GetAttribPointer(GLuint pos,GLuint color, GLuint tex)
 	glEnableVertexAttribArray(color);
 	glEnableVertexAttribArray(tex);
 }
+

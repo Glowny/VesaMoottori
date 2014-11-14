@@ -34,6 +34,10 @@ public:
 		return tempLocation;
 	}
 
+	bool GetLinkStatus() {
+		return glGetProgramiv(glObject, GL_LINK_STATUS);
+	}
+
 	void GetAttribPointer(GLuint pos, GLuint color, GLuint tex);
 
 private:

@@ -5,11 +5,15 @@
 #include "Drawable.h"
 #include "ShaderProgram.h"
 #include "GraphicsDevice.h"
+#include "vector2.h"
 
 class SpriteBatch
 {
 public:
 	SpriteBatch();
+	SpriteBatch(GraphicsDevice &window);
+
+	void Draw();
 
 	void AddSprite(Sprite &sprite);
 	void AddSprite(Sprite &sprite, int order);
@@ -20,24 +24,21 @@ public:
 
 	void SetDevice(GraphicsDevice &window);
 
-	void SetMaxOrder();
-	
-
-	void Draw();
-
 	~SpriteBatch() {};
 
 private:
+	void Sort();
+	std::vector<Drawable>::iterator FindLocation(int order);
+
 	std::vector<Drawable> drawables;
 	ShaderProgram *shaderProgram;
 	GraphicsDevice *graphicsDevice;
-
-	void Sort();
-	void CheckMaxOrder(int newOrder);
-
 	bool changes;
-	int maxOrder;
+	vector2f size;
 
+	//void SetMaxOrder();
+	//void CheckMaxOrder(int newOrder);
+	//int maxOrder;
 	//std::vector<Texture> textures;
 	//std::vector<Sprite> sprites;
 };
