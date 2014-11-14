@@ -13,6 +13,13 @@ SpriteBatch::SpriteBatch(GraphicsDevice &window)
 	size = vector2f((float)window.GetWindowSize().x, (float)window.GetWindowSize().y);
 }
 
+void SpriteBatch::DrawPrepare()
+{
+	// 1: Set Sprite/Texture Locations
+	// ???
+	// Profit
+}
+
 void SpriteBatch::Draw()
 {
 	for(std::vector<Drawable>::iterator it = drawables.begin(); it != drawables.end(); it++)
@@ -33,8 +40,10 @@ void SpriteBatch::Draw()
 		}
 	}
 
-
-	shaderProgram->RunProgram();
+	//if(shaderProgram->GetLinkStatus())
+	// Tarkistetaan Linkkaus, Joel hoitaa.
+	//shaderProgram->RunProgram();
+	// K‰ynnistet‰‰n default- tai asetettu ShaderProgram.
 }
 
 void SpriteBatch::AddSprite(Sprite &sprite)
@@ -102,6 +111,11 @@ std::vector<Drawable>::iterator SpriteBatch::FindLocation(int order)
 			break;
 	}
 	return it;
+}
+
+SpriteBatch::~SpriteBatch()
+{
+	// TERMINATE EVERYTHING
 }
 
 //void SpriteBatch::CheckMaxOrder(int order)

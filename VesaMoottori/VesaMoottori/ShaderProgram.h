@@ -37,10 +37,8 @@ public:
 	bool GetLinkStatus() {
 		GLint isLinked = 0;
 		glGetProgramiv(glObject, GL_LINK_STATUS, (int*)&isLinked);
-
 		if (isLinked == GL_FALSE)
 			return false;
-
 		else
 			return true;
 	}

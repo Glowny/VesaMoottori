@@ -13,6 +13,7 @@ public:
 	SpriteBatch();
 	SpriteBatch(GraphicsDevice &window);
 
+	void DrawPrepare();
 	void Draw();
 
 	void AddSprite(Sprite &sprite);
@@ -24,10 +25,11 @@ public:
 
 	void SetDevice(GraphicsDevice &window);
 
-	~SpriteBatch() {};
+	~SpriteBatch();
 
 private:
 	void Sort();
+	void 
 	std::vector<Drawable>::iterator FindLocation(int order);
 
 	std::vector<Drawable> drawables;
