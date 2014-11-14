@@ -3,14 +3,14 @@
 #include <string>
 #include <map>
 #include <iostream>
-		
-	// ShaderProgram sis‰lt‰‰ shader objektin jota muokataan ja johon voi lis‰t‰ shadereita.
-	// Shader objekti alustetaan vasta kun ensimm‰inen shader-ohjelma lis‰t‰‰n siihen.
 
-	// [CreateShader]				Luo shadereita valmiiksi tehdyist‰ (.txt) filuista ja kiinnitt‰‰ ne suoraan johonkin ohjelmaan.
-	// [LinkProgram] [RunProgram]	Linkataan ja k‰ynnistet‰‰n ohjelma milloin halutaan. 
-	// [GetProgram]					Palauttaa ohjelman sijainnin.
-	
+// ShaderProgram sis‰lt‰‰ shader objektin jota muokataan ja johon voi lis‰t‰ shadereita.
+// Shader objekti alustetaan vasta kun ensimm‰inen shader-ohjelma lis‰t‰‰n siihen.
+
+// [CreateShader]				Luo shadereita valmiiksi tehdyist‰ (.txt) filuista ja kiinnitt‰‰ ne suoraan johonkin ohjelmaan.
+// [LinkProgram] [RunProgram]	Linkataan ja k‰ynnistet‰‰n ohjelma milloin halutaan. 
+// [GetProgram]					Palauttaa ohjelman sijainnin.
+
 class ShaderProgram
 {
 public:
@@ -35,7 +35,14 @@ public:
 	}
 
 	bool GetLinkStatus() {
-		return glGetProgramiv(glObject, GL_LINK_STATUS);
+		GLint isLinked = 0;
+		glGetProgramiv(glObject, GL_LINK_STATUS, (int*)&isLinked);
+
+		if (isLinked == GL_FALSE)
+			return false;
+
+		else
+			return true;
 	}
 
 	void GetAttribPointer(GLuint pos, GLuint color, GLuint tex);
