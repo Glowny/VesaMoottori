@@ -1,21 +1,24 @@
 #include "Sprite.h"
 
-Sprite::Sprite()
-{
-	texture = NULL;
-	vertexData = NULL;
-	indexData = NULL;
-	position = vector2f(0.0f, 0.0f);
-	origin = vector2f(0.0f, 0.0f);
-	red = 1.0f;
-	blue = 1.0f;
-	green = 1.0f;
-}
+//Sprite::Sprite()
+//{
+//	texture = NULL;
+//	vertexData = NULL;
+//	indexData = NULL;
+//	position = vector2f(0.0f, 0.0f);
+//	origin = vector2f(0.0f, 0.0f);
+//	red = 1.0f;
+//	blue = 1.0f;
+//	green = 1.0f;
+//}
 
 Sprite::Sprite()
 {
 	// SpriteBatchissa tehd‰‰n muutokset opengl koordinaatteihin (-1 - 1)
 	// T‰h‰n annetaan pikselikoordinaatit
+	texture = NULL;
+	vertexData = NULL;
+	indexData = NULL;
 	sourceRectSize.x = 0.0f;
 	sourceRectSize.y = 0.0f;
 	position = vector2f(0.0f, 0.0f);
@@ -142,6 +145,7 @@ GLuint* Sprite::getIndexData()
 	return &INDEX_DATA [0];
 }
 
+// T‰m‰nkin toteutus spritebatchissa vai olikohan joku mahtisyy ettei?
 vector2f Sprite::ToGLCoord(float x, float y)
 {
 	vector2f temp;
