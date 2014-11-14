@@ -21,6 +21,7 @@ public:
 	void write(string message)
 	{
 		Debug.WriteLine(message);
+		OutputDebugString()
 	}
 
 };

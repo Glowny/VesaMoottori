@@ -2,11 +2,11 @@
 #include "ResourceManager.h"
 #include "Texture.h"
 #include "ShaderProgram.h"
-//#include "Sprite.h"
+#include "Sprite.h"
 
 //static const GLfloat triangleData[] =
 //{
-//	-0.8f, -0.8f,		// iiron ass.
+//	-0.8f, -0.8f,		
 //	0.0f, 0.0f, 0.0f,	// V‰ri.
 //	0.0f, 0.0f,			// Tekstuuri.
 //
@@ -29,6 +29,8 @@ int main()
 {
 	ResourceManager Resources;
 	Texture			*Gooby;
+	Sprite			sprite;
+	Sprite			sprite2;
 	bool			isRunning = true;
 	MSG				Messages;
 	GraphicsDevice	Window("eitoimicustomnimi", 800, 800);
@@ -43,6 +45,8 @@ int main()
 
 	Resources.LoadPicture("goofy.png");
 	Gooby = Resources.CreateTexture("goofy.png", "gooby", vector2f(0.0f, 0.0f), 1.0f);
+	sprite.setTexture(Gooby);
+	sprite2.setTexture(Gooby);
 	//Gooby->CreateBuffer(triangleData, sizeof(triangleData), indexData, sizeof(indexData));
 
 
@@ -50,16 +54,72 @@ int main()
 	const GLint posLocation = Shader.GetAttributeLocation("attrPosition");
 	const GLint colorLocation = Shader.GetAttributeLocation("attrColor");
 	const GLint texLocation = Shader.GetAttributeLocation("textPosition");
-
-
+	// physics f yes
+	float wowX = 0;
+	float wowY = 0;
+	bool xDir = 0;
+	bool yDir = 0;
+	//
 	while (Window.IsOpen())
 	{
-			
+		// physics f yes
+		if (wowX > 1)
+		{
+			xDir = 0;
+		}
+		if (wowX < -1)
+		{
+			xDir = 1;
+		}
+		if (wowY > 1)
+		{
+			yDir = 0;
+		}
+		if (wowY < -1)
+		{
+			yDir = 1;
+		}
+
+		if (xDir == true)
+		{
+			wowX = wowX+0.001;
+		}
+		else
+		{
+			wowX = wowX -0.002;
+		}
+
+		if (yDir == true)
+		{
+			wowY = wowY + 0.004;
+		}
+		else
+		{
+			wowY = wowY - 0.003;
+		}
+		sprite.setPosition(vector2f(wowX, wowY));
+		sprite2.setPosition(vector2f(-wowX, -wowY));
+		//
 			Window.Update();
 			Window.Clear();
 
+			sprite.createVertexData();
 			Shader.RunProgram();
-			Gooby->Draw();
+			sprite.Draw();
+
+			// tein sill‰lailla tyhm‰sti etten osaa piirt‰‰ kahta yht‰ aikaa, niin kopsasin vaan :)
+			glVertexAttribPointer(posLocation, 2u, GL_FLOAT, GL_FALSE, 7 * sizeof(GLfloat), reinterpret_cast<GLvoid*>(0));
+			glVertexAttribPointer(colorLocation, 3u, GL_FLOAT, GL_FALSE, 7 * sizeof(GLfloat), reinterpret_cast<GLvoid*>(2 * sizeof(GLfloat)));
+			glVertexAttribPointer(texLocation, 2u, GL_FLOAT, GL_FALSE, 7 * sizeof(GLfloat), reinterpret_cast<GLvoid*>(5 * sizeof(GLfloat)));
+			glEnableVertexAttribArray(posLocation);
+			glEnableVertexAttribArray(colorLocation);
+			glEnableVertexAttribArray(texLocation);
+			
+			glDrawElements(GL_TRIANGLES, 6u, GL_UNSIGNED_INT, reinterpret_cast<GLvoid*>(0));
+
+			sprite2.createVertexData();
+			Shader.RunProgram();
+			sprite2.Draw();
 
 			glVertexAttribPointer(posLocation, 2u, GL_FLOAT, GL_FALSE, 7 * sizeof(GLfloat), reinterpret_cast<GLvoid*>(0));
 			glVertexAttribPointer(colorLocation, 3u, GL_FLOAT, GL_FALSE, 7 * sizeof(GLfloat), reinterpret_cast<GLvoid*>(2 * sizeof(GLfloat)));
@@ -69,7 +129,7 @@ int main()
 			glEnableVertexAttribArray(texLocation);
 
 			glDrawElements(GL_TRIANGLES, 6u, GL_UNSIGNED_INT, reinterpret_cast<GLvoid*>(0));
-		
+
 	}
 
 	//return (int) Messages.wParam;

@@ -42,7 +42,7 @@ vector2f Sprite::getTextureSize()
 
 void Sprite::setPosition(vector2f position)
 {
-	position = position;
+	this->position = position;
 }
 vector2f Sprite::getPosition()
 {
@@ -99,13 +99,22 @@ float Sprite::getColorB()
 	return blue;
 }
 
-GLfloat* Sprite::getVertexData()
+GLfloat* Sprite::createVertexData()
 {
 	//Nimet saattaa olla vähä vitullaa.
 	vector2f topLeft = ToGLCoord(sourceRectPosition.x, sourceRectPosition.y);
 	vector2f bottomLeft = ToGLCoord(sourceRectPosition.x, sourceRectPosition.y + sourceRectSize.y);
 	vector2f topRight = ToGLCoord(sourceRectPosition.x + sourceRectSize.x, sourceRectPosition.y);
 	vector2f bottomRight = ToGLCoord(sourceRectPosition.x + sourceRectSize.x, sourceRectPosition.y + sourceRectSize.y);
+	vector2f GLsize;
+	GLsize.x = ( size.x / 800)-1;
+	GLsize.y = ( size.y / 800)-1;
+	// jos tehdään spritebatchissa:
+	/*vector2f topLeft(sourceRectPosition.x, sourceRectPosition.y);
+	vector2f bottomLeft(sourceRectPosition.x, sourceRectPosition.y + sourceRectSize.y);
+	vector2f topRight(sourceRectPosition.x + sourceRectSize.x, sourceRectPosition.y);
+	vector2f bottomRight(sourceRectPosition.x + sourceRectSize.x, sourceRectPosition.y + sourceRectSize.y);*/
+
 	// kai ne menee oikein. EI TAKUITA MYÖNNETÄ
 	// sitten pitäs repiä jossakin välissä osiin, ettei KAIKKEA tarvi päivittää yhtä osaa (kuten väriä) muuttaessa,
 	GLfloat vertex[] = 
@@ -114,15 +123,15 @@ GLfloat* Sprite::getVertexData()
 		red, blue, green,
 		topLeft.x, topLeft.y,	
 
-		position.x - origin.x, position.y - origin.y + size.y,
+		position.x - origin.x, position.y - origin.y + GLsize.y,
 		red, blue, green,
 		bottomLeft.x, bottomLeft.y,
 
-		position.x - origin.x + size.x, position.y - origin.y,
+		position.x - origin.x + GLsize.x, position.y - origin.y,
 		red, blue, green,
 		topRight.x, topRight.y,
 
-		position.x - origin.x + size.x, position.y - origin.y + size.y,
+		position.x - origin.x + GLsize.x, position.y - origin.y + GLsize.y,
 		red, blue, green,
 		bottomRight.x, bottomRight.y
 	};
@@ -130,14 +139,16 @@ GLfloat* Sprite::getVertexData()
 	for (unsigned i = 0; i < 28; ++i)
 		VERTEX_DATA[i] = vertex[i];
 
+	// ei pakosta tarvita
+	texture->CreateBuffer(vertex, sizeof(vertex), getIndexData(), 6*4);
 	return &VERTEX_DATA[0];
 }
 
 GLuint* Sprite::getIndexData()
 {
-
+	//nelikulmio
 	GLuint index [] =
-	{ 0, 1, 2, 0, 2, 3 };
+	{ 0, 1, 2, 1, 2, 3 };
 
 	for (unsigned i = 0; i < 6; ++i)
 		INDEX_DATA[i] = index[i];
@@ -145,12 +156,13 @@ GLuint* Sprite::getIndexData()
 	return &INDEX_DATA [0];
 }
 
-// Tämänkin toteutus spritebatchissa vai olikohan joku mahtisyy ettei?
+// Tämänkin toteutus spritebatchissa jottei liiku välillä dataa joista osa väärässä muodossa
 vector2f Sprite::ToGLCoord(float x, float y)
 {
 	vector2f temp;
-	temp.x = (2 * x / size.x);
-	temp.y = (2 * y / size.y);
+	temp.x = (1 * x / size.x);
+	temp.y = (1 * y / size.y);
 	return temp;
 }
+
 
