@@ -56,9 +56,9 @@ bool GraphicsDevice::Glew()
 
 void GraphicsDevice::Update()
 {
+	window.Update();
 	UpdateWindow(window.GetHandle());
 	SwapBuffers(window.GetDevice());
-	window.Update();
 }
 
 void GraphicsDevice::Show()

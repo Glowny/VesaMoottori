@@ -58,5 +58,4 @@ private:
 	RECT					clientArea;
 	bool					running;
 	MSG						Messages;
-	
 };

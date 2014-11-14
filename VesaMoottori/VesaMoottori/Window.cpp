@@ -68,6 +68,7 @@ bool Window::IsOpen()
 {
 	return running;
 }
+
 bool Window::Close()
 {
 	running = false;
@@ -83,7 +84,6 @@ void Window::Update()
 			running = false;
 			break;
 		}
-
 		DispatchMessage(&Messages);
 	}
 }
