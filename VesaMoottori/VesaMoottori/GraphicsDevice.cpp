@@ -80,3 +80,8 @@ bool GraphicsDevice::Close()
 {
 	return window.Close();
 }
+
+vector2i GraphicsDevice::GetWindowSize()
+{
+	return window.GetSize();
+}

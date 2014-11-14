@@ -2,6 +2,7 @@
 #define WIN32_LEAN_AND_MEAN
 #include <windows.h>
 #include <string>
+#include "vector2.h"
 
 class Window
 {
@@ -47,6 +48,8 @@ public:
 	bool IsOpen();
 	bool Close();
 	void Update();
+	vector2i GetSize();
+
 
 private:
 	wchar_t*				className;

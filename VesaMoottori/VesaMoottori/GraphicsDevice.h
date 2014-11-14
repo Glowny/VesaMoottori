@@ -22,6 +22,7 @@ public:
 	void Show();
 	void Clear();
 	bool Glew(); // Voisi muokata testaamaan muita GL-versioita.
+	vector2i GetWindowSize(); //Palauttaa X ja Y koot ikkunasta.
 	~GraphicsDevice() {};
 
 private:

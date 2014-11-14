@@ -88,6 +88,11 @@ void Window::Update()
 	}
 }
 
+vector2i Window::GetSize()
+{
+	return vector2i(clientArea.right, clientArea.bottom);
+}
+
 LRESULT CALLBACK Window::WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 {
 	switch (message) {
