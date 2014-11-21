@@ -9,11 +9,13 @@
 
 class SpriteBatch
 {
+
 public:
 	SpriteBatch();
 	SpriteBatch(GraphicsDevice &window);
 	~SpriteBatch();
 
+	void Update();
 	void Draw();
 
 	void AddSprite(Sprite &sprite);

@@ -11,9 +11,10 @@ SpriteBatch::SpriteBatch(GraphicsDevice &window)
 {
 	changes = true;
 	size = vector2f((float)window.GetWindowSize().x, (float)window.GetWindowSize().y);
+	(this->graphicsDevice) = &window;
+	
 }
-
-void SpriteBatch::Draw()
+void SpriteBatch::Update()
 {
 	if (changes)
 	{
@@ -21,6 +22,21 @@ void SpriteBatch::Draw()
 		CreateBuffer();
 		changes = false;
 	}
+	for (int i = 0; i < drawables.size(); i++)
+	{
+		if (drawables[i].sprite->positionChanged)
+			drawables[i].sprite->changePositionData(size); // jos halutaan pysyä windowin koossa, eikä spritebatchin koossa niin muutetaan graphicsdevice.getsize()
+
+		if (drawables[i].sprite->texturePositionChanged)
+			drawables[i].sprite->changeTexturePosition();
+
+		if (drawables[i].sprite->colorChanged)
+			drawables[i].sprite->changeColorData();
+	}
+}
+void SpriteBatch::Draw()
+{
+	
 	// en oo ihan varma tästä, tarviiko ilman muutoksia näitä bindata uusiksi.
 	glBindBuffer(GL_ARRAY_BUFFER, buffer[0]);
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, buffer[1]);
@@ -35,17 +51,33 @@ void SpriteBatch::Draw()
 void SpriteBatch::CreateBuffer()
 {
 	//asetetaan buffereihin oikea piirtojärjestys.
-	for (std::vector<Drawable>::iterator it = drawables.begin(); it != drawables.end(); it++)
+	indexPointers.clear();
+	vertexPointers.clear();
+	//for (std::vector<Drawable>::iterator it = drawables.begin(); it != drawables.end(); it++)
+	//{
+	//	if (it->sprite != NULL)
+	//	{
+	//		for (int i = 0; i < it->sprite->getIndexSize(); i++)
+	//		{
+	//			indexPointers.push_back(&it->sprite->getIndexPointer()[i]);
+	//		}
+	//		for (int i = 0; i < it->sprite->getVertexSize(); i++)
+	//		{
+	//			vertexPointers.push_back(&it->sprite->getVertexPointer()[i]);
+	//		}
+	//	}
+	//}
+	for (int i = 0; i < drawables.size(); i++)
 	{
-		if (it->sprite != NULL)
+		if (drawables[i].sprite != NULL)
 		{
-			for (int i = 0; it->sprite->getIndexSize(); i++)
+			for (int j = 0; j < drawables[i].sprite->getIndexSize(); j++)
 			{
-				indexPointers.push_back(&it->sprite->getIndexPointer()[i]);
+				indexPointers.push_back(&drawables[i].sprite->getIndexPointer()[i]);
 			}
-			for (int i = 0; it->sprite->getVertexSize(); i++)
+			for (int j = 0; j < drawables[i].sprite->getVertexSize(); j++)
 			{
-				vertexPointers.push_back(&it->sprite->getVertexPointer()[i]);
+				vertexPointers.push_back(&drawables[i].sprite->getVertexPointer()[i]);
 			}
 		}
 	}

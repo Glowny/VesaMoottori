@@ -5,7 +5,9 @@
 #include "Texture.h"
 
 class Sprite
+	
 {
+	friend class SpriteBatch;
 public:
 	Sprite();
 	~Sprite() {};
@@ -34,16 +36,18 @@ public:
 	float getColorR();
 	float getColorG();
 	float getColorB();
+
+	void changeVertexData(); // vanha, kaikki muutetaan.
+	void createIndexData(); // luo kulmasonnan
+
 	GLsizei getIndexSize();
 	GLsizei getVertexSize();
-	GLfloat* createVertexData();
-	GLuint* getIndexData();
-
 	GLfloat* getVertexPointer();
 	GLuint* getIndexPointer();
 
 private:
 	vector2f ToGLCoord(float x, float y);
+
 
 	Texture *texture;
 	GLfloat *vertexData;
@@ -56,5 +60,14 @@ private:
 	vector2f sourceRectPosition;
 	GLfloat VERTEX_DATA[28];
 	GLuint INDEX_DATA[6];
+
+	bool colorChanged;
+	bool positionChanged;
+	bool texturePositionChanged;
+	void changePositionData(vector2f windowSize);
+	void changeColorData();
+	void changeTexturePosition();
+
+
 };
 

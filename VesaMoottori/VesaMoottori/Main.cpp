@@ -3,6 +3,7 @@
 #include "Texture.h"
 #include "ShaderProgram.h"
 #include "Sprite.h"
+#include "SpriteBatch.h"
 
 //static const GLfloat triangleData[] =
 //{
@@ -35,6 +36,7 @@ int main()
 	MSG				Messages;
 	GraphicsDevice	Window("eitoimicustomnimi", 800, 800);
 	ShaderProgram	Shader;
+	SpriteBatch		spriteBatch(Window);
 
 	Window.Register();
 	Window.Show();
@@ -43,10 +45,16 @@ int main()
 	Shader.AddShader(Resources.LoadShader("fragmentShader.txt", "fragment"), GL_FRAGMENT_SHADER);
 	Shader.LinkProgram();
 
+	spriteBatch.SetShaderProgram(Shader);
+	spriteBatch.AddSprite(sprite, 0);
+	spriteBatch.AddSprite(sprite, 1);
+
 	Resources.LoadPicture("goofy.png");
 	Gooby = Resources.CreateTexture("goofy.png", "gooby", vector2f(0.0f, 0.0f), 1.0f);
 	sprite.setTexture(Gooby);
+
 	sprite2.setTexture(Gooby);
+
 	//Gooby->CreateBuffer(triangleData, sizeof(triangleData), indexData, sizeof(indexData)); tehd‰‰n spriten kautta loopissa.
 
 
@@ -59,7 +67,7 @@ int main()
 	float wowY = 0;
 	bool xDir = 0;
 	bool yDir = 0;
-	Shader.RunProgram();
+	//Shader.RunProgram();
 	//
 	while (Window.IsOpen())
 	{
@@ -104,9 +112,6 @@ int main()
 			Window.Update();
 			Window.Clear();
 
-			sprite.createVertexData();
-			sprite.Draw();
-
 			glVertexAttribPointer(posLocation, 2u, GL_FLOAT, GL_FALSE, 7 * sizeof(GLfloat), reinterpret_cast<GLvoid*>(0));
 			glVertexAttribPointer(colorLocation, 3u, GL_FLOAT, GL_FALSE, 7 * sizeof(GLfloat), reinterpret_cast<GLvoid*>(2 * sizeof(GLfloat)));
 			glVertexAttribPointer(texLocation, 2u, GL_FLOAT, GL_FALSE, 7 * sizeof(GLfloat), reinterpret_cast<GLvoid*>(5 * sizeof(GLfloat)));
@@ -114,19 +119,10 @@ int main()
 			glEnableVertexAttribArray(colorLocation);
 			glEnableVertexAttribArray(texLocation);
 			
-			glDrawElements(GL_TRIANGLES, 6u, GL_UNSIGNED_INT, reinterpret_cast<GLvoid*>(0));
+			spriteBatch.Update();
+			spriteBatch.Draw();
+			glDrawElements(GL_TRIANGLES, 12u, GL_UNSIGNED_INT, reinterpret_cast<GLvoid*>(0));
 
-			sprite2.createVertexData();
-			sprite2.Draw();
-
-			glVertexAttribPointer(posLocation, 2u, GL_FLOAT, GL_FALSE, 7 * sizeof(GLfloat), reinterpret_cast<GLvoid*>(0));
-			glVertexAttribPointer(colorLocation, 3u, GL_FLOAT, GL_FALSE, 7 * sizeof(GLfloat), reinterpret_cast<GLvoid*>(2 * sizeof(GLfloat)));
-			glVertexAttribPointer(texLocation, 2u, GL_FLOAT, GL_FALSE, 7 * sizeof(GLfloat), reinterpret_cast<GLvoid*>(5 * sizeof(GLfloat)));
-			glEnableVertexAttribArray(posLocation);
-			glEnableVertexAttribArray(colorLocation);
-			glEnableVertexAttribArray(texLocation);
-
-			glDrawElements(GL_TRIANGLES, 6u, GL_UNSIGNED_INT, reinterpret_cast<GLvoid*>(0));
 
 	}
 
