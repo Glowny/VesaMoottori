@@ -35,8 +35,8 @@ public:
 	}
 
 	bool GetLinkStatus() {
-		GLint isLinked = 0;
-		glGetProgramiv(glObject, GL_LINK_STATUS, (int*)&isLinked);
+		GLint* isLinked = new GLint;
+		glGetProgramiv(glObject, GL_LINK_STATUS, isLinked);
 		if (isLinked == GL_FALSE)
 			return false;
 		else

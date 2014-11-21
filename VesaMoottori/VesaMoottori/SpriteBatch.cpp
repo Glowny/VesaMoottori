@@ -13,26 +13,15 @@ SpriteBatch::SpriteBatch(GraphicsDevice &window)
 	size = vector2f((float)window.GetWindowSize().x, (float)window.GetWindowSize().y);
 }
 
-void SpriteBatch::DrawPrepare()
-{
-	// 1: Set Sprite/Texture Locations
-	// ???
-	// Profit
-}
-
 void SpriteBatch::Draw()
 {
+	Sort(); // Sortataan ennen piirtoa.
+
 	for(std::vector<Drawable>::iterator it = drawables.begin(); it != drawables.end(); it++)
 	{
 		if(it->sprite != NULL)
 		{
-			// Kumman kautta piirretään?
-			//it->sprite->Draw()
-			//graphicsDevice->Draw()
-		}
-		else if(it->texture != NULL)
-		{
-			// Texturen piirto-logiikka.
+			it->sprite->Draw();
 		}
 		else
 		{
@@ -40,10 +29,12 @@ void SpriteBatch::Draw()
 		}
 	}
 
-	//if(shaderProgram->GetLinkStatus())
-	// Tarkistetaan Linkkaus, Joel hoitaa.
-	//shaderProgram->RunProgram();
-	// Käynnistetään default- tai asetettu ShaderProgram.
+	if(shaderProgram->GetLinkStatus()) // Tarkistetaan shaderin linkkaus.
+		shaderProgram->RunProgram();
+	else
+	{
+		// Käynnistetään default shaderi.
+	}
 }
 
 void SpriteBatch::AddSprite(Sprite &sprite)
@@ -51,7 +42,6 @@ void SpriteBatch::AddSprite(Sprite &sprite)
 	Drawable temp;
 	temp.drawOrder = 0;
 	temp.sprite = &sprite;
-	temp.texture = NULL;
 	drawables.push_back(temp);
 }
 
@@ -60,29 +50,10 @@ void SpriteBatch::AddSprite(Sprite &sprite, int order)
 	Drawable temp;
 	temp.drawOrder = order;
 	temp.sprite = &sprite;
-	temp.texture = NULL;
 	drawables.insert(FindLocation(order), temp);
 }
 
-void SpriteBatch::AddTexture(Texture &texture)
-{
-	Drawable temp;
-	temp.drawOrder = 0;
-	temp.texture = &texture;
-	temp.sprite = NULL;
-	drawables.push_back(temp);
-}
-
-void SpriteBatch::AddTexture(Texture &texture, int order)
-{
-	Drawable temp;
-	temp.drawOrder = order;
-	temp.texture = &texture;
-	temp.sprite = NULL;
-	drawables.insert(FindLocation(order), temp);
-}
-
-void SpriteBatch::AddShaderProgram(ShaderProgram &shaderProgram)
+void SpriteBatch::SetShaderProgram(ShaderProgram &shaderProgram)
 {
 	(this->shaderProgram) = &shaderProgram;
 }
@@ -94,11 +65,15 @@ void SpriteBatch::SetDevice(GraphicsDevice &graphicsDevice)
 
 void SpriteBatch::Sort()
 {
-	for(std::vector<Drawable>::iterator it = drawables.begin(); it != drawables.end(); it++)
+	if(changes)
 	{
-		// Sortataan piirrettävät orderin mukaan.
-		std::sort(drawables.begin(), drawables.end(),
-			[](Drawable a, Drawable b){return (a.drawOrder > b.drawOrder); });
+		for(std::vector<Drawable>::iterator it = drawables.begin(); it != drawables.end(); it++)
+		{
+			// Sortataan piirrettävät orderin mukaan.
+			std::sort(drawables.begin(), drawables.end(),
+				[](Drawable a, Drawable b){return (a.drawOrder > b.drawOrder); });
+		}
+		changes = false;
 	}
 }
 
@@ -117,9 +92,3 @@ SpriteBatch::~SpriteBatch()
 {
 	// TERMINATE EVERYTHING
 }
-
-//void SpriteBatch::CheckMaxOrder(int order)
-//{
-//	if(order > maxOrder)
-//		maxOrder = order;
-//}

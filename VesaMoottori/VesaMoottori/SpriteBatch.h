@@ -12,35 +12,23 @@ class SpriteBatch
 public:
 	SpriteBatch();
 	SpriteBatch(GraphicsDevice &window);
+	~SpriteBatch();
 
-	void DrawPrepare();
 	void Draw();
 
 	void AddSprite(Sprite &sprite);
 	void AddSprite(Sprite &sprite, int order);
-	void AddTexture(Texture &texture);
-	void AddTexture(Texture &texture, int order);
 
-	void AddShaderProgram(ShaderProgram &shaderProgram);
-
+	void SetShaderProgram(ShaderProgram &shaderProgram);
 	void SetDevice(GraphicsDevice &window);
 
-	~SpriteBatch();
-
 private:
-	void Sort();
-	void 
-	std::vector<Drawable>::iterator FindLocation(int order);
+	void Sort(); // Pit‰‰ piirrot j‰rjestyksess‰.
+	std::vector<Drawable>::iterator FindLocation(int order); // Iteraattori help-funktio.
 
 	std::vector<Drawable> drawables;
 	ShaderProgram *shaderProgram;
 	GraphicsDevice *graphicsDevice;
 	bool changes;
 	vector2f size;
-
-	//void SetMaxOrder();
-	//void CheckMaxOrder(int newOrder);
-	//int maxOrder;
-	//std::vector<Texture> textures;
-	//std::vector<Sprite> sprites;
 };
