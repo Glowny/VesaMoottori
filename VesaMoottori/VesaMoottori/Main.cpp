@@ -47,7 +47,7 @@ int main()
 	Gooby = Resources.CreateTexture("goofy.png", "gooby", vector2f(0.0f, 0.0f), 1.0f);
 	sprite.setTexture(Gooby);
 	sprite2.setTexture(Gooby);
-	//Gooby->CreateBuffer(triangleData, sizeof(triangleData), indexData, sizeof(indexData));
+	//Gooby->CreateBuffer(triangleData, sizeof(triangleData), indexData, sizeof(indexData)); tehdään spriten kautta loopissa.
 
 
 	// Tarkistetaan attribuuttien lokaatio.
@@ -64,39 +64,39 @@ int main()
 	while (Window.IsOpen())
 	{
 		// physics f yes
-		if (wowX > 1)
+		if (wowX > 1.0f)
 		{
-			xDir = 0;
+			xDir = false;
 		}
-		if (wowX < -1)
+		if (wowX < -1.0f)
 		{
-			xDir = 1;
+			xDir = true;
 		}
-		if (wowY > 1)
+		if (wowY > 1.0f)
 		{
-			yDir = 0;
+			yDir = false;
 		}
-		if (wowY < -1)
+		if (wowY < -1.0f)
 		{
-			yDir = 1;
+			yDir = true;
 		}
 
 		if (xDir)
 		{
-			wowX = wowX+0.001;
+			wowX = wowX+0.001f;
 		}
 		else
 		{
-			wowX = wowX -0.002;
+			wowX = wowX -0.002f;
 		}
 
 		if (yDir)
 		{
-			wowY = wowY + 0.004;
+			wowY = wowY + 0.004f;
 		}
 		else
 		{
-			wowY = wowY - 0.003;
+			wowY = wowY - 0.003f;
 		}
 		sprite.setPosition(vector2f(wowX, wowY));
 		sprite2.setPosition(vector2f(-wowX, -wowY));
@@ -107,7 +107,6 @@ int main()
 			sprite.createVertexData();
 			sprite.Draw();
 
-			// tein sillälailla tyhmästi etten osaa piirtää kahta yhtä aikaa, niin kopsasin vaan :)
 			glVertexAttribPointer(posLocation, 2u, GL_FLOAT, GL_FALSE, 7 * sizeof(GLfloat), reinterpret_cast<GLvoid*>(0));
 			glVertexAttribPointer(colorLocation, 3u, GL_FLOAT, GL_FALSE, 7 * sizeof(GLfloat), reinterpret_cast<GLvoid*>(2 * sizeof(GLfloat)));
 			glVertexAttribPointer(texLocation, 2u, GL_FLOAT, GL_FALSE, 7 * sizeof(GLfloat), reinterpret_cast<GLvoid*>(5 * sizeof(GLfloat)));

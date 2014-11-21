@@ -66,6 +66,8 @@ void Texture::SetPosition(vector2f position)
 
 void Texture::CreateBuffer(const void *data, GLsizei dataSize, const void *index, GLsizei indexSize)
 {
+	// t‰m‰ tuottaa ongelmia: jos halutaan piirt‰‰ kaksi tekstuuria vaikka eri paikkoihin, buffereita pit‰‰ tehd‰
+	// myˆs kaksi, kun ne pit‰s laittaa yhteen bufferiin. Siiret‰‰n spritebatchiin.
 	GLuint tempIndex;
 	buffer.dataSize = dataSize;
 	buffer.indexSize = indexSize;
