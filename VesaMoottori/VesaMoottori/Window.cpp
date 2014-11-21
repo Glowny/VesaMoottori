@@ -1,6 +1,36 @@
 #include "Window.h"
 #include <iostream>
 
+Window::Window()
+{
+	className			= L"Win";
+	windowName			= L"Window";
+	windowHandle		= 0;
+	deviceContext		= 0;
+	style				= 0;
+	clientArea.left		= 0;
+	clientArea.top		= 0;
+	clientArea.right	= 500;
+	clientArea.bottom	= 500;
+	style				= WS_OVERLAPPEDWINDOW;
+	opened				= false;
+}
+
+Window::Window(std::string name, int width, int height)
+{
+	className			= L"Win";
+	windowName			= L"Window"; // Custom nimi TO-DO.
+	windowHandle		= 0;
+	deviceContext		= 0;
+	style				= 0;
+	clientArea.left		= 0;
+	clientArea.top		= 0;
+	clientArea.right	= width;
+	clientArea.bottom	= height;
+	style				= WS_OVERLAPPEDWINDOW;
+	opened				= false;
+}
+
 // Alustaa ja rekisteröi windows-ikkunan. Ei voi tällä hetkellä kustomoida ollenkaan, korjataan myöhemmin.
 bool Window::Register()
 {
@@ -18,7 +48,6 @@ bool Window::Register()
 	win.lpszMenuName	= NULL;
 	win.hIconSm			= NULL;
 
-	running				= true;
 	if(!RegisterClassEx(&win)) // Rekisteröidään ikkuna ja tarkistetaan onnistuuko se.
 	{
 		std::cout << "RegisterClassEx failed!" << std::endl;
@@ -49,42 +78,54 @@ bool Window::Register()
 		std::cout << "WindowHandle succeeded!" << std::endl;
 
 	deviceContext = GetDC(windowHandle); // Asetetaan arvo aiemmin alustetulle device contextille.
+	opened = true;
 	return true;
 }
 
-// Normi ikkunassa ei ole update/draw funktioita vielä.
-/* void Window::Show()
+HDC Window::GetDevice()
 {
-	ShowWindow(hWindow, SW_SHOWNORMAL);
+	return deviceContext;
 }
 
-void Window::Update()
+HWND Window::GetHandle()
 {
-	UpdateWindow(hWindow);
-	SwapBuffers(hDC);
-} */
+	return windowHandle;
+}
+
+void Window::CloseWindow()
+{
+	opened = false;
+}
+
+void Window::OpenWindow()
+{
+	opened = true;
+}
 
 bool Window::IsOpen()
 {
-	return running;
+	return opened;
 }
 
-bool Window::Close()
+void Window::SetSize(int width, int height)
 {
-	running = false;
-	return running;
+	if(opened)
+		DestroyWindow(windowHandle);
+	clientArea.right	= width;
+	clientArea.bottom	= height;
+	Register();
 }
 
-void Window::Update()
+void Window::Update(MSG &messages)
 {
-	while (PeekMessage(&Messages, NULL, 0, 0, PM_REMOVE)) // Ikkuna ottaa vastaan viestejä.
+	while (PeekMessage(&messages, NULL, 0, 0, PM_REMOVE)) // Ikkuna ottaa vastaan viestejä.
 	{
-		if (Messages.message == WM_QUIT)
+		if (messages.message == WM_QUIT)
 		{
-			running = false;
+			// Tuhotaan ikkuna.
 			break;
 		}
-		DispatchMessage(&Messages);
+		DispatchMessage(&messages);
 	}
 }
 
@@ -95,7 +136,8 @@ vector2i Window::GetSize()
 
 LRESULT CALLBACK Window::WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 {
-	switch (message) {
+	switch (message)
+	{
 	case WM_CLOSE: // Sent as a signal that a window or an application should terminate.
 		DestroyWindow(hWnd);
 		break;
@@ -107,4 +149,10 @@ LRESULT CALLBACK Window::WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM 
 		break;
 	}
 	return 0;
+}
+
+Window::~Window()
+{
+	delete className;
+	delete windowName;
 }

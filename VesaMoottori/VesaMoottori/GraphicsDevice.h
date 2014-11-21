@@ -4,16 +4,11 @@
 class GraphicsDevice
 {
 public:
-	GraphicsDevice() {
-		renderingContext	= 0;
-		pixelFormat			= 0;
-	}
+	GraphicsDevice();
+	GraphicsDevice(std::string name, int width, int height);
+	~GraphicsDevice() {};
 
-	GraphicsDevice(std::string name, int width, int height) {
-		window				= Window(name, width, height);
-		renderingContext	= 0;
-		pixelFormat			= 0;
-	}
+	void SetWindow(Window &window);
 
 	bool IsOpen();
 	bool Close();
@@ -23,13 +18,10 @@ public:
 	void Clear();
 	bool Glew(); // Voisi muokata testaamaan muita GL-versioita.
 	vector2i GetWindowSize(); //Palauttaa X ja Y koot ikkunasta.
-	~GraphicsDevice() {};
 
 private:
-	Window					window;
+	Window*					window;
 	HGLRC					renderingContext; // OpenGL rendering context.
 	PIXELFORMATDESCRIPTOR	winPixel; // Describes the pixel format of a drawing surface.
 	int						pixelFormat;
 };
-
-//wglDeleteContext(hGLRC); // Tuhotaan renderöinti sisältö - pitää vielä koodata windowiin.

@@ -2,6 +2,19 @@
 #include <iostream>
 #include <GL\glew.h>
 
+GraphicsDevice::GraphicsDevice()
+{
+	renderingContext	= 0;
+	pixelFormat			= 0;
+}
+
+GraphicsDevice::GraphicsDevice(std::string name, int width, int height)
+{
+	window				= Window(name, width, height);
+	renderingContext	= 0;
+	pixelFormat			= 0;
+}
+
 bool GraphicsDevice::Register()
 {
 	window.Register(); // Alustetaan normaali windows-ikkuna.
@@ -84,4 +97,9 @@ bool GraphicsDevice::Close()
 vector2i GraphicsDevice::GetWindowSize()
 {
 	return window.GetSize();
+}
+
+GraphicsDevice::~GraphicsDevice()
+{
+	wglDeleteContext(hGLRC); // Tuhotaan renderöinti sisältö - pitää vielä koodata windowiin.
 }
