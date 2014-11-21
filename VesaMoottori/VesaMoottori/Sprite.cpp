@@ -164,4 +164,20 @@ vector2f Sprite::ToGLCoord(float x, float y)
 	return temp;
 }
 
+GLsizei Sprite::getIndexSize()
+{
+	return 6;		// jossakin voisi olla joko spritessä tai tekstuurissa tallessa kuinka tämän koko, samoin verteksin
+}
+GLsizei Sprite::getVertexSize()
+{
+	return 28;
+}
 
+GLfloat* Sprite::getVertexPointer()
+{
+	return vertexData;
+}
+GLuint* Sprite::getIndexPointer()
+{
+	return indexData;
+}

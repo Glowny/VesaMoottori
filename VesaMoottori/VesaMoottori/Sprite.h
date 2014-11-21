@@ -34,9 +34,13 @@ public:
 	float getColorR();
 	float getColorG();
 	float getColorB();
-
+	GLsizei getIndexSize();
+	GLsizei getVertexSize();
 	GLfloat* createVertexData();
 	GLuint* getIndexData();
+
+	GLfloat* getVertexPointer();
+	GLuint* getIndexPointer();
 
 private:
 	vector2f ToGLCoord(float x, float y);

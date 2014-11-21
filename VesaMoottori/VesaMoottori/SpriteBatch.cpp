@@ -15,20 +15,16 @@ SpriteBatch::SpriteBatch(GraphicsDevice &window)
 
 void SpriteBatch::Draw()
 {
-	Sort(); // Sortataan ennen piirtoa.
-
-	for(std::vector<Drawable>::iterator it = drawables.begin(); it != drawables.end(); it++)
+	if (changes)
 	{
-		if(it->sprite != NULL)
-		{
-			it->sprite->Draw();
-		}
-		else
-		{
-			// Drawable korruptoitunut.
-		}
+		Sort(); // Sortataan ennen buffereiden tekoa.
+		CreateBuffer();
+		changes = false;
 	}
-
+	// en oo ihan varma t‰st‰, tarviiko ilman muutoksia n‰it‰ bindata uusiksi.
+	glBindBuffer(GL_ARRAY_BUFFER, buffer[0]);
+	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, buffer[1]);
+	//
 	if(shaderProgram->GetLinkStatus()) // Tarkistetaan shaderin linkkaus.
 		shaderProgram->RunProgram();
 	else
@@ -36,7 +32,32 @@ void SpriteBatch::Draw()
 		// K‰ynnistet‰‰n default shaderi.
 	}
 }
+void SpriteBatch::CreateBuffer()
+{
+	//asetetaan buffereihin oikea piirtoj‰rjestys.
+	for (std::vector<Drawable>::iterator it = drawables.begin(); it != drawables.end(); it++)
+	{
+		if (it->sprite != NULL)
+		{
+			for (int i = 0; it->sprite->getIndexSize(); i++)
+			{
+				indexPointers.push_back(&it->sprite->getIndexPointer()[i]);
+			}
+			for (int i = 0; it->sprite->getVertexSize(); i++)
+			{
+				vertexPointers.push_back(&it->sprite->getVertexPointer()[i]);
+			}
+		}
+	}
 
+	glGenBuffers(2, &buffer[0]);
+	glBindBuffer(GL_ARRAY_BUFFER, buffer[0]);
+	glBufferData(GL_ARRAY_BUFFER, vertexPointers.size(), vertexPointers[0], GL_STATIC_DRAW);
+
+	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, buffer[1]);
+	glBufferData(GL_ELEMENT_ARRAY_BUFFER, indexPointers.size(), indexPointers[0], GL_STATIC_DRAW);
+
+}
 void SpriteBatch::AddSprite(Sprite &sprite)
 {
 	Drawable temp;
@@ -51,6 +72,7 @@ void SpriteBatch::AddSprite(Sprite &sprite, int order)
 	temp.drawOrder = order;
 	temp.sprite = &sprite;
 	drawables.insert(FindLocation(order), temp);
+
 }
 
 void SpriteBatch::SetShaderProgram(ShaderProgram &shaderProgram)
@@ -65,16 +87,14 @@ void SpriteBatch::SetDevice(GraphicsDevice &graphicsDevice)
 
 void SpriteBatch::Sort()
 {
-	if(changes)
+
+	for(std::vector<Drawable>::iterator it = drawables.begin(); it != drawables.end(); it++)
 	{
-		for(std::vector<Drawable>::iterator it = drawables.begin(); it != drawables.end(); it++)
-		{
-			// Sortataan piirrett‰v‰t orderin mukaan.
-			std::sort(drawables.begin(), drawables.end(),
-				[](Drawable a, Drawable b){return (a.drawOrder > b.drawOrder); });
-		}
-		changes = false;
+		// Sortataan piirrett‰v‰t orderin mukaan.
+		std::sort(drawables.begin(), drawables.end(),
+			[](Drawable a, Drawable b){return (a.drawOrder > b.drawOrder); });
 	}
+
 }
 
 std::vector<Drawable>::iterator SpriteBatch::FindLocation(int order)
