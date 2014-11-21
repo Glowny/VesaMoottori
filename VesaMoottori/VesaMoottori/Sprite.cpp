@@ -107,7 +107,7 @@ GLfloat* Sprite::createVertexData()
 	vector2f topRight = ToGLCoord(sourceRectPosition.x + sourceRectSize.x, sourceRectPosition.y);
 	vector2f bottomRight = ToGLCoord(sourceRectPosition.x + sourceRectSize.x, sourceRectPosition.y + sourceRectSize.y);
 	vector2f GLsize;
-	GLsize.x = ( size.x / 800)-1;
+	GLsize.x = ( size.x / 800)-1;	// v‰liaikainen, siirrett‰v‰ spritebatchiin joka tiet‰‰ windowin koon.
 	GLsize.y = ( size.y / 800)-1;
 	// jos tehd‰‰n spritebatchissa:
 	/*vector2f topLeft(sourceRectPosition.x, sourceRectPosition.y);
@@ -115,7 +115,6 @@ GLfloat* Sprite::createVertexData()
 	vector2f topRight(sourceRectPosition.x + sourceRectSize.x, sourceRectPosition.y);
 	vector2f bottomRight(sourceRectPosition.x + sourceRectSize.x, sourceRectPosition.y + sourceRectSize.y);*/
 
-	// kai ne menee oikein. EI TAKUITA MY÷NNETƒ
 	// sitten pit‰s repi‰ jossakin v‰liss‰ osiin, ettei KAIKKEA tarvi p‰ivitt‰‰ yht‰ osaa (kuten v‰ri‰) muuttaessa,
 	GLfloat vertex[] = 
 	{
@@ -127,11 +126,11 @@ GLfloat* Sprite::createVertexData()
 		red, blue, green,
 		bottomLeft.x, bottomLeft.y,
 
-		position.x - origin.x + GLsize.x, position.y - origin.y,
+		position.x - origin.x - GLsize.x, position.y - origin.y,
 		red, blue, green,
 		topRight.x, topRight.y,
 
-		position.x - origin.x + GLsize.x, position.y - origin.y + GLsize.y,
+		position.x - origin.x - GLsize.x, position.y - origin.y + GLsize.y,
 		red, blue, green,
 		bottomRight.x, bottomRight.y
 	};

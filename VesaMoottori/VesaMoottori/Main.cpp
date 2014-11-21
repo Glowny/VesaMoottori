@@ -59,6 +59,7 @@ int main()
 	float wowY = 0;
 	bool xDir = 0;
 	bool yDir = 0;
+	Shader.RunProgram();
 	//
 	while (Window.IsOpen())
 	{
@@ -80,7 +81,7 @@ int main()
 			yDir = 1;
 		}
 
-		if (xDir == true)
+		if (xDir)
 		{
 			wowX = wowX+0.001;
 		}
@@ -89,7 +90,7 @@ int main()
 			wowX = wowX -0.002;
 		}
 
-		if (yDir == true)
+		if (yDir)
 		{
 			wowY = wowY + 0.004;
 		}
@@ -104,7 +105,6 @@ int main()
 			Window.Clear();
 
 			sprite.createVertexData();
-			Shader.RunProgram();
 			sprite.Draw();
 
 			// tein sill‰lailla tyhm‰sti etten osaa piirt‰‰ kahta yht‰ aikaa, niin kopsasin vaan :)
@@ -118,7 +118,6 @@ int main()
 			glDrawElements(GL_TRIANGLES, 6u, GL_UNSIGNED_INT, reinterpret_cast<GLvoid*>(0));
 
 			sprite2.createVertexData();
-			Shader.RunProgram();
 			sprite2.Draw();
 
 			glVertexAttribPointer(posLocation, 2u, GL_FLOAT, GL_FALSE, 7 * sizeof(GLfloat), reinterpret_cast<GLvoid*>(0));
