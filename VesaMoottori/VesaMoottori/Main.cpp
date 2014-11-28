@@ -4,6 +4,7 @@
 #include "ShaderProgram.h"
 #include "Sprite.h"
 #include "SpriteBatch.h"
+#include "Keyboard.h"
 
 
 int main()
@@ -17,6 +18,7 @@ int main()
 	GraphicsDevice	Window("eitoimicustomnimi", 800, 800);
 	ShaderProgram	Shader;
 	SpriteBatch		SpriteBatch(Window);
+	Keyboard		Keys;
 
 	Window.Register();
 
@@ -95,6 +97,9 @@ int main()
 			{
 				// Tuhotaan ikkuna, ei ole vielä koodattu.
 			}
+			if (Keys.isKeyPressed(Keys.Key::R))
+				glClearColor(rand() % 100 * 0.01f, rand() % 100 * 0.01f, rand() % 100 * 0.01f, 1);
+
 		}
 		Window.Clear();
 		SpriteBatch.Update();

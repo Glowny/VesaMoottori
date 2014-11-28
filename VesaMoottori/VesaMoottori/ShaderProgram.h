@@ -20,13 +20,9 @@ public:
 	bool AddShader(char* shaderCode, GLenum type);
 	bool LinkProgram();
 
-	void RunProgram() {
-		glUseProgram(glObject);
-	}
-
-	int GetProgramLocation(std::string programName) {
-		return glObject;
-	}
+	void GetAttribPointer(GLuint pos, GLuint color, GLuint tex);
+	void RunProgram();
+	int GetProgramLocation(std::string programName);
 
 	int GetAttributeLocation(std::string attributeName) {
 		GLuint tempLocation = glGetAttribLocation(glObject, attributeName.c_str());
@@ -43,7 +39,7 @@ public:
 			return true;
 	}
 
-	void GetAttribPointer(GLuint pos, GLuint color, GLuint tex);
+	
 
 private:
 	GLuint glObject;

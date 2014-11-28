@@ -16,6 +16,7 @@ SpriteBatch::SpriteBatch(GraphicsDevice &window)
 	glGenBuffers(2, &buffer[0]);
 	
 }
+
 void SpriteBatch::Update()
 {
 	if (changes)
@@ -27,6 +28,8 @@ void SpriteBatch::Update()
 
 	for (unsigned i = 0; i < drawables.size(); i++)
 	{
+		// Jos halutaan pysy‰ windowin koossa eik‰ spritebatchin koossa
+		// niin muutetaan GraphicsDevice.GetSize().
 		if (drawables[i].sprite->positionChanged)
 			drawables[i].sprite->changePositionData(size);
 
@@ -36,6 +39,16 @@ void SpriteBatch::Update()
 		if (drawables[i].sprite->colorChanged)
 			drawables[i].sprite->changeColorData();
 	}
+<<<<<<< HEAD
+=======
+}
+
+void SpriteBatch::Draw()
+{	
+	// en oo ihan varma t‰st‰, tarviiko ilman muutoksia n‰it‰ bindata uusiksi.
+	// no jaa, tarvi tekstuurin jostaki
+	// n‰m‰ pit‰‰ teh‰ joka tapauksessa.
+>>>>>>> origin/master
 
 	glBindBuffer(GL_ARRAY_BUFFER, buffer[0]);
 	glBufferData(GL_ARRAY_BUFFER, vertexPointers.size()*sizeof(GLfloat), vertexPointers.front(), GL_STATIC_DRAW);
@@ -46,7 +59,11 @@ void SpriteBatch::Draw()
 {
 	
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, buffer[1]);
+<<<<<<< HEAD
 	glBufferData(GL_ELEMENT_ARRAY_BUFFER, indexPointers.size()*sizeof(GLuint), &indexPointers.front(), GL_STATIC_DRAW);
+=======
+	glBufferData(GL_ELEMENT_ARRAY_BUFFER, indexPointers.size()*sizeof(GLuint), indexPointers.front(), GL_STATIC_DRAW);
+>>>>>>> origin/master
 
 	if(shaderProgram->GetLinkStatus()) // Tarkistetaan shaderin linkkaus.
 		shaderProgram->RunProgram();
@@ -54,8 +71,14 @@ void SpriteBatch::Draw()
 	{
 		// K‰ynnistet‰‰n default shaderi.
 	}
+<<<<<<< HEAD
 	GLuint currentTextureIndex = 1;
 	//for (unsigned i = 0; i < drawables.size(); i++)
+=======
+
+	GLuint currentTextureIndex = -1;
+	for (unsigned int i = 0; i < drawables.size(); i++)
+>>>>>>> origin/master
 	{
 		/*if (drawables[i].sprite->texture->getTextureIndex() != currentTextureIndex)*/
 		{
@@ -65,11 +88,13 @@ void SpriteBatch::Draw()
 		}
 	}
 }
+
 void SpriteBatch::CreateBuffer()
 {
 	//asetetaan buffereihin oikea piirtoj‰rjestys.
 	indexPointers.clear();
 	vertexPointers.clear();
+
 	//for (std::vector<Drawable>::iterator it = drawables.begin(); it != drawables.end(); it++)
 	//{
 	//	if (it->sprite != NULL)
@@ -84,7 +109,8 @@ void SpriteBatch::CreateBuffer()
 	//		}
 	//	}
 	//}
-	for (unsigned i = 0; i < drawables.size(); i++)
+
+	for (unsigned int i = 0; i < drawables.size(); i++)
 	{
 		if (drawables[i].sprite != NULL)
 		{
@@ -99,9 +125,8 @@ void SpriteBatch::CreateBuffer()
 			}
 		}
 	}
-
-
 }
+
 void SpriteBatch::AddSprite(Sprite &sprite)
 {
 	Drawable temp;
@@ -116,7 +141,6 @@ void SpriteBatch::AddSprite(Sprite &sprite, int order)
 	temp.drawOrder = order;
 	temp.sprite = &sprite;
 	drawables.insert(FindLocation(order), temp);
-
 }
 
 void SpriteBatch::SetShaderProgram(ShaderProgram &shaderProgram)
@@ -131,14 +155,12 @@ void SpriteBatch::SetDevice(GraphicsDevice &graphicsDevice)
 
 void SpriteBatch::Sort()
 {
-
 	for(std::vector<Drawable>::iterator it = drawables.begin(); it != drawables.end(); it++)
 	{
 		// Sortataan piirrett‰v‰t orderin mukaan.
 		std::sort(drawables.begin(), drawables.end(),
 			[](Drawable a, Drawable b){return (a.drawOrder > b.drawOrder); });
 	}
-
 }
 
 std::vector<Drawable>::iterator SpriteBatch::FindLocation(int order)
