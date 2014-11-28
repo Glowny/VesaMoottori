@@ -16,7 +16,7 @@ public:
 	void SetPosition(vector2f position);
 	vector2f GetSize()
 	{
-		return vector2f(image->width, image->height);
+		return vector2f((float)(image->width), (float)(image->height));
 	}
 	void SetScale(float scale) {
 		(this->scale) = scale;

@@ -18,7 +18,6 @@ int main()
 	SpriteBatch		SpriteBatch(Window);
 
 	Window.Register();
-	Window.Show();
 
 	Shader.AddShader(Resources.LoadShader("vertexShader.txt", "vertex"), GL_VERTEX_SHADER);
 	Shader.AddShader(Resources.LoadShader("fragmentShader.txt", "fragment"), GL_FRAGMENT_SHADER);
