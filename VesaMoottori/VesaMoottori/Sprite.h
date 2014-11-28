@@ -50,8 +50,10 @@ private:
 
 
 	Texture *texture;
+	// n‰‰ on jotai kummajasia
 	GLfloat *vertexData;
 	GLuint *indexData;
+	//
 	vector2f position;
 	vector2f origin;
 	vector2f size;

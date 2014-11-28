@@ -24,14 +24,14 @@ int main()
 	Shader.LinkProgram();
 
 	SpriteBatch.SetShaderProgram(Shader);
-	SpriteBatch.AddSprite(sprite, 0);
-	SpriteBatch.AddSprite(sprite, 1);
+
 
 	Resources.LoadPicture("goofy.png");
 	Gooby = Resources.CreateTexture("goofy.png", "gooby", vector2f(0.0f, 0.0f), 1.0f);
 	sprite.setTexture(Gooby);
 	sprite2.setTexture(Gooby);
-
+	SpriteBatch.AddSprite(sprite, 0);
+	SpriteBatch.AddSprite(sprite, 1);
 
 	// Tarkistetaan attribuuttien lokaatio.
 	const GLint posLocation = Shader.GetAttributeLocation("attrPosition");
@@ -82,7 +82,7 @@ int main()
 		}
 		sprite.setPosition(vector2f(wowX, wowY));
 		sprite2.setPosition(vector2f(-wowX, -wowY));
-
+		SpriteBatch.purkkaChanges();
 
 		MSG messages;
 		while(Window.Update(messages))
@@ -100,7 +100,7 @@ int main()
 		glEnableVertexAttribArray(posLocation);
 		glEnableVertexAttribArray(colorLocation);
 		glEnableVertexAttribArray(texLocation);
-		glDrawElements(GL_TRIANGLES, 12u, GL_UNSIGNED_INT, reinterpret_cast<GLvoid*>(0));
+		/*glDrawElements(GL_TRIANGLES, 12u, GL_UNSIGNED_INT, reinterpret_cast<GLvoid*>(0));*/
 		SpriteBatch.Update();
 		SpriteBatch.Draw();
 		// drawelements spritebatchsisa

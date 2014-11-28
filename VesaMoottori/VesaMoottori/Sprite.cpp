@@ -26,6 +26,7 @@ Sprite::Sprite()
 	origin = vector2f(0.0f, 0.0f);
 	red = 1.0f; blue = 1.0f; green = 1.0f;
 	createIndexData();
+
 }
 
 void Sprite::setTexture(Texture *tex)
@@ -34,6 +35,7 @@ void Sprite::setTexture(Texture *tex)
 	sourceRectSize = tex->GetSize();
 	size = tex->GetSize();
 	texturePositionChanged = true;
+	changeVertexData();
 }
 
 
@@ -219,8 +221,8 @@ void Sprite::createIndexData()
 vector2f Sprite::ToGLCoord(float x, float y)
 {
 	vector2f temp;
-	temp.x = (1 * x / size.x);
-	temp.y = (1 * y / size.y);
+	temp.x = (x / size.x);
+	temp.y = (y / size.y);
 	return temp;
 }
 
@@ -235,9 +237,9 @@ GLsizei Sprite::getVertexSize()
 
 GLfloat* Sprite::getVertexPointer()
 {
-	return vertexData;
+	return VERTEX_DATA;
 }
 GLuint* Sprite::getIndexPointer()
 {
-	return indexData;
+	return INDEX_DATA;
 }

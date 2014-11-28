@@ -5,6 +5,7 @@ SpriteBatch::SpriteBatch()
 {
 	changes = true;
 	size = vector2f(0.0f, 0.0f);
+	glGenBuffers(2, &buffer[0]);
 }
 
 SpriteBatch::SpriteBatch(GraphicsDevice &window)
@@ -12,6 +13,7 @@ SpriteBatch::SpriteBatch(GraphicsDevice &window)
 	changes = true;
 	size = vector2f((float)window.GetSize().x, (float)window.GetSize().y);
 	(this->graphicsDevice) = &window;
+	glGenBuffers(2, &buffer[0]);
 	
 }
 void SpriteBatch::Update()
@@ -38,7 +40,7 @@ void SpriteBatch::Draw()
 {
 	
 	// en oo ihan varma t‰st‰, tarviiko ilman muutoksia n‰it‰ bindata uusiksi.
-	glBindTexture(GL_TEXTURE_2D, drawables[0].sprite->texture->getTextureIndex()); // no jaa, tarvi tekstuurin jostaki
+	// no jaa, tarvi tekstuurin jostaki
 	glBindBuffer(GL_ARRAY_BUFFER, buffer[0]);
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, buffer[1]);
 	//
@@ -47,6 +49,16 @@ void SpriteBatch::Draw()
 	else
 	{
 		// K‰ynnistet‰‰n default shaderi.
+	}
+	GLuint currentTextureIndex = -1;
+	for (int i = 0; i < drawables.size(); i++)
+	{
+		if (drawables[i].sprite->texture->getTextureIndex() != currentTextureIndex)
+		{
+			currentTextureIndex = drawables[i].sprite->texture->getTextureIndex();
+			glBindTexture(GL_TEXTURE_2D, currentTextureIndex);
+			glDrawElements(GL_TRIANGLES, 12u/*ne indeksit*koko jotka piirret‰‰n t‰ll‰ kuvalla*/, GL_UNSIGNED_INT, reinterpret_cast<GLvoid*>(0/*indeksien piirron aloituskohta*/));
+		}
 	}
 }
 void SpriteBatch::CreateBuffer()
@@ -74,21 +86,19 @@ void SpriteBatch::CreateBuffer()
 		{
 			for (int j = 0; j < drawables[i].sprite->getIndexSize(); j++)
 			{
-				indexPointers.push_back(&drawables[i].sprite->getIndexPointer()[i]);
+				indexPointers.push_back(&drawables[i].sprite->getIndexPointer()[j]);
 			}
 			for (int j = 0; j < drawables[i].sprite->getVertexSize(); j++)
 			{
-				vertexPointers.push_back(&drawables[i].sprite->getVertexPointer()[i]);
+				vertexPointers.push_back(&drawables[i].sprite->getVertexPointer()[j]);
 			}
 		}
 	}
-
-	glGenBuffers(2, &buffer[0]);
 	glBindBuffer(GL_ARRAY_BUFFER, buffer[0]);
-	glBufferData(GL_ARRAY_BUFFER, vertexPointers.size(), vertexPointers[0], GL_STATIC_DRAW);
+	glBufferData(GL_ARRAY_BUFFER, vertexPointers.size()*sizeof(GLfloat), &vertexPointers.front(), GL_STATIC_DRAW);
 
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, buffer[1]);
-	glBufferData(GL_ELEMENT_ARRAY_BUFFER, indexPointers.size(), indexPointers[0], GL_STATIC_DRAW);
+	glBufferData(GL_ELEMENT_ARRAY_BUFFER, indexPointers.size()*sizeof(GLuint), &indexPointers.front(), GL_STATIC_DRAW);
 
 }
 void SpriteBatch::AddSprite(Sprite &sprite)

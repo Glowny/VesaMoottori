@@ -21,6 +21,11 @@ public:
 	void AddSprite(Sprite &sprite);
 	void AddSprite(Sprite &sprite, int order);
 
+	void purkkaChanges()
+	{
+		changes = true;
+	}
+
 	void SetShaderProgram(ShaderProgram &shaderProgram);
 	void SetDevice(GraphicsDevice &window);
 
