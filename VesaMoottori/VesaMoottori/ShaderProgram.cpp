@@ -1,8 +1,10 @@
 #include "ShaderProgram.h"
 #include <iostream>
 #include <fstream>
-//#define NDEBUG	// poista kommentointi tästä niin assertit poistetaan käytöstä.
 #include <cassert>
+//#define NDEBUG // Poista kommentointi tästä niin assertit poistetaan käytöstä.
+// Voi myös laittaa preprocessor macroihin.
+
 ShaderProgram::ShaderProgram()
 {
 	created = false;
@@ -19,13 +21,6 @@ bool ShaderProgram::AddShader(char* shaderCode, GLenum type)
 
 	GLuint newShader = glCreateShader(type); // Luodaan tyhjä shaderi.
 	GLint linkCheck = NULL;
-
-	//char *code = resourceManager.ShaderReader(textFile); // Luetaan koodi ennalta luetusta .txt filusta.
-	//if (shaderCode == NULL) // Tarkistetaan onnistuiko lukeminen.
-	//{
-	//	std::cout << "Ongelmia " << textFile << " lukemisesssa." << std::endl;
-	//	return false;
-	//}
 
 	glShaderSource(newShader, 1, &shaderCode, NULL); // Lisätään shaderin koodi itse shaderiin.
 	glCompileShader(newShader); // Kompiloidaan shadereiden koodit.
@@ -66,3 +61,12 @@ void ShaderProgram::GetAttribPointer(GLuint pos,GLuint color, GLuint tex)
 	glEnableVertexAttribArray(tex);
 }
 
+void ShaderProgram::RunProgram()
+{
+	glUseProgram(glObject);
+}
+
+int ShaderProgram::GetProgramLocation(std::string programName)
+{
+	return glObject;
+}
