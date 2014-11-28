@@ -109,6 +109,7 @@ int main()
 		glVertexAttribPointer(texLocation, 2u, GL_FLOAT, GL_FALSE, 7 * sizeof(GLfloat), reinterpret_cast<GLvoid*>(5 * sizeof(GLfloat)));
 
 		SpriteBatch.Draw();
+		
 		// drawelements spritebatchsisa
 
 		Window.Display();

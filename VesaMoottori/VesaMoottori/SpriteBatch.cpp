@@ -55,14 +55,17 @@ void SpriteBatch::Draw()
 	{
 		// K‰ynnistet‰‰n default shaderi.
 	}
-	GLuint currentTextureIndex = 1;
+	GLuint currentTextureIndex = 2;
 	//for (unsigned i = 0; i < drawables.size(); i++)
 	{
 		/*if (drawables[i].sprite->texture->getTextureIndex() != currentTextureIndex)*/
 		{
 			/*currentTextureIndex = drawables[i].sprite->texture->getTextureIndex();*/
 			glBindTexture(GL_TEXTURE_2D, currentTextureIndex);
-			glDrawElements(GL_TRIANGLES, 12u, GL_UNSIGNED_INT, reinterpret_cast<GLvoid*>(0 * sizeof(GLuint)));
+			glDrawElements(GL_TRIANGLES, 6u, GL_UNSIGNED_INT, reinterpret_cast<GLvoid*>(0 * sizeof(GLuint)));
+			currentTextureIndex = 1;
+			glBindTexture(GL_TEXTURE_2D, currentTextureIndex);
+			glDrawElements(GL_TRIANGLES, 6u, GL_UNSIGNED_INT, reinterpret_cast<GLvoid*>(6 * sizeof(GLuint)));
 		}
 	}
 }
