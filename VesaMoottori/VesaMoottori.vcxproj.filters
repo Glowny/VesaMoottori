@@ -70,9 +70,7 @@
     <ClInclude Include="VesaMoottori\Drawable.h">
       <Filter>Source Files\STRUCTS</Filter>
     </ClInclude>
-    <ClInclude Include="Keyboard.h">
-      <Filter>Source Files</Filter>
-    </ClInclude>
+    <ClInclude Include="Keyboard.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="VesaMoottori\Main.cpp">
