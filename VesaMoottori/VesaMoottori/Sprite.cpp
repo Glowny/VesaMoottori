@@ -211,6 +211,7 @@ void Sprite::createIndexData()
 	//nelikulmio
 	GLuint index [] =
 	{ 0, 1, 2, 1, 2, 3 };
+	
 
 	for (unsigned i = 0; i < 6; ++i)
 		INDEX_DATA[i] = index[i];

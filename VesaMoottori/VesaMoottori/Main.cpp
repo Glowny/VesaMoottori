@@ -10,6 +10,7 @@ int main()
 {
 	ResourceManager Resources;
 	Texture			*Gooby;
+	Texture			*Gooby2;
 	Sprite			sprite;
 	Sprite			sprite2;
 	bool			isRunning = true;
@@ -25,12 +26,13 @@ int main()
 
 	SpriteBatch.SetShaderProgram(Shader);
 
+	Gooby2 = Resources.CreateTexture("goofy.png", "goofy", vector2f(0.0f, 0.0f), 1.0f);
+	Gooby = Resources.CreateTexture("gooby.png", "gooby", vector2f(0.0f, 0.0f), 1.0f);
 
-	Gooby = Resources.CreateTexture("goofy.png", "gooby", vector2f(0.0f, 0.0f), 1.0f);
 	sprite.setTexture(Gooby);
-	sprite2.setTexture(Gooby);
+	sprite2.setTexture(Gooby2);
 	SpriteBatch.AddSprite(sprite, 0);
-	SpriteBatch.AddSprite(sprite, 1);
+	SpriteBatch.AddSprite(sprite2, 1);
 
 	// Tarkistetaan attribuuttien lokaatio.
 	const GLint posLocation = Shader.GetAttributeLocation("attrPosition");
@@ -41,7 +43,9 @@ int main()
 	bool xDir = 0;
 	bool yDir = 0;
 	//Shader.RunProgram();
-
+	glEnableVertexAttribArray(posLocation);
+	glEnableVertexAttribArray(colorLocation);
+	glEnableVertexAttribArray(texLocation);
 
 	while(Window.IsOpen())
 	{
@@ -79,8 +83,9 @@ int main()
 		{
 			wowY = wowY - 0.003f;
 		}
-		sprite.setPosition(vector2f(wowX, wowY));
 		sprite2.setPosition(vector2f(-wowX, -wowY));
+		sprite.setPosition(vector2f(wowX, wowY));
+		
 		//SpriteBatch.purkkaChanges();
 
 		MSG messages;
@@ -92,15 +97,12 @@ int main()
 			}
 		}
 		Window.Clear();
+		SpriteBatch.Update();
 
 		glVertexAttribPointer(posLocation, 2u, GL_FLOAT, GL_FALSE, 7 * sizeof(GLfloat), reinterpret_cast<GLvoid*>(0));
 		glVertexAttribPointer(colorLocation, 3u, GL_FLOAT, GL_FALSE, 7 * sizeof(GLfloat), reinterpret_cast<GLvoid*>(2 * sizeof(GLfloat)));
 		glVertexAttribPointer(texLocation, 2u, GL_FLOAT, GL_FALSE, 7 * sizeof(GLfloat), reinterpret_cast<GLvoid*>(5 * sizeof(GLfloat)));
-		glEnableVertexAttribArray(posLocation);
-		glEnableVertexAttribArray(colorLocation);
-		glEnableVertexAttribArray(texLocation);
-		/*glDrawElements(GL_TRIANGLES, 12u, GL_UNSIGNED_INT, reinterpret_cast<GLvoid*>(0));*/
-		SpriteBatch.Update();
+
 		SpriteBatch.Draw();
 		// drawelements spritebatchsisa
 

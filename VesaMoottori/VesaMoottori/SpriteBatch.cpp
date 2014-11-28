@@ -25,10 +25,10 @@ void SpriteBatch::Update()
 		changes = false;
 	}
 
-	for (unsigned int i = 0; i < drawables.size(); i++)
+	for (unsigned i = 0; i < drawables.size(); i++)
 	{
 		if (drawables[i].sprite->positionChanged)
-			drawables[i].sprite->changePositionData(size); // jos halutaan pysy‰ windowin koossa, eik‰ spritebatchin koossa niin muutetaan graphicsdevice.getsize()
+			drawables[i].sprite->changePositionData(size);
 
 		if (drawables[i].sprite->texturePositionChanged)
 			drawables[i].sprite->changeTexturePosition();
@@ -36,35 +36,32 @@ void SpriteBatch::Update()
 		if (drawables[i].sprite->colorChanged)
 			drawables[i].sprite->changeColorData();
 	}
-}
-void SpriteBatch::Draw()
-{
-	
-	// en oo ihan varma t‰st‰, tarviiko ilman muutoksia n‰it‰ bindata uusiksi.
-	// no jaa, tarvi tekstuurin jostaki
-	// n‰m‰ pit‰‰ teh‰ joka tapauksessa.
 
 	glBindBuffer(GL_ARRAY_BUFFER, buffer[0]);
 	glBufferData(GL_ARRAY_BUFFER, vertexPointers.size()*sizeof(GLfloat), vertexPointers.front(), GL_STATIC_DRAW);
 
+	
+}
+void SpriteBatch::Draw()
+{
+	
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, buffer[1]);
-	glBufferData(GL_ELEMENT_ARRAY_BUFFER, indexPointers.size()*sizeof(GLuint), indexPointers.front(), GL_STATIC_DRAW);
-	//
-	//
+	glBufferData(GL_ELEMENT_ARRAY_BUFFER, indexPointers.size()*sizeof(GLuint), &indexPointers.front(), GL_STATIC_DRAW);
+
 	if(shaderProgram->GetLinkStatus()) // Tarkistetaan shaderin linkkaus.
 		shaderProgram->RunProgram();
 	else
 	{
 		// K‰ynnistet‰‰n default shaderi.
 	}
-	GLuint currentTextureIndex = -1;
-	for (unsigned i = 0; i < drawables.size(); i++)
+	GLuint currentTextureIndex = 1;
+	//for (unsigned i = 0; i < drawables.size(); i++)
 	{
 		/*if (drawables[i].sprite->texture->getTextureIndex() != currentTextureIndex)*/
 		{
-			currentTextureIndex = drawables[i].sprite->texture->getTextureIndex();
+			/*currentTextureIndex = drawables[i].sprite->texture->getTextureIndex();*/
 			glBindTexture(GL_TEXTURE_2D, currentTextureIndex);
-			glDrawElements(GL_TRIANGLES, 12u/*ne indeksit*koko jotka piirret‰‰n t‰ll‰ kuvalla*/, GL_UNSIGNED_INT, reinterpret_cast<GLvoid*>(0/*indeksien piirron aloituskohta*/));
+			glDrawElements(GL_TRIANGLES, 6u, GL_UNSIGNED_INT, reinterpret_cast<GLvoid*>(6*sizeof(GLuint)));
 		}
 	}
 }
@@ -91,9 +88,10 @@ void SpriteBatch::CreateBuffer()
 	{
 		if (drawables[i].sprite != NULL)
 		{
+			int currentVertexSize = vertexPointers.size();
 			for (int j = 0; j < drawables[i].sprite->getIndexSize(); j++)
 			{
-				indexPointers.push_back(&drawables[i].sprite->getIndexPointer()[j]);
+				indexPointers.push_back(drawables[i].sprite->getIndexPointer()[j] + currentVertexSize-i*24u);
 			}
 			for (int j = 0; j < drawables[i].sprite->getVertexSize(); j++)
 			{
