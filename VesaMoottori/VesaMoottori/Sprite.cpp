@@ -141,7 +141,7 @@ void Sprite::changeVertexData()
 		VERTEX_DATA[i] = vertex[i];
 
 	// ei pakosta tarvita
-	texture->CreateBuffer(vertex, sizeof(vertex), INDEX_DATA, 6*4);
+	//texture->CreateBuffer(vertex, sizeof(vertex), INDEX_DATA, 6*4);
 }
 
 void Sprite::changePositionData(vector2f windowSize)

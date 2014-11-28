@@ -24,7 +24,8 @@ void SpriteBatch::Update()
 		CreateBuffer();
 		changes = false;
 	}
-	for (int i = 0; i < drawables.size(); i++)
+
+	for (unsigned int i = 0; i < drawables.size(); i++)
 	{
 		if (drawables[i].sprite->positionChanged)
 			drawables[i].sprite->changePositionData(size); // jos halutaan pysy‰ windowin koossa, eik‰ spritebatchin koossa niin muutetaan graphicsdevice.getsize()
@@ -41,8 +42,14 @@ void SpriteBatch::Draw()
 	
 	// en oo ihan varma t‰st‰, tarviiko ilman muutoksia n‰it‰ bindata uusiksi.
 	// no jaa, tarvi tekstuurin jostaki
+	// n‰m‰ pit‰‰ teh‰ joka tapauksessa.
+
 	glBindBuffer(GL_ARRAY_BUFFER, buffer[0]);
+	glBufferData(GL_ARRAY_BUFFER, vertexPointers.size()*sizeof(GLfloat), vertexPointers.front(), GL_STATIC_DRAW);
+
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, buffer[1]);
+	glBufferData(GL_ELEMENT_ARRAY_BUFFER, indexPointers.size()*sizeof(GLuint), indexPointers.front(), GL_STATIC_DRAW);
+	//
 	//
 	if(shaderProgram->GetLinkStatus()) // Tarkistetaan shaderin linkkaus.
 		shaderProgram->RunProgram();
@@ -51,9 +58,9 @@ void SpriteBatch::Draw()
 		// K‰ynnistet‰‰n default shaderi.
 	}
 	GLuint currentTextureIndex = -1;
-	for (int i = 0; i < drawables.size(); i++)
+	for (unsigned i = 0; i < drawables.size(); i++)
 	{
-		if (drawables[i].sprite->texture->getTextureIndex() != currentTextureIndex)
+		/*if (drawables[i].sprite->texture->getTextureIndex() != currentTextureIndex)*/
 		{
 			currentTextureIndex = drawables[i].sprite->texture->getTextureIndex();
 			glBindTexture(GL_TEXTURE_2D, currentTextureIndex);
@@ -80,7 +87,7 @@ void SpriteBatch::CreateBuffer()
 	//		}
 	//	}
 	//}
-	for (int i = 0; i < drawables.size(); i++)
+	for (unsigned i = 0; i < drawables.size(); i++)
 	{
 		if (drawables[i].sprite != NULL)
 		{
@@ -94,11 +101,7 @@ void SpriteBatch::CreateBuffer()
 			}
 		}
 	}
-	glBindBuffer(GL_ARRAY_BUFFER, buffer[0]);
-	glBufferData(GL_ARRAY_BUFFER, vertexPointers.size()*sizeof(GLfloat), &vertexPointers.front(), GL_STATIC_DRAW);
 
-	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, buffer[1]);
-	glBufferData(GL_ELEMENT_ARRAY_BUFFER, indexPointers.size()*sizeof(GLuint), &indexPointers.front(), GL_STATIC_DRAW);
 
 }
 void SpriteBatch::AddSprite(Sprite &sprite)

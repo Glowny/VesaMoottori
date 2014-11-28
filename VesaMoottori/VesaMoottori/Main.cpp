@@ -81,7 +81,7 @@ int main()
 		}
 		sprite.setPosition(vector2f(wowX, wowY));
 		sprite2.setPosition(vector2f(-wowX, -wowY));
-		SpriteBatch.purkkaChanges();
+		//SpriteBatch.purkkaChanges();
 
 		MSG messages;
 		while(Window.Update(messages))
