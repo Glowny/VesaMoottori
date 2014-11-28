@@ -20,12 +20,12 @@ bool ShaderProgram::AddShader(char* shaderCode, GLenum type)
 	GLuint newShader = glCreateShader(type); // Luodaan tyhjä shaderi.
 	GLint linkCheck = NULL;
 
-	/*char *code = resourceManager.ShaderReader(textFile); // Luetaan koodi ennalta luetusta .txt filusta.
-	if (shaderCode == NULL) // Tarkistetaan onnistuiko lukeminen.
-	{
-		std::cout << "Ongelmia " << textFile << " lukemisesssa." << std::endl;
-		return false;
-	}*/
+	//char *code = resourceManager.ShaderReader(textFile); // Luetaan koodi ennalta luetusta .txt filusta.
+	//if (shaderCode == NULL) // Tarkistetaan onnistuiko lukeminen.
+	//{
+	//	std::cout << "Ongelmia " << textFile << " lukemisesssa." << std::endl;
+	//	return false;
+	//}
 
 	glShaderSource(newShader, 1, &shaderCode, NULL); // Lisätään shaderin koodi itse shaderiin.
 	glCompileShader(newShader); // Kompiloidaan shadereiden koodit.
