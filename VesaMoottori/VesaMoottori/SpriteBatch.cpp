@@ -10,7 +10,7 @@ SpriteBatch::SpriteBatch()
 SpriteBatch::SpriteBatch(GraphicsDevice &window)
 {
 	changes = true;
-	size = vector2f((float)window.GetWindowSize().x, (float)window.GetWindowSize().y);
+	size = vector2f((float)window.GetSize().x, (float)window.GetSize().y);
 	(this->graphicsDevice) = &window;
 	
 }

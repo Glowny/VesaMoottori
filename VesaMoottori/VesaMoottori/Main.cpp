@@ -104,7 +104,7 @@ int main()
 
 		SpriteBatch.Update();
 		SpriteBatch.Draw();
-		glDrawElements(GL_TRIANGLES, 12u, GL_UNSIGNED_INT, reinterpret_cast<GLvoid*>(0));
+		// drawelements spritebatchsisa
 
 		Window.Display();
 	}
