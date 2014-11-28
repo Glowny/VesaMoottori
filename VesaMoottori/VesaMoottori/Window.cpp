@@ -14,6 +14,7 @@ Window::Window()
 	clientArea.bottom	= 500;
 	style				= WS_OVERLAPPEDWINDOW;
 	opened				= false;
+	Register();
 }
 
 Window::Window(std::string name, int width, int height)
@@ -29,9 +30,9 @@ Window::Window(std::string name, int width, int height)
 	clientArea.bottom	= height;
 	style				= WS_OVERLAPPEDWINDOW;
 	opened				= false;
+	Register();
 }
 
-// Alustaa ja rekisteröi windows-ikkunan. Ei voi tällä hetkellä kustomoida ollenkaan, korjataan myöhemmin.
 bool Window::Register()
 {
 	AdjustWindowRectEx(&clientArea, style, FALSE, 0);
@@ -82,6 +83,43 @@ bool Window::Register()
 	return true;
 }
 
+void Window::SetSize(int width, int height)
+{
+	if(opened)
+		DestroyWindow(windowHandle);
+	clientArea.right	= width;
+	clientArea.bottom	= height;
+	Register();
+}
+
+bool Window::Update(MSG &messages)
+{
+	if(PeekMessage(&messages, NULL, 0, 0, PM_REMOVE)) // Ikkuna ottaa vastaan viestejä.
+	{
+		DispatchMessage(&messages); // Vaihtee messagen tilalle jotain.
+		return true;
+	}
+	else
+		return false;
+}
+
+LRESULT CALLBACK Window::WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
+{
+	switch (message)
+	{
+	case WM_CLOSE: // Sent as a signal that a window or an application should terminate.
+		DestroyWindow(hWnd);
+		break;
+	case WM_DESTROY: // Sent when a window is being destroyed.
+		PostQuitMessage(0);
+		break;
+	default:
+		return DefWindowProc(hWnd, message, wParam, lParam);
+		break;
+	}
+	return 0;
+}
+
 HDC Window::GetDevice()
 {
 	return deviceContext;
@@ -107,48 +145,9 @@ bool Window::IsOpen()
 	return opened;
 }
 
-void Window::SetSize(int width, int height)
-{
-	if(opened)
-		DestroyWindow(windowHandle);
-	clientArea.right	= width;
-	clientArea.bottom	= height;
-	Register();
-}
-
-void Window::Update(MSG &messages)
-{
-	while (PeekMessage(&messages, NULL, 0, 0, PM_REMOVE)) // Ikkuna ottaa vastaan viestejä.
-	{
-		if (messages.message == WM_QUIT)
-		{
-			// Tuhotaan ikkuna.
-			break;
-		}
-		DispatchMessage(&messages);
-	}
-}
-
 vector2i Window::GetSize()
 {
 	return vector2i(clientArea.right, clientArea.bottom);
-}
-
-LRESULT CALLBACK Window::WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
-{
-	switch (message)
-	{
-	case WM_CLOSE: // Sent as a signal that a window or an application should terminate.
-		DestroyWindow(hWnd);
-		break;
-	case WM_DESTROY: // Sent when a window is being destroyed.
-		PostQuitMessage(0);
-		break;
-	default:
-		return DefWindowProc(hWnd, message, wParam, lParam);
-		break;
-	}
-	return 0;
 }
 
 Window::~Window()

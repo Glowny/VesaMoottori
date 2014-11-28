@@ -12,17 +12,19 @@ public:
 
 	Window();
 	Window(std::string name, int width, int height);
-	~Window();
-
+	
 	bool Register();
+	void SetSize(int width, int height);
+	bool Window::Update(MSG &messages);
+
 	HDC GetDevice();
 	HWND GetHandle();
 	void CloseWindow();
 	void OpenWindow();
 	bool IsOpen();
-	void SetSize(int width, int height);
-	void Update(MSG &messages);
 	vector2i GetSize();
+
+	~Window();
 
 private:
 	wchar_t*		className;

@@ -6,18 +6,20 @@ class GraphicsDevice
 public:
 	GraphicsDevice();
 	GraphicsDevice(std::string name, int width, int height);
-	~GraphicsDevice() {};
-
-	void SetWindow(Window &window);
-
-	bool IsOpen();
-	bool Close();
+	
 	bool Register();
-	void Update();
+	bool Glew();
+	bool Update(MSG &messages);
+	void Display();
+	void SetWindow(Window &window);
+	bool IsOpen();
+	
 	void Show();
 	void Clear();
-	bool Glew(); // Voisi muokata testaamaan muita GL-versioita.
-	vector2i GetWindowSize(); //Palauttaa X ja Y koot ikkunasta.
+	
+	vector2i GetSize();
+
+	~GraphicsDevice();
 
 private:
 	Window*					window;

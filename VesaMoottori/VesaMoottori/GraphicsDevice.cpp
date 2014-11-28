@@ -4,21 +4,28 @@
 
 GraphicsDevice::GraphicsDevice()
 {
-	renderingContext	= 0;
-	pixelFormat			= 0;
+	window = new Window();
+	renderingContext = 0;
+	pixelFormat = 0;	
+	if(Register())
+		std::cout << "GraphicsDevice created." << std::endl;
+	else
+		std::cout << "GraphicsDevice failed." << std::endl;
 }
 
 GraphicsDevice::GraphicsDevice(std::string name, int width, int height)
 {
-	window				= Window(name, width, height);
-	renderingContext	= 0;
-	pixelFormat			= 0;
+	window = new Window(name, width, height);
+	renderingContext = 0;
+	pixelFormat = 0;
+	if(Register())
+		std::cout << "GraphicsDevice created." << std::endl;
+	else
+		std::cout << "GraphicsDevice failed." << std::endl;
 }
 
 bool GraphicsDevice::Register()
 {
-	window.Register(); // Alustetaan normaali windows-ikkuna.
-
 	winPixel.nSize			= sizeof(PIXELFORMATDESCRIPTOR);
 	winPixel.nVersion		= 1;
 	winPixel.dwFlags		= PFD_DOUBLEBUFFER | PFD_DRAW_TO_WINDOW | LPD_SUPPORT_OPENGL;
@@ -26,17 +33,20 @@ bool GraphicsDevice::Register()
 	winPixel.cColorBits		= 24;
 	winPixel.cDepthBits		= 24;
 
-	pixelFormat = ChoosePixelFormat(window.GetDevice(), &winPixel); // Etsitään lähin pixeliformaatti jota voidaan käyttää.
-	if(!SetPixelFormat(window.GetDevice(), pixelFormat, &winPixel))
+	pixelFormat = ChoosePixelFormat(window->GetDevice(), &winPixel); // Etsitään lähin pixeliformaatti jota voidaan käyttää.
+	if(!SetPixelFormat(window->GetDevice(), pixelFormat, &winPixel))
 		std::cout << "SetPixelFormat failed!" << std::endl;
 	else
 		std::cout << "SetPixelFormat succeeded!" << std::endl;
 
-	renderingContext = wglCreateContext(window.GetDevice()); // Luodaan handle OpenGL renderöintiä varten.
-	wglMakeCurrent(window.GetDevice(), renderingContext); // Käytetään tätä ikkunaa komentokutsuissa.
+	renderingContext = wglCreateContext(window->GetDevice()); // Luodaan handle OpenGL renderöintiä varten.
+	wglMakeCurrent(window->GetDevice(), renderingContext); // Käytetään tätä ikkunaa komentokutsuissa.
 
 	if(Glew())
+	{
+		ShowWindow(window->GetHandle(), SW_SHOWNORMAL);
 		return true;
+	}
 	else
 		return false;
 }   
@@ -67,16 +77,28 @@ bool GraphicsDevice::Glew()
 	return true;
 }
 
-void GraphicsDevice::Update()
+void GraphicsDevice::SetWindow(Window &window)
 {
-	window.Update();
-	UpdateWindow(window.GetHandle());
-	SwapBuffers(window.GetDevice());
+	(this->window) = &window;
+	if(Register())
+		std::cout << "GraphicsDevice (SetWindow) succeed." << std::endl;
+	else
+		std::cout << "GraphicsDevice (SetWindow) fail." << std::endl;
 }
 
-void GraphicsDevice::Show()
+bool GraphicsDevice::Update(MSG &messages)
 {
-	ShowWindow(window.GetHandle(), SW_SHOWNORMAL);
+	// Ei vissiin tarvitse mitään OpenGL tarkistuksia.
+	if(window->Update(messages))
+		return true;
+	else
+		return false;
+}
+
+void GraphicsDevice::Display()
+{
+	UpdateWindow(window->GetHandle());
+	SwapBuffers(window->GetDevice());
 }
 
 void GraphicsDevice::Clear()
@@ -86,20 +108,28 @@ void GraphicsDevice::Clear()
 
 bool GraphicsDevice::IsOpen()
 {
-	return window.IsOpen();
+	//return window->IsOpen();
+	// Koodataan myöhemmin paremmat ikkuna-komennot jos on tarvetta.
+	return true;
 }
 
-bool GraphicsDevice::Close()
+vector2i GraphicsDevice::GetSize()
 {
-	return window.Close();
-}
-
-vector2i GraphicsDevice::GetWindowSize()
-{
-	return window.GetSize();
+	return window->GetSize();
 }
 
 GraphicsDevice::~GraphicsDevice()
 {
-	wglDeleteContext(hGLRC); // Tuhotaan renderöinti sisältö - pitää vielä koodata windowiin.
+	wglDeleteContext(renderingContext); // Tuhotaan renderöinti sisältö - pitää vielä koodata windowiin.
+	delete window;
 }
+
+//bool GraphicsDevice::Close()
+//{
+//	return window->Close();
+//}
+
+//void GraphicsDevice::Show()
+//{
+//	ShowWindow(window->GetHandle(), SW_SHOWNORMAL);
+//}

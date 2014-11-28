@@ -5,26 +5,6 @@
 #include "Sprite.h"
 #include "SpriteBatch.h"
 
-//static const GLfloat triangleData[] =
-//{
-//	-0.8f, -0.8f,		
-//	0.0f, 0.0f, 0.0f,	// Väri.
-//	0.0f, 0.0f,			// Tekstuuri.
-//
-//	-0.8f, 0.8f,
-//	0.0f, 0.0f, 0.0f,
-//	0.0f, 1.0f,
-//
-//	0.8f, 0.8f,
-//	0.0f, 0.0f, 0.0f,
-//	1.0f, 1.0f,
-//
-//	0.8f, -0.8f,
-//	0.0f, 0.0f, 0.0f,
-//	1.0f, 0.0f
-//};
-//
-//static const GLuint indexData[] = { 0, 1, 2, 0, 2, 3 };
 
 int main()
 {
@@ -33,10 +13,9 @@ int main()
 	Sprite			sprite;
 	Sprite			sprite2;
 	bool			isRunning = true;
-	MSG				Messages;
 	GraphicsDevice	Window("eitoimicustomnimi", 800, 800);
 	ShaderProgram	Shader;
-	SpriteBatch		spriteBatch(Window);
+	SpriteBatch		SpriteBatch(Window);
 
 	Window.Register();
 	Window.Show();
@@ -45,51 +24,47 @@ int main()
 	Shader.AddShader(Resources.LoadShader("fragmentShader.txt", "fragment"), GL_FRAGMENT_SHADER);
 	Shader.LinkProgram();
 
-	spriteBatch.SetShaderProgram(Shader);
-	spriteBatch.AddSprite(sprite, 0);
-	spriteBatch.AddSprite(sprite, 1);
+	SpriteBatch.SetShaderProgram(Shader);
+	SpriteBatch.AddSprite(sprite, 0);
+	SpriteBatch.AddSprite(sprite, 1);
 
 	Resources.LoadPicture("goofy.png");
 	Gooby = Resources.CreateTexture("goofy.png", "gooby", vector2f(0.0f, 0.0f), 1.0f);
 	sprite.setTexture(Gooby);
-
 	sprite2.setTexture(Gooby);
-
-	//Gooby->CreateBuffer(triangleData, sizeof(triangleData), indexData, sizeof(indexData)); tehdään spriten kautta loopissa.
 
 
 	// Tarkistetaan attribuuttien lokaatio.
 	const GLint posLocation = Shader.GetAttributeLocation("attrPosition");
 	const GLint colorLocation = Shader.GetAttributeLocation("attrColor");
 	const GLint texLocation = Shader.GetAttributeLocation("textPosition");
-	// physics f yes
 	float wowX = 0;
 	float wowY = 0;
 	bool xDir = 0;
 	bool yDir = 0;
 	//Shader.RunProgram();
-	//
-	while (Window.IsOpen())
+
+
+	while(Window.IsOpen())
 	{
-		// physics f yes
-		if (wowX > 1.0f)
+		if(wowX > 1.0f)
 		{
 			xDir = false;
 		}
-		if (wowX < -1.0f)
+		if(wowX < -1.0f)
 		{
 			xDir = true;
 		}
-		if (wowY > 1.0f)
+		if(wowY > 1.0f)
 		{
 			yDir = false;
 		}
-		if (wowY < -1.0f)
+		if(wowY < -1.0f)
 		{
 			yDir = true;
 		}
 
-		if (xDir)
+		if(xDir)
 		{
 			wowX = wowX+0.001f;
 		}
@@ -98,7 +73,7 @@ int main()
 			wowX = wowX -0.002f;
 		}
 
-		if (yDir)
+		if(yDir)
 		{
 			wowY = wowY + 0.004f;
 		}
@@ -108,28 +83,38 @@ int main()
 		}
 		sprite.setPosition(vector2f(wowX, wowY));
 		sprite2.setPosition(vector2f(-wowX, -wowY));
-		//
-			Window.Update();
-			Window.Clear();
-
-			glVertexAttribPointer(posLocation, 2u, GL_FLOAT, GL_FALSE, 7 * sizeof(GLfloat), reinterpret_cast<GLvoid*>(0));
-			glVertexAttribPointer(colorLocation, 3u, GL_FLOAT, GL_FALSE, 7 * sizeof(GLfloat), reinterpret_cast<GLvoid*>(2 * sizeof(GLfloat)));
-			glVertexAttribPointer(texLocation, 2u, GL_FLOAT, GL_FALSE, 7 * sizeof(GLfloat), reinterpret_cast<GLvoid*>(5 * sizeof(GLfloat)));
-			glEnableVertexAttribArray(posLocation);
-			glEnableVertexAttribArray(colorLocation);
-			glEnableVertexAttribArray(texLocation);
-			
-			spriteBatch.Update();
-			spriteBatch.Draw();
-			glDrawElements(GL_TRIANGLES, 12u, GL_UNSIGNED_INT, reinterpret_cast<GLvoid*>(0));
 
 
+		MSG messages;
+		while(Window.Update(messages))
+		{
+			if(messages.message == WM_QUIT)
+			{
+				// Tuhotaan ikkuna, ei ole vielä koodattu.
+			}
+		}
+		Window.Clear();
+
+		glVertexAttribPointer(posLocation, 2u, GL_FLOAT, GL_FALSE, 7 * sizeof(GLfloat), reinterpret_cast<GLvoid*>(0));
+		glVertexAttribPointer(colorLocation, 3u, GL_FLOAT, GL_FALSE, 7 * sizeof(GLfloat), reinterpret_cast<GLvoid*>(2 * sizeof(GLfloat)));
+		glVertexAttribPointer(texLocation, 2u, GL_FLOAT, GL_FALSE, 7 * sizeof(GLfloat), reinterpret_cast<GLvoid*>(5 * sizeof(GLfloat)));
+		glEnableVertexAttribArray(posLocation);
+		glEnableVertexAttribArray(colorLocation);
+		glEnableVertexAttribArray(texLocation);
+
+		SpriteBatch.Update();
+		SpriteBatch.Draw();
+		glDrawElements(GL_TRIANGLES, 12u, GL_UNSIGNED_INT, reinterpret_cast<GLvoid*>(0));
+
+		Window.Display();
 	}
 
-	//return (int) Messages.wParam;
 	return 0;
 }
 
+
+
+//return (int) Messages.wParam;
 //glBindTexture(GL_TEXTURE_2D, 0u);
 //glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0u);
 //glBindBuffer(GL_ARRAY_BUFFER, 0u);
