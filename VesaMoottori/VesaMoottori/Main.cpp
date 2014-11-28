@@ -101,7 +101,7 @@ int main()
 		glEnableVertexAttribArray(posLocation);
 		glEnableVertexAttribArray(colorLocation);
 		glEnableVertexAttribArray(texLocation);
-
+		glDrawElements(GL_TRIANGLES, 12u, GL_UNSIGNED_INT, reinterpret_cast<GLvoid*>(0));
 		SpriteBatch.Update();
 		SpriteBatch.Draw();
 		// drawelements spritebatchsisa
