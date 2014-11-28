@@ -26,7 +26,6 @@ int main()
 	SpriteBatch.SetShaderProgram(Shader);
 
 
-	Resources.LoadPicture("goofy.png");
 	Gooby = Resources.CreateTexture("goofy.png", "gooby", vector2f(0.0f, 0.0f), 1.0f);
 	sprite.setTexture(Gooby);
 	sprite2.setTexture(Gooby);
