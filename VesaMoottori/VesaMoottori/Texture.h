@@ -26,10 +26,13 @@ public:
 	GLuint GetTexture() { return textureIndex; } // Palauttaa bindatun indeksin textureen.
 	//void DestroyTexture(GLuint index);
 	~Texture() {};
-
+	GLuint getTextureIndex()
+	{
+		return textureIndex;
+	}
 private:
 	TextureBuffer buffer;
-	GLuint textureIndex; // Texturen bindattu indeksi.
+	GLuint textureIndex;
 	GLfloat scale;
 	vector2f position;
 	Image *image;

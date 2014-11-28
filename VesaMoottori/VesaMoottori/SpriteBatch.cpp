@@ -38,6 +38,7 @@ void SpriteBatch::Draw()
 {
 	
 	// en oo ihan varma tästä, tarviiko ilman muutoksia näitä bindata uusiksi.
+	glBindTexture(GL_TEXTURE_2D, drawables[0].sprite->texture->getTextureIndex()); // no jaa, tarvi tekstuurin jostaki
 	glBindBuffer(GL_ARRAY_BUFFER, buffer[0]);
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, buffer[1]);
 	//

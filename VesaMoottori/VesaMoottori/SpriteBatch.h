@@ -37,6 +37,7 @@ private:
 	std::vector<GLfloat*> vertexPointers;
 	GLuint buffer[2];
 	void CreateBuffer();
+
 	/*
 
 	
