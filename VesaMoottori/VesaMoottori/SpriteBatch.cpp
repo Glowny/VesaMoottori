@@ -17,6 +17,30 @@ SpriteBatch::SpriteBatch(GraphicsDevice &window)
 	glGenBuffers(2, &buffer[0]);
 
 }
+
+void SpriteBatch::CreateBuffer()
+{
+
+	indexPointers.clear();
+	vertexPointers.clear();
+
+	for (unsigned i = 0; i < drawables.size(); i++)
+	{
+		if (drawables[i].sprite != NULL)
+		{
+			for (int j = 0; j < drawables[i].sprite->getIndexSize(); j++)
+			{
+				indexPointers.push_back(drawables[i].sprite->getIndexPointer()[j] + i * 4); // yhden neliˆn piirt‰miseen tarvittava pistem‰‰r‰, t‰ytyy vaihtaa jos halutaan erimuotoisia kuvioita
+			}
+			for (int j = 0; j < drawables[i].sprite->getVertexSize(); j++)
+			{
+				vertexPointers.push_back(&drawables[i].sprite->getVertexPointer()[j]);
+			}
+		}
+	}
+
+}
+
 void SpriteBatch::Update()
 {
 	if (changes)
@@ -40,14 +64,14 @@ void SpriteBatch::Update()
 
 	glBindBuffer(GL_ARRAY_BUFFER, buffer[0]);
 	glBufferData(GL_ARRAY_BUFFER, vertexPointers.size()*sizeof(GLfloat), vertexPointers.front(), GL_STATIC_DRAW);
+	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, buffer[1]);
+	glBufferData(GL_ELEMENT_ARRAY_BUFFER, indexPointers.size()*sizeof(GLuint), &indexPointers.front(), GL_STATIC_DRAW);
+
 
 
 }
 void SpriteBatch::Draw()
 {
-
-	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, buffer[1]);
-	glBufferData(GL_ELEMENT_ARRAY_BUFFER, indexPointers.size()*sizeof(GLuint), &indexPointers.front(), GL_STATIC_DRAW);
 
 	if (shaderProgram->GetLinkStatus()) // Tarkistetaan shaderin linkkaus.
 		shaderProgram->RunProgram();
@@ -55,57 +79,49 @@ void SpriteBatch::Draw()
 	{
 		// K‰ynnistet‰‰n default shaderi.
 	}
-	GLuint currentTextureIndex = 2;
-	//for (unsigned i = 0; i < drawables.size(); i++)
+	// Tarkistetaan onko mit‰‰n piirett‰v‰‰ edes.
+	// Ohjelma kaatuu jos ei ole asetettu tekstuuria jokaiselle piirett‰v‰lle,
+	// T‰h‰n teht‰v‰ jonkinlainen korjaus
+	if (drawables.size() != 0) 
 	{
-		/*if (drawables[i].sprite->texture->getTextureIndex() != currentTextureIndex)*/
+		GLuint currentTextureIndex = drawables[0].sprite->texture->getTextureIndex();
+		unsigned textureAmount = 0;
+		for (unsigned i = 0; i < drawables.size(); i++)
 		{
-			/*currentTextureIndex = drawables[i].sprite->texture->getTextureIndex();*/
-			glBindTexture(GL_TEXTURE_2D, currentTextureIndex);
-			glDrawElements(GL_TRIANGLES, 6u, GL_UNSIGNED_INT, reinterpret_cast<GLvoid*>(0 * sizeof(GLuint)));
-			currentTextureIndex = 1;
-			glBindTexture(GL_TEXTURE_2D, currentTextureIndex);
-			glDrawElements(GL_TRIANGLES, 6u, GL_UNSIGNED_INT, reinterpret_cast<GLvoid*>(6 * sizeof(GLuint)));
-		}
+			// tarkastetaan onko t‰m‰n indeksin tekstuuri sama kuin edellisen, [0]-indeksi aina true.
+			if (drawables[i].sprite->texture->getTextureIndex() == currentTextureIndex)		
+			{
+				textureAmount++;
+			}
+			else
+			{
+				glBindTexture(GL_TEXTURE_2D, currentTextureIndex);
+				// Kun tulee indeksi jonka tekstuuri on eri kuin edellisell‰ kierroksella,
+				// piiret‰‰n kaikki edelliset joilla oli sama tekstuuri.
+				// Aloituskohta on indeksivektorin indeksien m‰‰r‰ (6) kerrottuna edellisen kierroksen kierrosm‰‰r‰ll‰ (i-1). 
+
+				// 6u toimii vain jos kaikkien spritejen indeksim‰‰r‰ on sama (6),
+				// jos halutaan piirt‰‰ indeksim‰‰r‰lt‰‰n erikokoisia, on otettava talteen jo piirrettyjen indeksien koko, 
+				// sek‰ selvitt‰‰ ehtolauseessa, onko indeksim‰‰r‰ sama kuin edellisess‰.
+				// Eli vastaava muuttuja currentTextureIndex:lle.
+				// Kannattaa varmaan toteuttaa 6u:n tilalle sprite->getIndexSize(), VASTA kun aletaan tukemaan erilaisia indeksim‰‰ri‰,
+				// n‰in pysyy ajatus paremmin tehdess‰.
+
+				glDrawElements(GL_TRIANGLES, textureAmount * 6u, GL_UNSIGNED_INT, reinterpret_cast<GLvoid*>((i - 1) * 6u * sizeof(GLuint)));
+
+				// lopuksi seuraavalla kierroksella piirrett‰v‰ tekstuuri, ja nollataan m‰‰r‰.
+				currentTextureIndex = drawables[i].sprite->texture->getTextureIndex();
+				textureAmount = 1;
+			}
+		};
+		// for-loopin j‰lkeen piiret‰‰n kaikki ne spritet, joilla oli sama tekstuuri kuin viimeisen indeksin tekstuurilla.
+		glDrawElements(GL_TRIANGLES, textureAmount * 6u, GL_UNSIGNED_INT, reinterpret_cast<GLvoid*>((drawables.size() - 1) * 6u * sizeof(GLuint)));
+
+		// T‰m‰ koodi ei jostain syyst‰ piirr‰ useampaa kuin yht‰ sprite‰, mutta virhe on muualla kuin tekstuurintarkistuksessa.
+		// Ei toiminut ennen kuin lis‰sin
 	}
 }
-void SpriteBatch::CreateBuffer()
-{
-	//asetetaan buffereihin oikea piirtoj‰rjestys.
-	indexPointers.clear();
-	vertexPointers.clear();
-	//for (std::vector<Drawable>::iterator it = drawables.begin(); it != drawables.end(); it++)
-	//{
-	//	if (it->sprite != NULL)
-	//	{
-	//		for (int i = 0; i < it->sprite->getIndexSize(); i++)
-	//		{
-	//			indexPointers.push_back(&it->sprite->getIndexPointer()[i]);
-	//		}
-	//		for (int i = 0; i < it->sprite->getVertexSize(); i++)
-	//		{
-	//			vertexPointers.push_back(&it->sprite->getVertexPointer()[i]);
-	//		}
-	//	}
-	//}
-	for (unsigned i = 0; i < drawables.size(); i++)
-	{
-		if (drawables[i].sprite != NULL)
-		{
-			int currentVertexSize = vertexPointers.size();
-			for (int j = 0; j < drawables[i].sprite->getIndexSize(); j++)
-			{
-				indexPointers.push_back(drawables[i].sprite->getIndexPointer()[j] + currentVertexSize - i * 24u);
-			}
-			for (int j = 0; j < drawables[i].sprite->getVertexSize(); j++)
-			{
-				vertexPointers.push_back(&drawables[i].sprite->getVertexPointer()[j]);
-			}
-		}
-	}
 
-
-}
 void SpriteBatch::AddSprite(Sprite &sprite)
 {
 	Drawable temp;
@@ -160,3 +176,19 @@ SpriteBatch::~SpriteBatch()
 {
 	// TERMINATE EVERYTHING
 }
+
+//asetetaan buffereihin oikea piirtoj‰rjestys.
+//for (std::vector<Drawable>::iterator it = drawables.begin(); it != drawables.end(); it++)
+//{
+//	if (it->sprite != NULL)
+//	{
+//		for (int i = 0; i < it->sprite->getIndexSize(); i++)
+//		{
+//			indexPointers.push_back(&it->sprite->getIndexPointer()[i]);
+//		}
+//		for (int i = 0; i < it->sprite->getVertexSize(); i++)
+//		{
+//			vertexPointers.push_back(&it->sprite->getVertexPointer()[i]);
+//		}
+//	}
+//}

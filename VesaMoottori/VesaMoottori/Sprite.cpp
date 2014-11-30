@@ -91,6 +91,9 @@ void Sprite::setColorRGB(float red, float blue, float green)
 	this->blue = blue;
 	this->green = green;
 	colorChanged = true;
+	// DEBUGAAN SAA OTTAA POIS
+	changeColorData();
+	//
 }
 
 float Sprite::getColorR()

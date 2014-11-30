@@ -12,8 +12,7 @@ int main()
 	ResourceManager Resources;
 	Texture			*Gooby;
 	Texture			*Gooby2;
-	Sprite			sprite;
-	Sprite			sprite2;
+	Sprite			sprite, sprite2, sprite3;	
 	bool			isRunning = true;
 	GraphicsDevice	Window("eitoimicustomnimi", 800, 800);
 	ShaderProgram	Shader;
@@ -33,9 +32,15 @@ int main()
 
 	sprite.setTexture(Gooby);
 	sprite2.setTexture(Gooby2);
-	SpriteBatch.AddSprite(sprite, 0);
-	SpriteBatch.AddSprite(sprite2, 1);
+	sprite3.setTexture(Gooby);
 
+	SpriteBatch.AddSprite(sprite3, 1);
+	SpriteBatch.AddSprite(sprite2, 1);
+	SpriteBatch.AddSprite(sprite, 2);
+
+	sprite.setColorRGB(0.1f, 0.2f, 0.3f);
+	sprite2.setColorRGB(0.4f, 0.5f, 0.6f);
+	sprite3.setColorRGB(0.7f, 0.8f, 0.9f);
 	// Tarkistetaan attribuuttien lokaatio.
 	const GLint posLocation = Shader.GetAttributeLocation("attrPosition");
 	const GLint colorLocation = Shader.GetAttributeLocation("attrColor");
@@ -87,6 +92,7 @@ int main()
 		}
 		sprite2.setPosition(vector2f(-wowX, -wowY));
 		sprite.setPosition(vector2f(wowX, wowY));
+		sprite3.setPosition(vector2f(0.5, 0.5));
 		
 		//SpriteBatch.purkkaChanges();
 
