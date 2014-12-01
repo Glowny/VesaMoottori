@@ -58,9 +58,6 @@
     <ClInclude Include="VesaMoottori\vector2.h">
       <Filter>Source Files\STRUCTS</Filter>
     </ClInclude>
-    <ClInclude Include="VesaMoottori\TextureBuffer.h">
-      <Filter>Source Files\STRUCTS</Filter>
-    </ClInclude>
     <ClInclude Include="VesaMoottori\Buffers.h">
       <Filter>Source Files\SCRAP</Filter>
     </ClInclude>
@@ -70,7 +67,12 @@
     <ClInclude Include="VesaMoottori\Drawable.h">
       <Filter>Source Files\STRUCTS</Filter>
     </ClInclude>
-    <ClInclude Include="Keyboard.h" />
+    <ClInclude Include="Keyboard.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="VesaMoottori\TextureBuffer.h">
+      <Filter>Source Files\TODO</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="VesaMoottori\Main.cpp">
