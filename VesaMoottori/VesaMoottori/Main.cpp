@@ -27,20 +27,21 @@ int main()
 
 	SpriteBatch.SetShaderProgram(Shader);
 
-	Gooby2 = Resources.CreateTexture("goofy.png", "goofy", vector2f(0.0f, 0.0f), 1.0f);
+	//Gooby2 = Resources.CreateTexture("goofy.png", "goofy", vector2f(0.0f, 0.0f), 1.0f);
 	Gooby = Resources.CreateTexture("gooby.png", "gooby", vector2f(0.0f, 0.0f), 1.0f);
 
-	sprite.setTexture(Gooby);
-	sprite2.setTexture(Gooby2);
-	sprite3.setTexture(Gooby);
+	sprite.SetTexture(Gooby);
+	sprite.SetPosition(vector2i(200, 300));
+	//sprite2.setTexture(Gooby2);
+	//sprite3.setTexture(Gooby);
 
-	SpriteBatch.AddSprite(sprite3, 1);
-	SpriteBatch.AddSprite(sprite2, 1);
+	//SpriteBatch.AddSprite(sprite3, 1);
+	//SpriteBatch.AddSprite(sprite2, 1);
 	SpriteBatch.AddSprite(sprite, 2);
 
-	sprite.setColorRGB(0.1f, 0.2f, 0.3f);
-	sprite2.setColorRGB(0.4f, 0.5f, 0.6f);
-	sprite3.setColorRGB(0.7f, 0.8f, 0.9f);
+	//sprite.setColorRGB(0.1f, 0.2f, 0.3f);
+	//sprite2.setColorRGB(0.4f, 0.5f, 0.6f);
+	//sprite3.setColorRGB(0.7f, 0.8f, 0.9f);
 	// Tarkistetaan attribuuttien lokaatio.
 	const GLint posLocation = Shader.GetAttributeLocation("attrPosition");
 	const GLint colorLocation = Shader.GetAttributeLocation("attrColor");
@@ -56,43 +57,43 @@ int main()
 
 	while(Window.IsOpen())
 	{
-		if(wowX > 1.0f)
-		{
-			xDir = false;
-		}
-		if(wowX < -1.0f)
-		{
-			xDir = true;
-		}
-		if(wowY > 1.0f)
-		{
-			yDir = false;
-		}
-		if(wowY < -1.0f)
-		{
-			yDir = true;
-		}
+		//if(wowX > 1.0f)
+		//{
+		//	xDir = false;
+		//}
+		//if(wowX < -1.0f)
+		//{
+		//	xDir = true;
+		//}
+		//if(wowY > 1.0f)
+		//{
+		//	yDir = false;
+		//}
+		//if(wowY < -1.0f)
+		//{
+		//	yDir = true;
+		//}
 
-		if(xDir)
-		{
-			wowX = wowX+0.001f;
-		}
-		else
-		{
-			wowX = wowX -0.002f;
-		}
+		//if(xDir)
+		//{
+		//	wowX = wowX+0.001f;
+		//}
+		//else
+		//{
+		//	wowX = wowX -0.002f;
+		//}
 
-		if(yDir)
-		{
-			wowY = wowY + 0.004f;
-		}
-		else
-		{
-			wowY = wowY - 0.003f;
-		}
-		sprite2.setPosition(vector2f(-wowX, -wowY));
-		sprite.setPosition(vector2f(wowX, wowY));
-		sprite3.setPosition(vector2f(0.5, 0.5));
+		//if(yDir)
+		//{
+		//	wowY = wowY + 0.004f;
+		//}
+		//else
+		//{
+		//	wowY = wowY - 0.003f;
+		//}
+		//sprite2.setPosition(vector2f(-wowX, -wowY));
+		//sprite.setPosition(vector2f(wowX, wowY));
+		//sprite3.setPosition(vector2f(0.5, 0.5));
 		
 		//SpriteBatch.purkkaChanges();
 
@@ -108,7 +109,7 @@ int main()
 
 		}
 		Window.Clear();
-		SpriteBatch.Update();
+		//SpriteBatch.Update();
 
 		glVertexAttribPointer(posLocation, 2u, GL_FLOAT, GL_FALSE, 7 * sizeof(GLfloat), reinterpret_cast<GLvoid*>(0));
 		glVertexAttribPointer(colorLocation, 3u, GL_FLOAT, GL_FALSE, 7 * sizeof(GLfloat), reinterpret_cast<GLvoid*>(2 * sizeof(GLfloat)));

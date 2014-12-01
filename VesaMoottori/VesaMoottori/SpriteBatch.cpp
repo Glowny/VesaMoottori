@@ -42,19 +42,15 @@ void SpriteBatch::Draw()
 	{
 		for(std::vector<Drawable>::iterator it = drawables.begin(); it != drawables.end(); it++)
 		{
+			// Piirrett‰‰n vain spritej‰ - pit‰‰ luoda uudestaan muille tyypeille jos tehd‰‰n.
 			if((it->sprite->GetSizeSet()) && (it->sprite->GetTextureSet()))
 			{
-
+				it->sprite->Draw(arrayBuffer, elementArrayBuffer);
+				glBufferData(GL_ARRAY_BUFFER, 28 * sizeof(GLfloat), &(it->sprite->VERTEX_DATA), GL_STATIC_DRAW);
+				glBufferData(GL_ELEMENT_ARRAY_BUFFER, 6 * sizeof(GLuint), &(it->sprite->INDEX_DATA), GL_STATIC_DRAW);
+				glDrawElements(GL_TRIANGLES, 6u, GL_UNSIGNED_INT, reinterpret_cast<GLvoid*>(it->sprite->INDEX_DATA));
 			}
 		}
-
-		// Piirrett‰‰n vain spriteh‰ - pit‰‰ luoda uudestaan muille tyypeille jos tehd‰‰n.
-		glBindBuffer(GL_ARRAY_BUFFER, arrayBuffer);
-		glBufferData(GL_ARRAY_BUFFER, vertexPointers.size()*sizeof(GLfloat), vertexPointers.front(), GL_STATIC_DRAW);
-		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, elementArrayBuffer);
-		glBufferData(GL_ELEMENT_ARRAY_BUFFER, indexPointers.size()*sizeof(GLuint), &indexPointers.front(), GL_STATIC_DRAW);
-
-		glDrawElements(GL_TRIANGLES, textureAmount * 6u, GL_UNSIGNED_INT, reinterpret_cast<GLvoid*>((drawables.size() - 1) * 6u * sizeof(GLuint)));
 
 		// Siivotaan j‰lki‰.
 		glBindTexture(GL_TEXTURE_2D, 0u);
