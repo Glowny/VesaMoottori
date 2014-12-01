@@ -40,6 +40,15 @@ void SpriteBatch::Draw()
 
 	if(drawables.size() != 0) // Onko piirrett‰vi‰.
 	{
+		for(std::vector<Drawable>::iterator it = drawables.begin(); it != drawables.end(); it++)
+		{
+			if((it->sprite->GetSizeSet()) && (it->sprite->GetTextureSet()))
+			{
+
+			}
+		}
+
+		// Piirrett‰‰n vain spriteh‰ - pit‰‰ luoda uudestaan muille tyypeille jos tehd‰‰n.
 		glBindBuffer(GL_ARRAY_BUFFER, arrayBuffer);
 		glBufferData(GL_ARRAY_BUFFER, vertexPointers.size()*sizeof(GLfloat), vertexPointers.front(), GL_STATIC_DRAW);
 		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, elementArrayBuffer);
