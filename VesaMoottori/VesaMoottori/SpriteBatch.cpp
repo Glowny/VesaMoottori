@@ -51,6 +51,7 @@ void SpriteBatch::Draw()
 
 	if(drawables.size() != 0) // Onko piirrettäviä.
 	{
+<<<<<<< HEAD
 		for(std::vector<Drawable>::iterator it = drawables.begin(); it != drawables.end(); it++)
 		{
 <<<<<<< HEAD
@@ -103,6 +104,8 @@ void SpriteBatch::Draw()
 		}
 
 		// Piirrettään vain spritehä - pitää luoda uudestaan muille tyypeille jos tehdään.
+=======
+>>>>>>> parent of e336557... Backup II
 		glBindBuffer(GL_ARRAY_BUFFER, arrayBuffer);
 		glBufferData(GL_ARRAY_BUFFER, vertexPointers.size()*sizeof(GLfloat), vertexPointers.front(), GL_STATIC_DRAW);
 		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, elementArrayBuffer);
