@@ -15,39 +15,36 @@ public:
 	SpriteBatch(GraphicsDevice &window);
 	~SpriteBatch();
 
+	void Update();
 	void Draw();
 
 	void AddSprite(Sprite &sprite);
 	void AddSprite(Sprite &sprite, int order);
 
+	void purkkaChanges()
+	{
+		changes = true;
+	}
+
 	void SetShaderProgram(ShaderProgram &shaderProgram);
 	void SetDevice(GraphicsDevice &window);
-
-	// Nämä tulee myöhemmin.
-	//void Update();
-	//void SetSize(); 
-	//void SetPosition();
 
 private:
 	void Sort(); // Pitää piirrot järjestyksessä.
 	std::vector<Drawable>::iterator FindLocation(int order); // Iteraattori help-funktio.
-	void CreateBuffers();
-
-	GLuint arrayBuffer;
-	GLuint elementArrayBuffer;
 
 	std::vector<Drawable> drawables;
 	ShaderProgram *shaderProgram;
 	GraphicsDevice *graphicsDevice;
+	bool changes;
 	vector2f size;
-
-	/*
-	//void purkkaChanges() { changes = true; }
 	std::vector<GLuint> indexPointers;
 	std::vector<GLfloat*> vertexPointers;
 	GLuint buffer[2];
 	void CreateBuffer();
-	bool changes;
+
+	/*
+
 
 	void addSprite(GLuint* indexPointer, GLsizei indexSize, GLfloat* vertexPointer, GLsizei vertexSize) // tai vain sprite ja siitä repii noi irti.
 	{

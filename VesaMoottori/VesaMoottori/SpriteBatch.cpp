@@ -1,21 +1,21 @@
+
 #include "SpriteBatch.h"
 #include <algorithm>
 #include <assert.h>
 
 SpriteBatch::SpriteBatch()
 {
-	//changes = true;
-	//glGenBuffers(2, &buffer[0]);
+	changes = true;
 	size = vector2f(0.0f, 0.0f);
-	CreateBuffers();
+	glGenBuffers(2, &buffer[0]);
 }
 
 SpriteBatch::SpriteBatch(GraphicsDevice &window)
 {
-	//changes = true;
-	//glGenBuffers(2, &buffer[0]);
+	changes = true;
 	size = vector2f((float) window.GetSize().x, (float) window.GetSize().y);
 	(this->graphicsDevice) = &window;
+<<<<<<< HEAD
 	CreateBuffers();
 }
 
@@ -143,49 +143,35 @@ void SpriteBatch::AddSprite(Sprite &sprite, int order)
 	temp.sprite = &sprite;
 	drawables.insert(FindLocation(order), temp);
 }
+=======
+	glGenBuffers(2, &buffer[0]);
+>>>>>>> parent of 6d13cfe... Backup I
 
-void SpriteBatch::SetShaderProgram(ShaderProgram &shaderProgram)
-{
-	(this->shaderProgram) = &shaderProgram;
 }
 
-void SpriteBatch::SetDevice(GraphicsDevice &graphicsDevice)
+void SpriteBatch::CreateBuffer()
 {
-	(this->graphicsDevice) = &graphicsDevice;
-}
 
-void SpriteBatch::Sort()
-{
-	for (std::vector<Drawable>::iterator it = drawables.begin(); it != drawables.end(); it++)
+	indexPointers.clear();
+	vertexPointers.clear();
+
+	for (unsigned i = 0; i < drawables.size(); i++)
 	{
-		// Sortataan piirrettävät orderin mukaan.
-		std::sort(drawables.begin(), drawables.end(),
-			[](Drawable a, Drawable b){return (a.drawOrder > b.drawOrder); });
+		if (drawables[i].sprite != NULL)
+		{
+			for (int j = 0; j < drawables[i].sprite->getIndexSize(); j++)
+			{
+				indexPointers.push_back(drawables[i].sprite->getIndexPointer()[j] + i * 4); // yhden neliön piirtämiseen tarvittava indeksimäärä, täytyy vaihtaa jos halutaan erimuotoisia kuvioita
+			}
+			for (int j = 0; j < drawables[i].sprite->getVertexSize(); j++)
+			{
+				vertexPointers.push_back(&drawables[i].sprite->getVertexPointer()[j]);
+			}
+		}
 	}
+
 }
 
-std::vector<Drawable>::iterator SpriteBatch::FindLocation(int order)
-{
-	std::vector<Drawable>::iterator it;
-	for (it = drawables.begin(); it != drawables.end(); it++)
-	{
-		if (it->drawOrder >= order)
-			break;
-	}
-	return it;
-}
-
-void SpriteBatch::CreateBuffers()
-{
-	glGenBuffers(1, &arrayBuffer);
-	glGenBuffers(1, &elementArrayBuffer);
-}
-
-SpriteBatch::~SpriteBatch()
-{
-}
-
-/*
 void SpriteBatch::Update()
 {
 	if (changes)
@@ -211,10 +197,13 @@ void SpriteBatch::Update()
 	glBufferData(GL_ARRAY_BUFFER, vertexPointers.size()*sizeof(GLfloat), vertexPointers.front(), GL_STATIC_DRAW);
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, buffer[1]);
 	glBufferData(GL_ELEMENT_ARRAY_BUFFER, indexPointers.size()*sizeof(GLuint), &indexPointers.front(), GL_STATIC_DRAW);
-}
 
+
+
+}
 void SpriteBatch::Draw()
 {
+
 	if (shaderProgram->GetLinkStatus()) // Tarkistetaan shaderin linkkaus.
 		shaderProgram->RunProgram();
 	else
@@ -278,45 +267,73 @@ void SpriteBatch::Draw()
 	}
 }
 
-void SpriteBatch::CreateBuffer()
+void SpriteBatch::AddSprite(Sprite &sprite)
 {
-	indexPointers.clear();
-	vertexPointers.clear();
-
-	for(unsigned i = 0; i < drawables.size(); i++)
-	{
-		if(drawables[i].sprite != NULL)
-		{
-			for(int j = 0; j < drawables[i].sprite->getIndexSize(); j++)
-			{
-				indexPointers.push_back(drawables[i].sprite->getIndexPointer()[j] + i * 4); // yhden neliön piirtämiseen tarvittava indeksimäärä, täytyy vaihtaa jos halutaan erimuotoisia kuvioita
-			}
-			for(int j = 0; j < drawables[i].sprite->getVertexSize(); j++)
-			{
-				vertexPointers.push_back(&drawables[i].sprite->getVertexPointer()[j]);
-			}
-		}
-	}
+	Drawable temp;
+	temp.drawOrder = 0;
+	temp.sprite = &sprite;
+	drawables.push_back(temp);
 }
 
-asetetaan buffereihin oikea piirtojärjestys.
-for (std::vector<Drawable>::iterator it = drawables.begin(); it != drawables.end(); it++)
+void SpriteBatch::AddSprite(Sprite &sprite, int order)
 {
-	if (it->sprite != NULL)
-	{
-		for (int i = 0; i < it->sprite->getIndexSize(); i++)
-		{
-			indexPointers.push_back(&it->sprite->getIndexPointer()[i]);
-		}
-		for (int i = 0; i < it->sprite->getVertexSize(); i++)
-		{
-			vertexPointers.push_back(&it->sprite->getVertexPointer()[i]);
-		}
-	}
+	Drawable temp;
+	temp.drawOrder = order;
+	temp.sprite = &sprite;
+	drawables.insert(FindLocation(order), temp);
+
 }
 
-glMatrixMode(GL_PROJECTION);
-glLoadIdentity();
-glOrtho(0, 640, 480, 0, 1, -1);
-glMatrixMode(GL_MODELVIEW);
-*/
+void SpriteBatch::SetShaderProgram(ShaderProgram &shaderProgram)
+{
+	(this->shaderProgram) = &shaderProgram;
+}
+
+void SpriteBatch::SetDevice(GraphicsDevice &graphicsDevice)
+{
+	(this->graphicsDevice) = &graphicsDevice;
+}
+
+void SpriteBatch::Sort()
+{
+
+	for (std::vector<Drawable>::iterator it = drawables.begin(); it != drawables.end(); it++)
+	{
+		// Sortataan piirrettävät orderin mukaan.
+		std::sort(drawables.begin(), drawables.end(),
+			[](Drawable a, Drawable b){return (a.drawOrder > b.drawOrder); });
+	}
+
+}
+
+std::vector<Drawable>::iterator SpriteBatch::FindLocation(int order)
+{
+	std::vector<Drawable>::iterator it;
+	for (it = drawables.begin(); it != drawables.end(); it++)
+	{
+		if (it->drawOrder >= order)
+			break;
+	}
+	return it;
+}
+
+SpriteBatch::~SpriteBatch()
+{
+	// TERMINATE EVERYTHING
+}
+
+//asetetaan buffereihin oikea piirtojärjestys.
+//for (std::vector<Drawable>::iterator it = drawables.begin(); it != drawables.end(); it++)
+//{
+//	if (it->sprite != NULL)
+//	{
+//		for (int i = 0; i < it->sprite->getIndexSize(); i++)
+//		{
+//			indexPointers.push_back(&it->sprite->getIndexPointer()[i]);
+//		}
+//		for (int i = 0; i < it->sprite->getVertexSize(); i++)
+//		{
+//			vertexPointers.push_back(&it->sprite->getVertexPointer()[i]);
+//		}
+//	}
+//}

@@ -4,38 +4,15 @@
 #include "GL\glew.h"
 #include "Texture.h"
 
-// Tuukka: Kommentoi osaa koodia pois käytöstä että saan vaan testattua perustoimintoja.
-// Esimerkiksi origot ja sourcen voi tehdä myöhemmin lisäfeatureina.
-
 class Sprite
+	
 {
 	friend class SpriteBatch;
-
 public:
 	Sprite();
-	Sprite(Texture *texture);
-	~Sprite();
+	~Sprite() {};
 
-	void SetTexture(Texture *texture);
-	void SetPosition(vector2i);
-	void SetSize(vector2i);
-	void SetColor(float red, float green, float blue);
-
-	vector2i GetSize();
-	vector2i GetPosition();
-
-	//vector2f GetTextureSize();
-	//void SetSourceRPosition(vector2f position);
-	//vector2f GetSourceRPosition();
-	//void SetSourceRSize(vector2f size);
-	//vector2f GetSourceRSize();
-	//void SetOrigin(vector2f origin);
-	//vector2f GetOrigin();
-	//void SetColorRGB(float red, float blue, float green);
-	//float getColorR();
-	//float getColorG();
-	//float getColorB();
-
+<<<<<<< HEAD
 private:
 	//void Draw(GLuint arrayBuffer, GLuint elementArrayBuffer);
 	void ChangePositionData(); // Muuttaa verteksejä position ja koon mukaan.
@@ -49,17 +26,60 @@ private:
 	GLuint* GetIndexData();
 	GLsizei GetIndexSize();
 	GLsizei GetVertexSize();
+=======
+	void setTexture(Texture *tex);
+	vector2f getTextureSize();
+
+	void setPosition(vector2f);
+	vector2f getPosition();
+
+	void setSourceRPosition(vector2f position);
+	vector2f getSourceRPosition();
+
+	void setSourceRSize(vector2f size);
+	vector2f getSourceRSize();
+
+	void setOrigin(vector2f origin);
+	vector2f getOrigin();
+	
+	void setColorRGB(float red, float blue, float green);
+>>>>>>> parent of 6d13cfe... Backup I
+
+	void Draw()
+	{
+		texture->Draw();
+	}
+	float getColorR();
+	float getColorG();
+	float getColorB();
+
+	void changeVertexData(); // vanha, kaikki muutetaan.
+	void createIndexData(); // luo kulmasonnan
+
+	GLsizei getIndexSize();
+	GLsizei getVertexSize();
+	GLfloat* getVertexPointer();
+	GLuint* getIndexPointer();
+
+private:
+	vector2f ToGLCoord(float x, float y);
+
 
 	Texture *texture;
-	vector2i position;
-	vector2i size;
-	GLfloat red, green, blue;
-	bool sizeSet;
-	bool textureSet;
-
+	// nää on jotai kummajasia
+	GLfloat *vertexData;
+	GLuint *indexData;
+	//
+	vector2f position;
+	vector2f origin;
+	vector2f size;
+	GLfloat red, blue, green;
+	vector2f sourceRectSize;
+	vector2f sourceRectPosition;
 	GLfloat VERTEX_DATA[28];
 	GLuint INDEX_DATA[6];
 
+<<<<<<< HEAD
 	//void ChangePositionData(vector2f windowSize);
 	//void ChangeTexturePosition();
 	//vector2f ToGLCoord(float x, float y);
@@ -73,5 +93,15 @@ private:
 	//vector2f sourceRectPosition;
 	//GLfloat *vertexData;
 	//GLuint *indexData;
+=======
+	bool colorChanged;
+	bool positionChanged;
+	bool texturePositionChanged;
+	void changePositionData(vector2f windowSize);
+	void changeColorData();
+	void changeTexturePosition();
+
+
+>>>>>>> parent of 6d13cfe... Backup I
 };
 
