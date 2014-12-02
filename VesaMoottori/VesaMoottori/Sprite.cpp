@@ -14,42 +14,6 @@
 
 Sprite::Sprite()
 {
-<<<<<<< HEAD
-	// SpriteBatchissa tehd‰‰n muutokset openGL koordinaatteihin (-1 - 1).
-	// T‰h‰n annetaan pikselikoordinaatit.
-	texture = NULL;
-	position = vector2i(0, 0);
-	red = 1.0f;
-	green = 1.0f;
-	blue = 1.0f;
-	sizeSet = false;
-	textureSet = false;
-	CreateIndexData();
-	CreateTextureData();
-	ChangeColorData();
-
-	//sourceRectPosition = vector2f(0.0f, 0.0f);
-	//origin = vector2f(0.0f, 0.0f);
-	//vertexData = NULL;
-	//indexData = NULL;
-	//sourceRectSize.x = 0.0f;
-	//sourceRectSize.y = 0.0f;
-}
-
-Sprite::Sprite(Texture *texture)
-{
-	texture = texture;
-	position = vector2i(0, 0);
-	red = 1.0f;
-	green = 1.0f;
-	blue = 1.0f;
-	sizeSet = false;
-	textureSet = true;
-	CreateIndexData();
-	CreateTextureData();
-	ChangePositionData();
-	ChangeColorData();
-=======
 	// SpriteBatchissa tehd‰‰n muutokset opengl koordinaatteihin (-1 - 1)
 	// T‰h‰n annetaan pikselikoordinaatit
 	texture = NULL;
@@ -63,32 +27,15 @@ Sprite::Sprite(Texture *texture)
 	red = 1.0f; blue = 1.0f; green = 1.0f;
 	createIndexData();
 
->>>>>>> parent of 6d13cfe... Backup I
 }
 
 void Sprite::setTexture(Texture *tex)
 {
-<<<<<<< HEAD
-	(this->texture) = texture;
-	textureSet = true;
-	if(!sizeSet)
-	{
-		size = texture->GetSize();
-		ChangePositionData();
-		sizeSet = true;
-	}
-
-	//sourceRectSize = tex->GetSize(); // Tekstuurilla ei ole kokoa.
-	//size = tex->GetSize();
-	//texturePositionChanged = true;
-	//ChangeVertexData();
-=======
 	texture = tex;
 	sourceRectSize = tex->GetSize();
 	size = tex->GetSize();
 	texturePositionChanged = true;
 	changeVertexData();
->>>>>>> parent of 6d13cfe... Backup I
 }
 
 
@@ -112,20 +59,10 @@ void Sprite::setSourceRPosition(vector2f position)
 	sourceRectPosition = position;
 	texturePositionChanged = true;
 }
-<<<<<<< HEAD
-
-//void Sprite::Draw(GLuint arrayBuffer, GLuint elementArrayBuffer)
-//{
-//	glBindTexture(GL_TEXTURE_2D, (texture->GetIndex()));
-//	glBindBuffer(GL_ARRAY_BUFFER, arrayBuffer);
-//	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, elementArrayBuffer);
-//}
-=======
 vector2f Sprite::getSourceRPosition()
 {
 	return sourceRectPosition;
 }
->>>>>>> parent of 6d13cfe... Backup I
 
 void Sprite::setSourceRSize(vector2f size)
 {
@@ -164,30 +101,7 @@ float Sprite::getColorR()
 	return red;
 }
 
-<<<<<<< HEAD
-GLfloat* Sprite::GetVertexData()
-{
-	return VERTEX_DATA;
-}
-
-GLuint* Sprite::GetIndexData()
-{
-	return INDEX_DATA;
-}
-
-GLsizei Sprite::GetIndexSize()
-{
-	return 6; // Jossakin voisi olla joko spritess‰ tai tekstuurissa tallessa kuinka t‰m‰n koko, samoin verteksin.
-}
-GLsizei Sprite::GetVertexSize()
-{
-	return 28;
-}
-
-Sprite::~Sprite()
-=======
 float Sprite::getColorG()
->>>>>>> parent of 6d13cfe... Backup I
 {
 	return green;
 }
@@ -239,12 +153,6 @@ void Sprite::changePositionData(vector2f windowSize)
 	GLsize.x = (size.x / windowSize.x) - 1;	// v‰liaikainen, siirrett‰v‰ spritebatchiin joka tiet‰‰ windowin koon.
 	GLsize.y = (size.y / windowSize.y) - 1;
 
-<<<<<<< HEAD
-GLfloat* Sprite::GetVertexPointer()
-{
-	return VERTEX_DATA;
-}
-=======
 	VERTEX_DATA[0] = position.x - origin.x;
 	VERTEX_DATA[1] = position.y - origin.y;
 
@@ -268,7 +176,6 @@ void Sprite::changeColorData()
 	VERTEX_DATA[2 + 7] = red;
 	VERTEX_DATA[3 + 7] = blue;
 	VERTEX_DATA[4 + 7] = green;
->>>>>>> parent of 6d13cfe... Backup I
 
 	VERTEX_DATA[2 + 14] = red;
 	VERTEX_DATA[3 + 14] = blue;

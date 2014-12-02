@@ -1,15 +1,6 @@
 #include "Texture.h"
 
-<<<<<<< HEAD
-Texture::Texture()
-{
-	// Ei tueta.
-}
-
-Texture::Texture(Image *image)
-=======
 Texture::Texture(Image *image, vector2f position, float scale)
->>>>>>> parent of 6d13cfe... Backup I
 {
 	this->image = image;
 	(this->scale) = scale;

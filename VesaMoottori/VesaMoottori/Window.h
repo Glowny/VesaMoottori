@@ -13,8 +13,9 @@ public:
 	Window();
 	Window(std::string name, int width, int height);
 	
+	bool Register();
 	void SetSize(int width, int height);
-	bool Update(MSG &messages);
+	bool Window::Update(MSG &messages);
 
 	HDC GetDevice();
 	HWND GetHandle();
@@ -26,8 +27,6 @@ public:
 	~Window();
 
 private:
-	bool Register();
-
 	wchar_t*		className;
 	wchar_t*		windowName;
 	HWND			windowHandle; // Holds window handle.

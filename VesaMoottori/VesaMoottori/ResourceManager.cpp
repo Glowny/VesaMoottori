@@ -46,7 +46,7 @@ Image* ResourceManager::FindImage(std::string fileName)
 	}
 }
 
-Texture* ResourceManager::CreateTexture(std::string fileName, std::string textureName)
+Texture* ResourceManager::CreateTexture(std::string fileName, std::string textureName, vector2f position, float scale)
 {
 	Texture *tempTexture;
 

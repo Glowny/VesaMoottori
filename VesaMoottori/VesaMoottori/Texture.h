@@ -8,15 +8,7 @@
 class Texture
 {
 public:
-<<<<<<< HEAD
-	Texture(); // Ei tueta.
-	Texture(Image *image);
-	GLuint GetIndex();
-	vector2i GetSize();
-	~Texture();
-=======
 	Texture() {}; // Default konstruktoria ei tueta atm.
->>>>>>> parent of 6d13cfe... Backup I
 
 	Texture(Image *image, vector2f position, float scale);
 	void Draw();

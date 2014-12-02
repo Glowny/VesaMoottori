@@ -12,21 +12,6 @@ public:
 	Sprite();
 	~Sprite() {};
 
-<<<<<<< HEAD
-private:
-	//void Draw(GLuint arrayBuffer, GLuint elementArrayBuffer);
-	void ChangePositionData(); // Muuttaa verteksejä position ja koon mukaan.
-	void ChangeColorData();
-	void CreateIndexData(); // Alustaa indeksit.
-	void CreateTextureData(); // Sprite on aina nelikulmio.
-	
-	bool GetTextureSet();
-	bool GetSizeSet();
-	GLfloat* GetVertexData();
-	GLuint* GetIndexData();
-	GLsizei GetIndexSize();
-	GLsizei GetVertexSize();
-=======
 	void setTexture(Texture *tex);
 	vector2f getTextureSize();
 
@@ -43,7 +28,6 @@ private:
 	vector2f getOrigin();
 	
 	void setColorRGB(float red, float blue, float green);
->>>>>>> parent of 6d13cfe... Backup I
 
 	void Draw()
 	{
@@ -79,21 +63,6 @@ private:
 	GLfloat VERTEX_DATA[28];
 	GLuint INDEX_DATA[6];
 
-<<<<<<< HEAD
-	//void ChangePositionData(vector2f windowSize);
-	//void ChangeTexturePosition();
-	//vector2f ToGLCoord(float x, float y);
-
-	//GLfloat* GetVertexPointer();
-	//GLuint* GetIndexPointer();
-	//bool colorChanged;
-	//bool positionChanged;
-	//vector2f origin;
-	//vector2f sourceRectSize;
-	//vector2f sourceRectPosition;
-	//GLfloat *vertexData;
-	//GLuint *indexData;
-=======
 	bool colorChanged;
 	bool positionChanged;
 	bool texturePositionChanged;
@@ -102,6 +71,5 @@ private:
 	void changeTexturePosition();
 
 
->>>>>>> parent of 6d13cfe... Backup I
 };
 
