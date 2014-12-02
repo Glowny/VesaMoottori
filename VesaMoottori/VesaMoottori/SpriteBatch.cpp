@@ -161,7 +161,7 @@ void SpriteBatch::CreateBuffer()
 		{
 			for (int j = 0; j < drawables[i].sprite->getIndexSize(); j++)
 			{
-				indexPointers.push_back(drawables[i].sprite->getIndexPointer()[j] + i * 4); // yhden neliˆn piirt‰miseen tarvittava indeksim‰‰r‰, t‰ytyy vaihtaa jos halutaan erimuotoisia kuvioita
+				indexPointers.push_back(drawables[i].sprite->getIndexPointer()[j] + i * 4); // yhden neliˆn piirt‰miseen tarvittava pistem‰‰r‰, t‰ytyy vaihtaa jos halutaan erimuotoisia kuvioita
 			}
 			for (int j = 0; j < drawables[i].sprite->getVertexSize(); j++)
 			{
@@ -210,11 +210,9 @@ void SpriteBatch::Draw()
 	{
 		// K‰ynnistet‰‰n default shaderi.
 	}
-
 	// Tarkistetaan onko mit‰‰n piirett‰v‰‰ edes.
 	// Ohjelma kaatuu jos ei ole asetettu tekstuuria jokaiselle piirett‰v‰lle,
 	// T‰h‰n teht‰v‰ jonkinlainen korjaus
-
 	if (drawables.size() != 0) 
 	{
 		GLuint currentTextureIndex = drawables[0].sprite->texture->getTextureIndex();
@@ -229,7 +227,6 @@ void SpriteBatch::Draw()
 			else
 			{
 				glBindTexture(GL_TEXTURE_2D, currentTextureIndex);
-
 				// Kun tulee indeksi jonka tekstuuri on eri kuin edellisell‰ kierroksella,
 				// piiret‰‰n kaikki edelliset joilla oli sama tekstuuri.
 				// Aloituskohta on indeksivektorin indeksien m‰‰r‰ (6) kerrottuna edellisen kierroksen kierrosm‰‰r‰ll‰ (i-1). 
@@ -243,27 +240,16 @@ void SpriteBatch::Draw()
 
 				glDrawElements(GL_TRIANGLES, textureAmount * 6u, GL_UNSIGNED_INT, reinterpret_cast<GLvoid*>((i - 1) * 6u * sizeof(GLuint)));
 
-				// lopuksi t‰m‰n indeksin piirrett‰v‰ tekstuuri, ja asetetaan m‰‰r‰ ykkˆseen.
+				// lopuksi seuraavalla kierroksella piirrett‰v‰ tekstuuri, ja nollataan m‰‰r‰.
 				currentTextureIndex = drawables[i].sprite->texture->getTextureIndex();
 				textureAmount = 1;
-				glBindTexture(GL_TEXTURE_2D, 0u);
 			}
 		};
 		// for-loopin j‰lkeen piiret‰‰n kaikki ne spritet, joilla oli sama tekstuuri kuin viimeisen indeksin tekstuurilla.
 		glDrawElements(GL_TRIANGLES, textureAmount * 6u, GL_UNSIGNED_INT, reinterpret_cast<GLvoid*>((drawables.size() - 1) * 6u * sizeof(GLuint)));
 
-		glBindTexture(GL_TEXTURE_2D, 0u);
-		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0u);
-		glBindBuffer(GL_ARRAY_BUFFER, 0u);
-		glUseProgram(0);
-
 		// T‰m‰ koodi ei jostain syyst‰ piirr‰ useampaa kuin yht‰ sprite‰, mutta virhe on muualla kuin tekstuurintarkistuksessa.
-		// Ei toiminut ennen kuin lis‰sin uudet jutut.
-
-		//Debugaukseen, saa poistaa.
-		vertexPointers;
-		indexPointers;
-		//
+		// Ei toiminut ennen kuin lis‰sin
 	}
 }
 
