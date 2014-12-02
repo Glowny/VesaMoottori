@@ -35,7 +35,7 @@ void SpriteBatch::CreateBuffer()
 			for (int j = 0; j < drawables[i].sprite->getVertexSize(); j++)
 			{
 
-				vertexPointers.push_back(&drawables[i].sprite->getVertexPointer());
+				vertexPointers.push_back(&drawables[i].sprite->getVertexPointer()[j]);
 			}
 		}
 	}
