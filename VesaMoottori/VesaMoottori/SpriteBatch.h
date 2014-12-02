@@ -36,9 +36,6 @@ private:
 	GLuint arrayBuffer;
 	GLuint elementArrayBuffer;
 
-	std::vector<GLfloat> vertexData;
-	std::vector<GLuint> indexData;
-
 	std::vector<Drawable> drawables;
 	ShaderProgram *shaderProgram;
 	GraphicsDevice *graphicsDevice;
@@ -46,6 +43,8 @@ private:
 
 	/*
 	//void purkkaChanges() { changes = true; }
+	std::vector<GLuint> indexPointers;
+	std::vector<GLfloat*> vertexPointers;
 	GLuint buffer[2];
 	void CreateBuffer();
 	bool changes;
