@@ -11,7 +11,7 @@ public:
 	ResourceManager() {};
 	~ResourceManager() {};
 
-	Texture* CreateTexture(std::string pictureName, std::string textureName, vector2f position, float scale);
+	Texture* CreateTexture(std::string pictureName, std::string textureName);
 
 	char* LoadShader(std::string fileName, std::string shaderName);
 	char* FindShader(std::string shaderName);

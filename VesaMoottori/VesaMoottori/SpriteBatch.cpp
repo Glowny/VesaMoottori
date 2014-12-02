@@ -1,5 +1,6 @@
 #include "SpriteBatch.h"
 #include <algorithm>
+#include <assert.h>
 
 SpriteBatch::SpriteBatch()
 {
@@ -25,6 +26,12 @@ void SpriteBatch::Draw()
 	glLoadIdentity();
 	glOrtho(0, size.x, size.y, 0, 1, -1);
 	glMatrixMode(GL_MODELVIEW);
+	glLoadIdentity();
+	glDisable(GL_DEPTH_TEST);
+
+	//GLenum error = glGetError();
+	//assert(error == GL_INVALID_VALUE);
+	//assert(error == GL_INVALID_OPERATION);
 
 	glEnable(GL_BLEND);
 	glEnable(GL_TEXTURE_2D);
@@ -38,26 +45,59 @@ void SpriteBatch::Draw()
 		// K‰ynnistet‰‰n default shaderi.
 	}
 
+	vertexData.clear(); // Clearataan vanhat shitit.
+	indexData.clear();
+	int spriteCount = 0; // Kuinka monta sprite‰ piirrett‰‰n.
+
 	if(drawables.size() != 0) // Onko piirrett‰vi‰.
 	{
 		for(std::vector<Drawable>::iterator it = drawables.begin(); it != drawables.end(); it++)
 		{
-			// Piirrett‰‰n vain spritej‰ - pit‰‰ luoda uudestaan muille tyypeille jos tehd‰‰n.
-			if((it->sprite->GetSizeSet()) && (it->sprite->GetTextureSet()))
+			// Tarkastetaan ett‰ spritell‰ on koko ja texture.
+			if ((it->sprite->GetSizeSet()) && (it->sprite->GetTextureSet()))
 			{
-				it->sprite->Draw(arrayBuffer, elementArrayBuffer);
-				glBufferData(GL_ARRAY_BUFFER, 28 * sizeof(GLfloat), &(it->sprite->VERTEX_DATA), GL_STATIC_DRAW);
-				glBufferData(GL_ELEMENT_ARRAY_BUFFER, 6 * sizeof(GLuint), &(it->sprite->INDEX_DATA), GL_STATIC_DRAW);
-				glDrawElements(GL_TRIANGLES, 6u, GL_UNSIGNED_INT, reinterpret_cast<GLvoid*>(it->sprite->INDEX_DATA));
+				for (int i = 0; i < it->sprite->GetIndexSize(); i++)
+					indexData.push_back(it->sprite->GetIndexData()[i] + spriteCount * 4); // Yhden neliˆn piirt‰miseen tarvittava indeksim‰‰r‰, t‰ytyy vaihtaa jos halutaan erimuotoisia kuvioita.
+				for (int i = 0; i < it->sprite->GetVertexSize(); i++)
+					vertexData.push_back(it->sprite->GetVertexData()[i]);
+				spriteCount++;
 			}
 		}
 
-		// Siivotaan j‰lki‰.
-		glBindTexture(GL_TEXTURE_2D, 0u);
-		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0u);
-		glBindBuffer(GL_ARRAY_BUFFER, 0u);
-		glUseProgram(0);
+		glBindBuffer(GL_ARRAY_BUFFER, arrayBuffer);
+		glBufferData(GL_ARRAY_BUFFER, vertexData.size() * sizeof(GLfloat), &vertexData[0], GL_STATIC_DRAW);
+		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, elementArrayBuffer);
+		glBufferData(GL_ELEMENT_ARRAY_BUFFER, indexData.size() * sizeof(GLuint), &indexData[0], GL_STATIC_DRAW);
+
+		const GLint posLocation = shaderProgram->GetAttributeLocation("attrPosition");
+		const GLint colorLocation = shaderProgram->GetAttributeLocation("attrColor");
+		const GLint texLocation = shaderProgram->GetAttributeLocation("textPosition");
+
+		glEnableVertexAttribArray(posLocation);
+		glEnableVertexAttribArray(colorLocation);
+		glEnableVertexAttribArray(texLocation);
+
+		glVertexAttribPointer(posLocation, 2u, GL_FLOAT, GL_FALSE, 7 * sizeof(GLfloat), &vertexData[0]);
+		glVertexAttribPointer(colorLocation, 3u, GL_FLOAT, GL_FALSE, 7 * sizeof(GLfloat), &vertexData[2]);
+		glVertexAttribPointer(texLocation, 2u, GL_FLOAT, GL_FALSE, 7 * sizeof(GLfloat), &vertexData[5]);
+
+		glDrawElements(GL_TRIANGLES, indexData.size() , GL_UNSIGNED_INT, &indexData[0]);
+
+		//// Piirrett‰‰n vain spritej‰ - pit‰‰ luoda uudestaan muille tyypeille jos tehd‰‰n.
+		//if((it->sprite->GetSizeSet()) && (it->sprite->GetTextureSet()))
+		//{
+		//	it->sprite->Draw(arrayBuffer, elementArrayBuffer);
+		//	glBufferData(GL_ARRAY_BUFFER, 28 * sizeof(GLfloat), &(it->sprite->VERTEX_DATA), GL_STATIC_DRAW);
+		//	glBufferData(GL_ELEMENT_ARRAY_BUFFER, 6 * sizeof(GLuint), &(it->sprite->INDEX_DATA), GL_STATIC_DRAW);
+		//	glDrawElements(GL_TRIANGLES, 6u, GL_UNSIGNED_INT, reinterpret_cast<GLvoid*>(it->sprite->INDEX_DATA));
+		//}
 	}
+
+	// Siivotaan j‰lki‰.
+	glBindTexture(GL_TEXTURE_2D, 0u);
+	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0u);
+	glBindBuffer(GL_ARRAY_BUFFER, 0u);
+	glUseProgram(0);
 }
 
 void SpriteBatch::AddSprite(Sprite &sprite)

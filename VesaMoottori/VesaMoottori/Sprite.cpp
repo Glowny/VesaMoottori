@@ -2,10 +2,10 @@
 
 Sprite::Sprite()
 {
-	// SpriteBatchissa tehdään muutokset opengl koordinaatteihin (-1 - 1).
+	// SpriteBatchissa tehdään muutokset openGL koordinaatteihin (-1 - 1).
 	// Tähän annetaan pikselikoordinaatit.
 	texture = NULL;
-	position = vector2i(0.0f, 0.0f);
+	position = vector2i(0, 0);
 	red = 1.0f;
 	green = 1.0f;
 	blue = 1.0f;
@@ -13,6 +13,7 @@ Sprite::Sprite()
 	textureSet = false;
 	CreateIndexData();
 	CreateTextureData();
+	ChangeColorData();
 
 	//sourceRectPosition = vector2f(0.0f, 0.0f);
 	//origin = vector2f(0.0f, 0.0f);
@@ -25,7 +26,7 @@ Sprite::Sprite()
 Sprite::Sprite(Texture *texture)
 {
 	texture = texture;
-	position = vector2i(0.0f, 0.0f);
+	position = vector2i(0, 0);
 	red = 1.0f;
 	green = 1.0f;
 	blue = 1.0f;
@@ -34,6 +35,7 @@ Sprite::Sprite(Texture *texture)
 	CreateIndexData();
 	CreateTextureData();
 	ChangePositionData();
+	ChangeColorData();
 }
 
 void Sprite::SetTexture(Texture *texture)
@@ -46,6 +48,7 @@ void Sprite::SetTexture(Texture *texture)
 		ChangePositionData();
 		sizeSet = true;
 	}
+
 	//sourceRectSize = tex->GetSize(); // Tekstuurilla ei ole kokoa.
 	//size = tex->GetSize();
 	//texturePositionChanged = true;
@@ -83,12 +86,12 @@ vector2i Sprite::GetPosition()
 	return position;
 }
 
-void Sprite::Draw(GLuint arrayBuffer, GLuint elementArrayBuffer)
-{
-	glBindTexture(GL_TEXTURE_2D, (texture->GetIndex()));
-	glBindBuffer(GL_ARRAY_BUFFER, arrayBuffer);
-	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, elementArrayBuffer);
-}
+//void Sprite::Draw(GLuint arrayBuffer, GLuint elementArrayBuffer)
+//{
+//	glBindTexture(GL_TEXTURE_2D, (texture->GetIndex()));
+//	glBindBuffer(GL_ARRAY_BUFFER, arrayBuffer);
+//	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, elementArrayBuffer);
+//}
 
 void Sprite::ChangePositionData()
 {
@@ -155,6 +158,25 @@ bool Sprite::GetTextureSet()
 bool Sprite::GetSizeSet()
 {
 	return sizeSet;
+}
+
+GLfloat* Sprite::GetVertexData()
+{
+	return VERTEX_DATA;
+}
+
+GLuint* Sprite::GetIndexData()
+{
+	return INDEX_DATA;
+}
+
+GLsizei Sprite::GetIndexSize()
+{
+	return 6; // Jossakin voisi olla joko spritessä tai tekstuurissa tallessa kuinka tämän koko, samoin verteksin.
+}
+GLsizei Sprite::GetVertexSize()
+{
+	return 28;
 }
 
 Sprite::~Sprite()
@@ -225,15 +247,6 @@ vector2f Sprite::ToGLCoord(float x, float y) // Tämänkin toteutus spritebatchiss
 	temp.x = (x / size.x);
 	temp.y = (y / size.y);
 	return temp;
-}
-
-GLsizei Sprite::GetIndexSize()
-{
-	return 6; // Jossakin voisi olla joko spritessä tai tekstuurissa tallessa kuinka tämän koko, samoin verteksin.
-}
-GLsizei Sprite::GetVertexSize()
-{
-	return 28;
 }
 
 GLfloat* Sprite::GetVertexPointer()

@@ -2,6 +2,7 @@
 
 Texture::Texture()
 {
+	// Ei tueta.
 }
 
 Texture::Texture(Image *image)

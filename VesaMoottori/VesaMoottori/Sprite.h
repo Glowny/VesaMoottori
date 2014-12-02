@@ -37,7 +37,7 @@ public:
 	//float getColorB();
 
 private:
-	void Draw(GLuint arrayBuffer, GLuint elementArrayBuffer);
+	//void Draw(GLuint arrayBuffer, GLuint elementArrayBuffer);
 	void ChangePositionData(); // Muuttaa verteksejä position ja koon mukaan.
 	void ChangeColorData();
 	void CreateIndexData(); // Alustaa indeksit.
@@ -45,6 +45,10 @@ private:
 	
 	bool GetTextureSet();
 	bool GetSizeSet();
+	GLfloat* GetVertexData();
+	GLuint* GetIndexData();
+	GLsizei GetIndexSize();
+	GLsizei GetVertexSize();
 
 	Texture *texture;
 	vector2i position;
@@ -59,8 +63,7 @@ private:
 	//void ChangePositionData(vector2f windowSize);
 	//void ChangeTexturePosition();
 	//vector2f ToGLCoord(float x, float y);
-	//GLsizei GetIndexSize();
-	//GLsizei GetVertexSize();
+
 	//GLfloat* GetVertexPointer();
 	//GLuint* GetIndexPointer();
 	//bool colorChanged;

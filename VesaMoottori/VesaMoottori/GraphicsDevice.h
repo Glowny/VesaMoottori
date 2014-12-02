@@ -7,8 +7,6 @@ public:
 	GraphicsDevice();
 	GraphicsDevice(std::string name, int width, int height);
 	
-	bool Register();
-	bool Glew();
 	bool Update(MSG &messages);
 	void Display();
 	void SetWindow(Window &window);
@@ -22,6 +20,9 @@ public:
 	~GraphicsDevice();
 
 private:
+	bool Register();
+	bool Glew();
+
 	Window*					window;
 	HGLRC					renderingContext; // OpenGL rendering context.
 	PIXELFORMATDESCRIPTOR	winPixel; // Describes the pixel format of a drawing surface.

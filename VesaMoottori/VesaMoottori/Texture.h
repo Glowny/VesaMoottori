@@ -8,7 +8,7 @@
 class Texture
 {
 public:
-	Texture(); // Ei tueta atm.
+	Texture(); // Ei tueta.
 	Texture(Image *image);
 	GLuint GetIndex();
 	vector2i GetSize();
