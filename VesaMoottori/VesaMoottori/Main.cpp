@@ -26,9 +26,12 @@ int main()
 	SpriteBatch.SetShaderProgram(Shader);
 
 <<<<<<< HEAD
+<<<<<<< HEAD
 	//Gooby2 = Resources.CreateTexture("goofy.png", "goofy", vector2f(0.0f, 0.0f), 1.0f);
 	Gooby = Resources.CreateTexture("gooby.png", "gooby");
 =======
+=======
+>>>>>>> parent of f6e486e... Ei toimi vielä
 	Gooby2 = Resources.CreateTexture("goofy.png", "goofy", vector2f(0.0f, 0.0f), 1.0f);
 	Gooby = Resources.CreateTexture("gooby.png", "gooby", vector2f(0.0f, 0.0f), 1.0f);
 >>>>>>> parent of f6e486e... Ei toimi vielä

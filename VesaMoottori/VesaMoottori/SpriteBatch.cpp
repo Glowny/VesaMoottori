@@ -54,6 +54,7 @@ void SpriteBatch::Draw()
 		for(std::vector<Drawable>::iterator it = drawables.begin(); it != drawables.end(); it++)
 		{
 <<<<<<< HEAD
+<<<<<<< HEAD
 			// Tarkastetaan että spritellä on koko ja texture.
 			if ((it->sprite->GetSizeSet()) && (it->sprite->GetTextureSet()))
 			{
@@ -93,6 +94,8 @@ void SpriteBatch::Draw()
 		//	glDrawElements(GL_TRIANGLES, 6u, GL_UNSIGNED_INT, reinterpret_cast<GLvoid*>(it->sprite->INDEX_DATA));
 		//}
 =======
+=======
+>>>>>>> parent of f6e486e... Ei toimi vielÃ¤
 			if((it->sprite->GetSizeSet()) && (it->sprite->GetTextureSet()))
 			{
 
