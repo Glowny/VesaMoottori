@@ -2,6 +2,8 @@
 #include "SpriteBatch.h"
 #include <algorithm>
 
+
+
 SpriteBatch::SpriteBatch()
 {
 	changes = true;
@@ -35,7 +37,7 @@ void SpriteBatch::CreateBuffer()
 			for (int j = 0; j < drawables[i].sprite->getVertexSize(); j++)
 			{
 
-				vertexPointers.push_back(&drawables[i].sprite->getVertexPointer()[j]);
+				vertexPointers.push_back(drawables[i].sprite->getVertexPointer()[j]);
 			}
 		}
 	}
@@ -50,7 +52,7 @@ void SpriteBatch::Update()
 		CreateBuffer();
 		changes = false;
 	}
-
+	CreateBuffer();
 	for (unsigned i = 0; i < drawables.size(); i++)
 	{
 		if (drawables[i].sprite->positionChanged)
@@ -63,8 +65,10 @@ void SpriteBatch::Update()
 			drawables[i].sprite->changeColorData();
 	}
 
+	// glBufferSubData
+	// GL_DYNAMIC_DRAW
 	glBindBuffer(GL_ARRAY_BUFFER, buffer[0]);
-	glBufferData(GL_ARRAY_BUFFER, vertexPointers.size()*sizeof(GLfloat), vertexPointers.front(), GL_STATIC_DRAW);
+	glBufferData(GL_ARRAY_BUFFER, vertexPointers.size()*sizeof(GLfloat), &vertexPointers.front(), GL_STATIC_DRAW);
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, buffer[1]);
 	glBufferData(GL_ELEMENT_ARRAY_BUFFER, indexPointers.size()*sizeof(GLuint), &indexPointers.front(), GL_STATIC_DRAW);
 
@@ -110,7 +114,6 @@ void SpriteBatch::Draw()
 				// Eli vastaava muuttuja currentTextureIndex:lle.
 				// Kannattaa varmaan toteuttaa 6u:n tilalle sprite->getIndexSize(), VASTA kun aletaan tukemaan erilaisia indeksim‰‰ri‰,
 				// n‰in pysyy ajatus paremmin tehdess‰.
-
 				glDrawElements(GL_TRIANGLES, textureAmount * 6u, GL_UNSIGNED_INT, reinterpret_cast<GLvoid*>((i - 1) * 6u * sizeof(GLuint)));
 
 				// lopuksi t‰m‰n indeksin piirrett‰v‰ tekstuuri, ja asetetaan m‰‰r‰ ykkˆseen.
@@ -120,7 +123,9 @@ void SpriteBatch::Draw()
 			}
 		};
 		// for-loopin j‰lkeen piiret‰‰n kaikki ne spritet, joilla oli sama tekstuuri kuin viimeisen indeksin tekstuurilla.
-		glDrawElements(GL_TRIANGLES, textureAmount * 6u, GL_UNSIGNED_INT, reinterpret_cast<GLvoid*>((drawables.size() - 1) * 6u * sizeof(GLuint)));
+
+		glBindTexture(GL_TEXTURE_2D, currentTextureIndex);
+		glDrawElements(GL_TRIANGLES, textureAmount * 6u, GL_UNSIGNED_INT, reinterpret_cast<GLvoid*>((drawables.size() - textureAmount) * 6u * sizeof(GLuint)));
 
 		glBindTexture(GL_TEXTURE_2D, 0u);
 		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0u);
@@ -136,6 +141,8 @@ void SpriteBatch::Draw()
 		//
 	}
 }
+
+
 
 void SpriteBatch::AddSprite(Sprite &sprite)
 {

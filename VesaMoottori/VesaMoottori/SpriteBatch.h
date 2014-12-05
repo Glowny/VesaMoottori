@@ -39,7 +39,7 @@ private:
 	bool changes;
 	vector2f size;
 	std::vector<GLuint> indexPointers;
-	std::vector<GLfloat*> vertexPointers;
+	std::vector<GLfloat> vertexPointers;
 	GLuint buffer[2];
 	void CreateBuffer();
 
