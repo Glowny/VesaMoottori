@@ -23,8 +23,8 @@ SpriteBatch::SpriteBatch(GraphicsDevice &window)
 void SpriteBatch::CreateBuffer()
 {
 
-	indexPointers.clear();
-	vertexPointers.clear();
+	indexData.clear();
+	vertexData.clear();
 
 	for (unsigned i = 0; i < drawables.size(); i++)
 	{
@@ -32,12 +32,12 @@ void SpriteBatch::CreateBuffer()
 		{
 			for (int j = 0; j < drawables[i].sprite->getIndexSize(); j++)
 			{
-				indexPointers.push_back(drawables[i].sprite->getIndexPointer()[j] + i * 4); // yhden neliön piirtämiseen tarvittava indeksimäärä, täytyy vaihtaa jos halutaan erimuotoisia kuvioita
+				indexData.push_back(drawables[i].sprite->getIndexPointer()[j] + i * 4); // yhden neliön piirtämiseen tarvittava indeksimäärä, täytyy vaihtaa jos halutaan erimuotoisia kuvioita
 			}
 			for (int j = 0; j < drawables[i].sprite->getVertexSize(); j++)
 			{
 
-				vertexPointers.push_back(drawables[i].sprite->getVertexPointer()[j]);
+				vertexData.push_back(drawables[i].sprite->getVertexPointer()[j]);
 			}
 		}
 	}
@@ -53,9 +53,9 @@ void SpriteBatch::Update()
 		changes = false;
 
 		glBindBuffer(GL_ARRAY_BUFFER, buffer[0]);
-		glBufferData(GL_ARRAY_BUFFER, vertexPointers.size()*sizeof(GLfloat), &vertexPointers.front(), GL_DYNAMIC_DRAW);
+		glBufferData(GL_ARRAY_BUFFER, vertexData.size()*sizeof(GLfloat), &vertexData.front(), GL_DYNAMIC_DRAW);
 		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, buffer[1]);
-		glBufferData(GL_ELEMENT_ARRAY_BUFFER, indexPointers.size()*sizeof(GLuint), &indexPointers.front(), GL_DYNAMIC_DRAW);
+		glBufferData(GL_ELEMENT_ARRAY_BUFFER, indexData.size()*sizeof(GLuint), &indexData.front(), GL_DYNAMIC_DRAW);
 	}
 	CreateBuffer();
 	for (unsigned i = 0; i < drawables.size(); i++)
@@ -73,7 +73,7 @@ void SpriteBatch::Update()
 	// glBufferSubData
 	// GL_DYNAMIC_DRAW
 
-	glBufferSubData(GL_ARRAY_BUFFER, 0u, vertexPointers.size()*sizeof(GLfloat), &vertexPointers.front());
+	glBufferSubData(GL_ARRAY_BUFFER, 0u, vertexData.size()*sizeof(GLfloat), &vertexData.front());
 
 
 
@@ -139,8 +139,8 @@ void SpriteBatch::Draw()
 		// Ei toiminut ennen kuin lisäsin uudet jutut.
 
 		//Debugaukseen, saa poistaa.
-		vertexPointers;
-		indexPointers;
+		vertexData;
+		indexData;
 		//
 	}
 }
@@ -209,11 +209,11 @@ SpriteBatch::~SpriteBatch()
 //	{
 //		for (int i = 0; i < it->sprite->getIndexSize(); i++)
 //		{
-//			indexPointers.push_back(&it->sprite->getIndexPointer()[i]);
+//			indexData.push_back(&it->sprite->getIndexPointer()[i]);
 //		}
 //		for (int i = 0; i < it->sprite->getVertexSize(); i++)
 //		{
-//			vertexPointers.push_back(&it->sprite->getVertexPointer()[i]);
+//			vertexData.push_back(&it->sprite->getVertexPointer()[i]);
 //		}
 //	}
 //}

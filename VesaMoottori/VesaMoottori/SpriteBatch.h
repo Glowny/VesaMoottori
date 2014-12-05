@@ -38,8 +38,8 @@ private:
 	GraphicsDevice *graphicsDevice;
 	bool changes;
 	vector2f size;
-	std::vector<GLuint> indexPointers;
-	std::vector<GLfloat> vertexPointers;
+	std::vector<GLuint> indexData;
+	std::vector<GLfloat> vertexData;
 	GLuint buffer[2];
 	void CreateBuffer();
 
@@ -50,11 +50,11 @@ private:
 	{
 	for (int i = 0; i < indexSize; i++)
 	{
-	indexPointers.push_back(&indexPointer[i]);
+	indexData.push_back(&indexPointer[i]);
 	}
 	for (int i = 0; i < vertexSize; i++)
 	{
-	vertexPointers.push_back(&vertexPointer[i]);
+	vertexPointers.push_back(&vertexPointer[i];)
 	}
 	}
 	void createBuffer()
@@ -64,7 +64,7 @@ private:
 	glBufferData(GL_ARRAY_BUFFER, vertexPointers.size(), vertexPointers[0], GL_STATIC_DRAW);
 
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, buffer[1]);
-	glBufferData(GL_ELEMENT_ARRAY_BUFFER, indexPointers.size(), indexPointers[0], GL_STATIC_DRAW);
+	glBufferData(GL_ELEMENT_ARRAY_BUFFER, indexData.size(), indexData[0], GL_STATIC_DRAW);
 	}
 	*/
 };

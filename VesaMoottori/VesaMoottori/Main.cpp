@@ -34,6 +34,16 @@ int main()
 	sprite2.setTexture(Gooby2);
 	sprite3.setTexture(Gooby);
 
+	std::vector<Sprite*> tempSpriteVector;
+	for (int i = 0; i < 30; i++)
+	{
+		Sprite* spritee = new Sprite;
+		spritee->setTexture(Gooby);
+		SpriteBatch.AddSprite(*spritee, 0);
+		tempSpriteVector.push_back(spritee);
+	}
+
+
 	SpriteBatch.AddSprite(sprite3, 1);
 	SpriteBatch.AddSprite(sprite2, 1);
 	SpriteBatch.AddSprite(sprite, 2);
@@ -90,6 +100,13 @@ int main()
 		{
 			wowY = wowY - 0.003f;
 		}
+
+		for (int i = 0; i < tempSpriteVector.size(); i++)
+		{
+			tempSpriteVector[i]->setPosition(
+				vector2f(wowY * 0.2f, wowX*0.1f));
+		}
+
 		sprite2.setPosition(vector2f(-wowX, -wowY));
 		sprite.setPosition(vector2f(wowX, wowY));
 		sprite3.setPosition(vector2f(0.5, 0.5));
