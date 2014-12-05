@@ -51,6 +51,11 @@ void SpriteBatch::Update()
 		Sort(); // Sortataan ennen buffereiden tekoa.
 		CreateBuffer();
 		changes = false;
+
+		glBindBuffer(GL_ARRAY_BUFFER, buffer[0]);
+		glBufferData(GL_ARRAY_BUFFER, vertexPointers.size()*sizeof(GLfloat), &vertexPointers.front(), GL_DYNAMIC_DRAW);
+		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, buffer[1]);
+		glBufferData(GL_ELEMENT_ARRAY_BUFFER, indexPointers.size()*sizeof(GLuint), &indexPointers.front(), GL_DYNAMIC_DRAW);
 	}
 	CreateBuffer();
 	for (unsigned i = 0; i < drawables.size(); i++)
@@ -67,10 +72,8 @@ void SpriteBatch::Update()
 
 	// glBufferSubData
 	// GL_DYNAMIC_DRAW
-	glBindBuffer(GL_ARRAY_BUFFER, buffer[0]);
-	glBufferData(GL_ARRAY_BUFFER, vertexPointers.size()*sizeof(GLfloat), &vertexPointers.front(), GL_STATIC_DRAW);
-	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, buffer[1]);
-	glBufferData(GL_ELEMENT_ARRAY_BUFFER, indexPointers.size()*sizeof(GLuint), &indexPointers.front(), GL_STATIC_DRAW);
+
+	glBufferSubData(GL_ARRAY_BUFFER, 0u, vertexPointers.size()*sizeof(GLfloat), &vertexPointers.front());
 
 
 
@@ -127,10 +130,10 @@ void SpriteBatch::Draw()
 		glBindTexture(GL_TEXTURE_2D, currentTextureIndex);
 		glDrawElements(GL_TRIANGLES, textureAmount * 6u, GL_UNSIGNED_INT, reinterpret_cast<GLvoid*>((drawables.size() - textureAmount) * 6u * sizeof(GLuint)));
 
-		glBindTexture(GL_TEXTURE_2D, 0u);
-		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0u);
-		glBindBuffer(GL_ARRAY_BUFFER, 0u);
-		glUseProgram(0);
+		//glBindTexture(GL_TEXTURE_2D, 0u);
+		//glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0u);
+		//glBindBuffer(GL_ARRAY_BUFFER, 0u);
+		//glUseProgram(0);
 
 		// Tämä koodi ei jostain syystä piirrä useampaa kuin yhtä spriteä, mutta virhe on muualla kuin tekstuurintarkistuksessa.
 		// Ei toiminut ennen kuin lisäsin uudet jutut.
