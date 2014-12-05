@@ -35,13 +35,13 @@ int main()
 	sprite2.setTexture(Gooby);
 	sprite3.setTexture(Gooby);
 	SpriteBatch.AddSprite(sprite3, 1);
-	SpriteBatch.AddSprite(sprite2, 1);
-	SpriteBatch.AddSprite(sprite, 1);
+
+
 
 	std::vector<Mob> demoMobVector;
-	demoMobVector.push_back(Mob(&sprite));
-	demoMobVector.push_back(Mob(&sprite2));
 	demoMobVector.push_back(Mob(&sprite3));
+	demoMobVector.push_back(Mob(&sprite2));
+
 	for (unsigned i = 0; i < 30; i++)
 	{
 		Sprite* spritee = new Sprite;
@@ -49,7 +49,9 @@ int main()
 		SpriteBatch.AddSprite(*spritee, 0);
 		demoMobVector.push_back(Mob(spritee));
 	}
-
+	demoMobVector.push_back(Mob(&sprite));
+	SpriteBatch.AddSprite(sprite2, 1);
+	SpriteBatch.AddSprite(sprite, 1);
 	for (unsigned i = 0; i < demoMobVector.size(); i++)
 	{
 		demoMobVector[i].sprite->setPosition(vector2f(0.0f, 0.0f));

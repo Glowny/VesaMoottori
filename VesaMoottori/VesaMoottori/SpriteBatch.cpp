@@ -117,22 +117,25 @@ void SpriteBatch::Draw()
 				// Eli vastaava muuttuja currentTextureIndex:lle.
 				// Kannattaa varmaan toteuttaa 6u:n tilalle sprite->getIndexSize(), VASTA kun aletaan tukemaan erilaisia indeksim‰‰ri‰,
 				// n‰in pysyy ajatus paremmin tehdess‰.
+
+
 				glDrawElements(GL_TRIANGLES, textureAmount * 6u, GL_UNSIGNED_INT, reinterpret_cast<GLvoid*>((i - 1) * 6u * sizeof(GLuint)));
 
 				// lopuksi t‰m‰n indeksin piirrett‰v‰ tekstuuri, ja asetetaan m‰‰r‰ ykkˆseen.
 				currentTextureIndex = drawables[i].sprite->texture->getTextureIndex();
-				textureAmount = 1;
+				textureAmount = 0;		// ehk‰ 1
 				glBindTexture(GL_TEXTURE_2D, 0u);
 			}
 		};
-		// for-loopin j‰lkeen piiret‰‰n kaikki ne spritet, joilla oli sama tekstuuri kuin viimeisen indeksin tekstuurilla.
+		// for-loopin j‰lkeen piiret‰‰n kaikki ne spritet, joilla on sama tekstuuri kuin viimeisen indeksin tekstuurilla.
+
+
+
 		currentTextureIndex = drawables[drawables.size()-1].sprite->texture->getTextureIndex();
 		glBindTexture(GL_TEXTURE_2D, currentTextureIndex);
 		glDrawElements(GL_TRIANGLES, textureAmount * 6u, GL_UNSIGNED_INT, reinterpret_cast<GLvoid*>((drawables.size() - textureAmount) * 6u * sizeof(GLuint)));
 		glBindTexture(GL_TEXTURE_2D, 0u);
 
-		// T‰m‰ koodi ei jostain syyst‰ piirr‰ useampaa kuin yht‰ sprite‰, mutta virhe on muualla kuin tekstuurintarkistuksessa.
-		// Ei toiminut ennen kuin lis‰sin uudet jutut.
 
 		//Debugaukseen, saa poistaa.
 		vertexData;
