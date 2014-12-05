@@ -5,10 +5,12 @@
 #include "Sprite.h"
 #include "SpriteBatch.h"
 #include "Keyboard.h"
-
+#include "..\Mob.h"
+#include <time.h>
 
 int main()
 {
+	srand(time(NULL));
 	ResourceManager Resources;
 	Texture			*Gooby;
 	Texture			*Gooby2;
@@ -24,29 +26,36 @@ int main()
 	Shader.AddShader(Resources.LoadShader("vertexShader.txt", "vertex"), GL_VERTEX_SHADER);
 	Shader.AddShader(Resources.LoadShader("fragmentShader.txt", "fragment"), GL_FRAGMENT_SHADER);
 	Shader.LinkProgram();
-
 	SpriteBatch.SetShaderProgram(Shader);
-
+	
 	Gooby2 = Resources.CreateTexture("goofy.png", "goofy", vector2f(0.0f, 0.0f), 1.0f);
 	Gooby = Resources.CreateTexture("gooby.png", "gooby", vector2f(0.0f, 0.0f), 1.0f);
 
 	sprite.setTexture(Gooby);
-	sprite2.setTexture(Gooby2);
+	sprite2.setTexture(Gooby);
 	sprite3.setTexture(Gooby);
+	SpriteBatch.AddSprite(sprite3, 1);
+	SpriteBatch.AddSprite(sprite2, 1);
+	SpriteBatch.AddSprite(sprite, 1);
 
-	std::vector<Sprite*> tempSpriteVector;
-	for (int i = 0; i < 30; i++)
+	std::vector<Mob> demoMobVector;
+	demoMobVector.push_back(Mob(&sprite));
+	demoMobVector.push_back(Mob(&sprite2));
+	demoMobVector.push_back(Mob(&sprite3));
+	for (unsigned i = 0; i < 30; i++)
 	{
 		Sprite* spritee = new Sprite;
-		spritee->setTexture(Gooby);
+		spritee->setTexture(Gooby2);
 		SpriteBatch.AddSprite(*spritee, 0);
-		tempSpriteVector.push_back(spritee);
+		demoMobVector.push_back(Mob(spritee));
+	}
+
+	for (unsigned i = 0; i < demoMobVector.size(); i++)
+	{
+		demoMobVector[i].sprite->setPosition(vector2f(0.0f, 0.0f));
 	}
 
 
-	SpriteBatch.AddSprite(sprite3, 1);
-	SpriteBatch.AddSprite(sprite2, 1);
-	SpriteBatch.AddSprite(sprite, 2);
 
 	sprite.setColorRGB(0.1f, 0.2f, 0.3f);
 	sprite2.setColorRGB(0.4f, 0.5f, 0.6f);
@@ -55,10 +64,7 @@ int main()
 	const GLint posLocation = Shader.GetAttributeLocation("attrPosition");
 	const GLint colorLocation = Shader.GetAttributeLocation("attrColor");
 	const GLint texLocation = Shader.GetAttributeLocation("textPosition");
-	float wowX = 0;
-	float wowY = 0;
-	bool xDir = 0;
-	bool yDir = 0;
+
 	//Shader.RunProgram();
 	glEnableVertexAttribArray(posLocation);
 	glEnableVertexAttribArray(colorLocation);
@@ -66,50 +72,16 @@ int main()
 
 	while(Window.IsOpen())
 	{
-		if(wowX > 1.0f)
+		
+		for (unsigned i = 0; i < demoMobVector.size(); i++)
 		{
-			xDir = false;
-		}
-		if(wowX < -1.0f)
-		{
-			xDir = true;
-		}
-		if(wowY > 1.0f)
-		{
-			yDir = false;
-		}
-		if(wowY < -1.0f)
-		{
-			yDir = true;
-		}
+			demoMobVector[i].speed.x = demoMobVector[i].speed.x +((rand() % 100) * 0.00001f);
+			demoMobVector[i].speed.x = demoMobVector[i].speed.x - ((rand() % 100) * 0.00001f);
+			demoMobVector[i].speed.y = demoMobVector[i].speed.y +((rand() % 100) * 0.00001f);
+			demoMobVector[i].speed.y = demoMobVector[i].speed.y - ((rand() % 100) * 0.00001f);
 
-		if(xDir)
-		{
-			wowX = wowX+0.001f;
+			demoMobVector[i].Update();
 		}
-		else
-		{
-			wowX = wowX -0.002f;
-		}
-
-		if(yDir)
-		{
-			wowY = wowY + 0.004f;
-		}
-		else
-		{
-			wowY = wowY - 0.003f;
-		}
-
-		for (int i = 0; i < tempSpriteVector.size(); i++)
-		{
-			tempSpriteVector[i]->setPosition(
-				vector2f(wowY * 0.2f, wowX*0.1f));
-		}
-
-		sprite2.setPosition(vector2f(-wowX, -wowY));
-		sprite.setPosition(vector2f(wowX, wowY));
-		sprite3.setPosition(vector2f(0.5, 0.5));
 		
 		//SpriteBatch.purkkaChanges();
 
@@ -137,6 +109,10 @@ int main()
 
 		Window.Display();
 	}
+	glBindTexture(GL_TEXTURE_2D, 0u);
+	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0u);
+	glBindBuffer(GL_ARRAY_BUFFER, 0u);
+	glUseProgram(0);
 
 	return 0;
 }

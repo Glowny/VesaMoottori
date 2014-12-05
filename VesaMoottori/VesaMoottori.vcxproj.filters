@@ -23,6 +23,9 @@
     <Filter Include="Source Files\SCRAP">
       <UniqueIdentifier>{94191c3a-a871-4736-9f18-7bbd0c81ea8f}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Demo">
+      <UniqueIdentifier>{2e614ca5-307a-485f-8855-e0fe941d9f6c}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="VesaMoottori\Window.h">
@@ -71,6 +74,9 @@
       <Filter>Source Files\STRUCTS</Filter>
     </ClInclude>
     <ClInclude Include="Keyboard.h" />
+    <ClInclude Include="Mob.h">
+      <Filter>Demo</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="VesaMoottori\Main.cpp">
@@ -105,6 +111,9 @@
     </ClCompile>
     <ClCompile Include="Keyboard.cpp">
       <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Mob.cpp">
+      <Filter>Demo</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

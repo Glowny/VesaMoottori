@@ -126,14 +126,10 @@ void SpriteBatch::Draw()
 			}
 		};
 		// for-loopin jälkeen piiretään kaikki ne spritet, joilla oli sama tekstuuri kuin viimeisen indeksin tekstuurilla.
-
+		currentTextureIndex = drawables[drawables.size()-1].sprite->texture->getTextureIndex();
 		glBindTexture(GL_TEXTURE_2D, currentTextureIndex);
 		glDrawElements(GL_TRIANGLES, textureAmount * 6u, GL_UNSIGNED_INT, reinterpret_cast<GLvoid*>((drawables.size() - textureAmount) * 6u * sizeof(GLuint)));
-
-		//glBindTexture(GL_TEXTURE_2D, 0u);
-		//glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0u);
-		//glBindBuffer(GL_ARRAY_BUFFER, 0u);
-		//glUseProgram(0);
+		glBindTexture(GL_TEXTURE_2D, 0u);
 
 		// Tämä koodi ei jostain syystä piirrä useampaa kuin yhtä spriteä, mutta virhe on muualla kuin tekstuurintarkistuksessa.
 		// Ei toiminut ennen kuin lisäsin uudet jutut.
