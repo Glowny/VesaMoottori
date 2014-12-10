@@ -50,8 +50,11 @@ Texture* ResourceManager::CreateTexture(std::string fileName, std::string textur
 {
 	Texture *tempTexture;
 
-	if(LoadPicture(fileName)) // Jos kuvan lataaminen onnistuu.
+	if (LoadPicture(fileName)) // Jos kuvan lataaminen onnistuu.
+	{
 		tempTexture = new Texture(FindImage(fileName), position, scale); // Luodaan tekstuuri kuvan perusteella.
+		std::cout << "Loaded " << fileName << " Succesfully!" << std::endl;
+	}
 	else
 		return NULL;
 

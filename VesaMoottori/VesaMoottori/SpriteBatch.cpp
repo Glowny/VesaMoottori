@@ -119,7 +119,7 @@ void SpriteBatch::Draw()
 				// näin pysyy ajatus paremmin tehdessä.
 
 
-				glDrawElements(GL_TRIANGLES, textureAmount * 6u, GL_UNSIGNED_INT, reinterpret_cast<GLvoid*>((i - 1) * 6u * sizeof(GLuint)));
+				glDrawElements(GL_TRIANGLES, textureAmount * 6u, GL_UNSIGNED_INT, reinterpret_cast<GLvoid*>((i - textureAmount) * 6u * sizeof(GLuint)));
 
 				// lopuksi tämän indeksin piirrettävä tekstuuri, ja asetetaan määrä ykköseen.
 				currentTextureIndex = drawables[i].sprite->texture->getTextureIndex();

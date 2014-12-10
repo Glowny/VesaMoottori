@@ -12,9 +12,8 @@ int main()
 {
 	srand(time(NULL));
 	ResourceManager Resources;
-	Texture			*Gooby;
-	Texture			*Gooby2;
-	Sprite			sprite, sprite2, sprite3;	
+	Texture			*Gooby, *Gooby2, *Animation;
+	Sprite			sprite, sprite2, sprite3, AnimationSprite;
 	bool			isRunning = true;
 	GraphicsDevice	Window("eitoimicustomnimi", 800, 800);
 	ShaderProgram	Shader;
@@ -28,37 +27,46 @@ int main()
 	Shader.LinkProgram();
 	SpriteBatch.SetShaderProgram(Shader);
 	
+	Animation = Resources.CreateTexture("Animation.png", "Animation", vector2f(0.0f, 0.0f), 1.0f);
 	Gooby2 = Resources.CreateTexture("goofy.png", "goofy", vector2f(0.0f, 0.0f), 1.0f);
 	Gooby = Resources.CreateTexture("gooby.png", "gooby", vector2f(0.0f, 0.0f), 1.0f);
 
+	AnimationSprite.setTexture(Animation);
+	
 	sprite.setTexture(Gooby);
 	sprite2.setTexture(Gooby);
-	sprite3.setTexture(Gooby);
-	SpriteBatch.AddSprite(sprite3, 1);
+	sprite3.setTexture(Gooby2);
+
+	SpriteBatch.AddSprite(AnimationSprite, 2);
 
 
 
-	std::vector<Mob> demoMobVector;
+	std::vector<Mob> demoMobVector; // Tällä vektorilla liikutetaan.
 	demoMobVector.push_back(Mob(&sprite3));
 	demoMobVector.push_back(Mob(&sprite2));
+	demoMobVector.push_back(Mob(&AnimationSprite));
 
-	for (unsigned i = 0; i < 30; i++)
+	
+	for (unsigned i = 0; i < 700; i++)
 	{
 		Sprite* spritee = new Sprite;
 		spritee->setTexture(Gooby2);
-		SpriteBatch.AddSprite(*spritee, 0);
+		SpriteBatch.AddSprite(*spritee, 2);
 		demoMobVector.push_back(Mob(spritee));
 	}
+
+
 	demoMobVector.push_back(Mob(&sprite));
 	SpriteBatch.AddSprite(sprite2, 1);
 	SpriteBatch.AddSprite(sprite, 1);
+	SpriteBatch.AddSprite(sprite3, 0);
 	for (unsigned i = 0; i < demoMobVector.size(); i++)
 	{
 		demoMobVector[i].sprite->setPosition(vector2f(0.0f, 0.0f));
 	}
 
 
-
+	AnimationSprite.setSourceRSize(vector2f(64.0f,64.0f));
 	sprite.setColorRGB(0.1f, 0.2f, 0.3f);
 	sprite2.setColorRGB(0.4f, 0.5f, 0.6f);
 	sprite3.setColorRGB(0.7f, 0.8f, 0.9f);
@@ -71,7 +79,8 @@ int main()
 	glEnableVertexAttribArray(posLocation);
 	glEnableVertexAttribArray(colorLocation);
 	glEnableVertexAttribArray(texLocation);
-
+	int animationPositionX = 0;
+	int animationPositionY = 0;
 	while(Window.IsOpen())
 	{
 		
@@ -81,10 +90,20 @@ int main()
 			demoMobVector[i].speed.x = demoMobVector[i].speed.x - ((rand() % 100) * 0.00001f);
 			demoMobVector[i].speed.y = demoMobVector[i].speed.y +((rand() % 100) * 0.00001f);
 			demoMobVector[i].speed.y = demoMobVector[i].speed.y - ((rand() % 100) * 0.00001f);
-
 			demoMobVector[i].Update();
 		}
-		
+		AnimationSprite.setSourceRPosition(vector2f(animationPositionX*64.0f, animationPositionY*64.0f));
+
+		animationPositionX++;
+		if (animationPositionX > 3)
+		{
+			animationPositionX = 0;
+			animationPositionY++;
+		}
+		if (animationPositionY > 3)
+		{
+			animationPositionY = 0;
+		}
 		//SpriteBatch.purkkaChanges();
 
 		MSG messages;
