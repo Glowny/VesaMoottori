@@ -31,6 +31,10 @@ public:
 
 private:
 	void Sort(); // Pit‰‰ piirrot j‰rjestyksess‰.
+	vector2f TextureToGLCoord(float x, float y);
+	vector2f PositionToGlCoord(float x, float y);
+	GLfloat ColorToGLCoord(GLfloat x);
+
 	std::vector<Drawable>::iterator FindLocation(int order); // Iteraattori help-funktio.
 
 	std::vector<Drawable> drawables;

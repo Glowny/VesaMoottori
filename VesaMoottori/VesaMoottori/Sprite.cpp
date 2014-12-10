@@ -24,7 +24,7 @@ Sprite::Sprite()
 	position = vector2f(0.0f, 0.0f);
 	sourceRectPosition = vector2f(0.0f, 0.0f);
 	origin = vector2f(0.0f, 0.0f);
-	red = 1.0f; blue = 1.0f; green = 1.0f;
+	red = 255.0f; blue = 255.0f; green = 255.0f;
 	createIndexData();
 
 }
@@ -113,13 +113,10 @@ float Sprite::getColorB()
 // vanha
 void Sprite::changeVertexData()
 {
-	vector2f topLeft = ToGLCoord(sourceRectPosition.x, sourceRectPosition.y);
-	vector2f bottomLeft = ToGLCoord(sourceRectPosition.x, sourceRectPosition.y + sourceRectSize.y);
-	vector2f topRight = ToGLCoord(sourceRectPosition.x + sourceRectSize.x, sourceRectPosition.y);
-	vector2f bottomRight = ToGLCoord(sourceRectPosition.x + sourceRectSize.x, sourceRectPosition.y + sourceRectSize.y);
-	vector2f GLsize;
-	GLsize.x = ( size.x / 800)-1;	
-	GLsize.y = ( size.y / 800)-1;
+	vector2f topLeft(sourceRectPosition.x, sourceRectPosition.y);
+	vector2f bottomLeft(sourceRectPosition.x, sourceRectPosition.y + sourceRectSize.y);
+	vector2f topRight(sourceRectPosition.x + sourceRectSize.x, sourceRectPosition.y);
+	vector2f bottomRight(sourceRectPosition.x + sourceRectSize.x, sourceRectPosition.y + sourceRectSize.y);
 
 	GLfloat vertex[] = 
 	{
@@ -127,15 +124,15 @@ void Sprite::changeVertexData()
 		red, blue, green,
 		topLeft.x, topLeft.y,	
 
-		position.x - origin.x, position.y - origin.y + GLsize.y,
+		position.x - origin.x, position.y - origin.y + size.y,
 		red, blue, green,
 		bottomLeft.x, bottomLeft.y,
 
-		position.x - origin.x - GLsize.x, position.y - origin.y,
+		position.x - origin.x - size.x, position.y - origin.y,
 		red, blue, green,
 		topRight.x, topRight.y,
 
-		position.x - origin.x - GLsize.x, position.y - origin.y + GLsize.y,
+		position.x - origin.x - size.x, position.y - origin.y + size.y,
 		red, blue, green,
 		bottomRight.x, bottomRight.y
 	};
@@ -147,23 +144,19 @@ void Sprite::changeVertexData()
 	//texture->CreateBuffer(vertex, sizeof(vertex), INDEX_DATA, 6*4);
 }
 
-void Sprite::changePositionData(vector2f windowSize)
+void Sprite::changePositionData()
 {
-	vector2f GLsize;
-	GLsize.x = (size.x / windowSize.x) - 1;	// v‰liaikainen, siirrett‰v‰ spritebatchiin joka tiet‰‰ windowin koon.
-	GLsize.y = (size.y / windowSize.y) - 1;
-
 	VERTEX_DATA[0] = position.x - origin.x;
 	VERTEX_DATA[1] = position.y - origin.y;
 
 	VERTEX_DATA[0 + 7] = position.x - origin.x;
-	VERTEX_DATA[1 + 7] = position.y - origin.y + GLsize.y;
+	VERTEX_DATA[1 + 7] = position.y - origin.y + size.y;
 
-	VERTEX_DATA[0 + 14] = position.x - origin.x - GLsize.x;
+	VERTEX_DATA[0 + 14] = position.x - origin.x - size.x;
 	VERTEX_DATA[1 + 14] = position.y - origin.y;
 
-	VERTEX_DATA[0 + 21] = position.x - origin.x - GLsize.x;
-	VERTEX_DATA[1 + 21] = position.y - origin.y + GLsize.y;
+	VERTEX_DATA[0 + 21] = position.x - origin.x - size.x;
+	VERTEX_DATA[1 + 21] = position.y - origin.y + size.y;
 
 	positionChanged = false;
 }
@@ -189,10 +182,10 @@ void Sprite::changeColorData()
 }
 void Sprite::changeTexturePosition()
 {
-	vector2f topLeft = ToGLCoord(sourceRectPosition.x, sourceRectPosition.y);
-	vector2f bottomLeft = ToGLCoord(sourceRectPosition.x, sourceRectPosition.y + sourceRectSize.y);
-	vector2f topRight = ToGLCoord(sourceRectPosition.x + sourceRectSize.x, sourceRectPosition.y);
-	vector2f bottomRight = ToGLCoord(sourceRectPosition.x + sourceRectSize.x, sourceRectPosition.y + sourceRectSize.y);
+	vector2f topLeft(sourceRectPosition.x, sourceRectPosition.y);
+	vector2f bottomLeft(sourceRectPosition.x, sourceRectPosition.y + sourceRectSize.y);
+	vector2f topRight(sourceRectPosition.x + sourceRectSize.x, sourceRectPosition.y);
+	vector2f bottomRight(sourceRectPosition.x + sourceRectSize.x, sourceRectPosition.y + sourceRectSize.y);
 
 	VERTEX_DATA[5] = topLeft.x;
 	VERTEX_DATA[6] = topLeft.y;
@@ -222,13 +215,6 @@ void Sprite::createIndexData()
 }
 
 // T‰m‰nkin toteutus spritebatchissa jottei liiku v‰lill‰ dataa joista osa v‰‰r‰ss‰ muodossa
-vector2f Sprite::ToGLCoord(float x, float y)
-{
-	vector2f temp;
-	temp.x = (x / size.x);
-	temp.y = (y / size.y);
-	return temp;
-}
 
 GLsizei Sprite::getIndexSize()
 {

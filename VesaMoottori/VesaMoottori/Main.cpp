@@ -50,10 +50,9 @@ int main()
 	for (unsigned i = 0; i < 5; i++)
 	{
 		Sprite* spritee = new Sprite;
-		spritee->setTexture(Animation);
-		spritee->setSourceRSize(vector2f(64.0f, 64.0f));
+		spritee->setTexture(Gooby);
 		// origin tehty vitulleen
-		SpriteBatch.AddSprite(*spritee, 2);
+		SpriteBatch.AddSprite(*spritee);
 		demoMobVector.push_back(Mob(spritee, true));
 	}
 
@@ -66,16 +65,16 @@ int main()
 
 	for (unsigned i = 0; i < demoMobVector.size(); i++)
 	{
-		demoMobVector[i].sprite->setPosition(vector2f(0.0f, 0.0f));
+		demoMobVector[i].sprite->setPosition(vector2f(100.0f, 100.0f));
 	}
 
 
 	AnimationSprite.setSourceRSize(vector2f(64.0f,64.0f));
 	demoMobVector.push_back(Mob(&AnimationSprite, true));
 
-	sprite.setColorRGB(0.1f, 0.2f, 0.3f);
-	sprite2.setColorRGB(0.4f, 0.5f, 0.6f);
-	sprite3.setColorRGB(0.7f, 0.8f, 0.9f);
+	sprite.setColorRGB(255.0f, 255.0f, 255.0f);
+	sprite2.setColorRGB(255.0f, 255.0f, 255.0f);
+	sprite3.setColorRGB(255.0f, 255.0f, 255.0f);
 	// Tarkistetaan attribuuttien lokaatio.
 	const GLint posLocation = Shader.GetAttributeLocation("attrPosition");
 	const GLint colorLocation = Shader.GetAttributeLocation("attrColor");
@@ -92,10 +91,10 @@ int main()
 		
 		for (unsigned i = 0; i < demoMobVector.size(); i++)
 		{
-			demoMobVector[i].speed.x = demoMobVector[i].speed.x +((rand() % 100) * 0.00001f);
-			demoMobVector[i].speed.x = demoMobVector[i].speed.x - ((rand() % 100) * 0.00001f);
-			demoMobVector[i].speed.y = demoMobVector[i].speed.y +((rand() % 100) * 0.00001f);
-			demoMobVector[i].speed.y = demoMobVector[i].speed.y - ((rand() % 100) * 0.00001f);
+			demoMobVector[i].speed.x = demoMobVector[i].speed.x +((rand() % 100) * 0.1f);
+			demoMobVector[i].speed.x = demoMobVector[i].speed.x - ((rand() % 100) * 0.1f);
+			demoMobVector[i].speed.y = demoMobVector[i].speed.y +((rand() % 100) * 0.1f);
+			demoMobVector[i].speed.y = demoMobVector[i].speed.y - ((rand() % 100) * 0.1f);
 			demoMobVector[i].Update();
 
 			if (demoMobVector[i].animationEnabled == true)

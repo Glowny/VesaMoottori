@@ -32,12 +32,39 @@ void SpriteBatch::CreateBuffer()
 		{
 			for (int j = 0; j < drawables[i].sprite->getIndexSize(); j++)
 			{
-				indexData.push_back(drawables[i].sprite->getIndexPointer()[j] + i * 4); // yhden neliön piirtämiseen tarvittava indeksimäärä, täytyy vaihtaa jos halutaan erimuotoisia kuvioita
+				GLuint index = drawables[i].sprite->getIndexPointer()[j] + i * 4;
+				indexData.push_back(index); // yhden neliön piirtämiseen tarvittava indeksimäärä, täytyy vaihtaa jos halutaan erimuotoisia kuvioita
 			}
+			GLfloat vertexArray[7];
+			int index = 0;
 			for (int j = 0; j < drawables[i].sprite->getVertexSize(); j++)
 			{
+				vertexArray[index] = drawables[i].sprite->getVertexPointer()[j];
+				index++;
+				if (index > 6)
+				{
+					vector2f positionGL = PositionToGlCoord(vertexArray[0], vertexArray[1]);
+					vector2f textureGL = TextureToGLCoord(vertexArray[5], vertexArray[6]);
+					GLfloat red = ColorToGLCoord(vertexArray[2]);
+					GLfloat green = ColorToGLCoord(vertexArray[3]);
+					GLfloat blue = ColorToGLCoord(vertexArray[4]);
 
-				vertexData.push_back(drawables[i].sprite->getVertexPointer()[j]);
+					vertexArray[0] = positionGL.x;
+					vertexArray[1] = positionGL.y;
+					vertexArray[2] = red;
+					vertexArray[3] = blue;
+					vertexArray[4] = green;
+					vertexArray[5] = textureGL.x;
+					vertexArray[6] = textureGL.y;
+
+					for (int i = 0; i < 7; i++)
+					{
+						vertexData.push_back(vertexArray[i]);
+					}
+
+					index = 0;
+				}
+				
 			}
 		}
 	}
@@ -59,9 +86,9 @@ void SpriteBatch::Update()
 	}
 	CreateBuffer();
 	for (unsigned i = 0; i < drawables.size(); i++)
-	{
+	{	// nämäkin saattas voida siirtää spriteen, eli tehdään uusi data aina kun annetaan komento.
 		if (drawables[i].sprite->positionChanged)
-			drawables[i].sprite->changePositionData(size);
+			drawables[i].sprite->changePositionData();
 
 		if (drawables[i].sprite->texturePositionChanged)
 			drawables[i].sprite->changeTexturePosition();
@@ -216,3 +243,25 @@ SpriteBatch::~SpriteBatch()
 //		}
 //	}
 //}
+
+vector2f SpriteBatch::TextureToGLCoord(float x, float y)
+{
+	vector2f temp;
+	temp.x = (x / size.x);
+	temp.y = (y / size.y);
+	return temp;
+}
+
+vector2f SpriteBatch::PositionToGlCoord(float x, float y)
+{
+	vector2f temp;
+	temp.x = (x / size.x) - 1;
+	temp.y = (y / size.y) - 1;
+	return temp;
+}
+
+GLfloat SpriteBatch::ColorToGLCoord(GLfloat color)
+{
+	return color / 255;
+}
+

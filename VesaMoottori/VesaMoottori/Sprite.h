@@ -46,7 +46,6 @@ public:
 	GLuint* getIndexPointer();
 
 private:
-	vector2f ToGLCoord(float x, float y);
 
 
 	Texture *texture;
@@ -66,7 +65,7 @@ private:
 	bool colorChanged;
 	bool positionChanged;
 	bool texturePositionChanged;
-	void changePositionData(vector2f windowSize);
+	void changePositionData();
 	void changeColorData();
 	void changeTexturePosition();
 
