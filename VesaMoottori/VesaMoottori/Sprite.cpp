@@ -75,7 +75,12 @@ vector2f Sprite::getSourceRSize()
 }
 void Sprite::setSize(vector2f size)
 {
+	// mad maths, saatetaan poistaa koska kusee käyttäjän sourceRectSizen, eli ehkä käyttäjä itse resizee sen uudelleen?
+	sourceRectSize = vector2f(sourceRectSize.x/this->size.x*size.x, sourceRectSize.y/this->size.y*size.y);	
 	this->size = size;
+	positionChanged = true;
+	texturePositionChanged = true;
+
 }
 
 vector2f Sprite::getSize()

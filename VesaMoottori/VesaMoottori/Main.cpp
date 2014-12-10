@@ -33,7 +33,8 @@ int main()
 
 	AnimationSprite.setTexture(Animation);
 	
-	sprite.setTexture(Gooby);
+	sprite.setTexture(Gooby2);
+	sprite.setSize(vector2f(200, 200));
 	sprite.setPosition(vector2f(750, 750));
 	sprite2.setTexture(Gooby);
 	sprite3.setTexture(Gooby2);
@@ -43,6 +44,7 @@ int main()
 
 
 	std::vector<Mob> demoMobVector; // Tällä vektorilla liikutetaan.
+	demoMobVector.push_back(Mob(&sprite));
 	demoMobVector.push_back(Mob(&sprite3));
 	demoMobVector.push_back(Mob(&sprite2));
 	demoMobVector.push_back(Mob(&AnimationSprite));
