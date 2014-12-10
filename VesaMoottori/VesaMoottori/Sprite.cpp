@@ -124,9 +124,9 @@ float Sprite::getColorB()
 void Sprite::createVertexData()
 {
 	vector2f topLeft(sourceRectPosition.x, sourceRectPosition.y);
-	vector2f bottomLeft(sourceRectPosition.x, sourceRectPosition.y + sourceRectSize.y);
-	vector2f topRight(sourceRectPosition.x + sourceRectSize.x, sourceRectPosition.y);
-	vector2f bottomRight(sourceRectPosition.x + sourceRectSize.x, sourceRectPosition.y + sourceRectSize.y);
+	vector2f bottomLeft(sourceRectPosition.x, sourceRectPosition.y - sourceRectSize.y);
+	vector2f topRight(sourceRectPosition.x - sourceRectSize.x, sourceRectPosition.y);
+	vector2f bottomRight(sourceRectPosition.x - sourceRectSize.x, sourceRectPosition.y - sourceRectSize.y);
 
 	GLfloat vertex[] = 
 	{
@@ -138,11 +138,11 @@ void Sprite::createVertexData()
 		red, blue, green,
 		bottomLeft.x, bottomLeft.y,
 
-		position.x - origin.x - size.x, position.y - origin.y,
+		position.x - origin.x + size.x, position.y - origin.y,
 		red, blue, green,
 		topRight.x, topRight.y,
 
-		position.x - origin.x - size.x, position.y - origin.y + size.y,
+		position.x - origin.x + size.x, position.y - origin.y + size.y,
 		red, blue, green,
 		bottomRight.x, bottomRight.y
 	};
@@ -198,16 +198,16 @@ void Sprite::changeTexturePosition()
 	vector2f bottomRight(sourceRectPosition.x + sourceRectSize.x, sourceRectPosition.y + sourceRectSize.y);
 
 	VERTEX_DATA[5] = topLeft.x;
-	VERTEX_DATA[6] = topLeft.y;
+	VERTEX_DATA[6] =  topLeft.y;
 
 	VERTEX_DATA [5+7] = bottomLeft.x;
 	VERTEX_DATA [6+7] = bottomLeft.y;
 
 	VERTEX_DATA [5+14] = topRight.x;
-	VERTEX_DATA [6+14] = topRight.y;
+	VERTEX_DATA [6+14] = topRight.y;	
 
-	VERTEX_DATA [5+21] = bottomRight.x;
-	VERTEX_DATA [6+21] = bottomRight.y;
+	VERTEX_DATA[5 + 21] = bottomRight.x;
+	VERTEX_DATA[6 + 21] = bottomRight.y;
 
 	texturePositionChanged = false;
 }

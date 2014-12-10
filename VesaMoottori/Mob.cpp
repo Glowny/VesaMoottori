@@ -34,19 +34,23 @@ void Mob::CheckBoundaries()
 	vector2f location = sprite->getPosition();
 	if (location.x >= 808.0f)
 	{
-		speed.x = speed.x - 1.0f;
+		//speed.x = speed.x - 1.0f;
+		speed.x = speed.x*-1;
 	}
 	else if (location.x <= 0.0f)
 	{
-		speed.x = speed.x + 1.0f;
+		//speed.x = speed.x + 1.0f;
+		speed.x = speed.x*-1;
 	}
 	if (location.y >= 808.0f)
 	{
-		speed.y = speed.y - 1.0f;
+		//speed.y = speed.y - 1.0f;
+		speed.y = speed.y*-1;
 	}
 	else if (location.y <= 0.0f)
 	{
-		speed.y =speed.y + 1.0f;
+		//speed.y =speed.y + 1.0f;
+		speed.y = speed.y*-1;
 	}
 }
 

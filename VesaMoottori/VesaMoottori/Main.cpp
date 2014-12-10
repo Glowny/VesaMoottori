@@ -38,8 +38,11 @@ int main()
 	
 	sprite.setTexture(Gooby2);
 	sprite.setSize(vector2f(200, 200));
+	sprite.setOrigin(vector2f(0, 0));
 	sprite.setPosition(vector2f(750, 750));
 	sprite2.setTexture(Gooby);
+	sprite2.setSize(vector2f(10, 10));
+
 	sprite3.setTexture(Gooby2);
 
 	SpriteBatch.AddSprite(AnimationSprite, 2);
@@ -48,18 +51,17 @@ int main()
 
 	std::vector<Mob> demoMobVector; // Tällä vektorilla liikutetaan.
 	demoMobVector.push_back(Mob(&sprite));
-	demoMobVector.push_back(Mob(&sprite3));
-	demoMobVector.push_back(Mob(&sprite2));
-	demoMobVector.push_back(Mob(&AnimationSprite));
+	//demoMobVector.push_back(Mob(&sprite3));
+	//demoMobVector.push_back(Mob(&AnimationSprite));
 
-	for (unsigned i = 0; i < 5; i++)
-	{
-		Sprite* spritee = new Sprite;
-		spritee->setTexture(Gooby);
-		// origin tehty vitulleen
-		SpriteBatch.AddSprite(*spritee);
-		demoMobVector.push_back(Mob(spritee));
-	}
+	//for (unsigned i = 0; i < 5; i++)
+	//{
+	//	Sprite* spritee = new Sprite;
+	//	spritee->setTexture(Gooby);
+	//	// origin tehty vitulleen
+	//	SpriteBatch.AddSprite(*spritee);
+	//	demoMobVector.push_back(Mob(spritee));
+	//}
 
 	SpriteBatch.AddSprite(sprite2, 1);
 	SpriteBatch.AddSprite(sprite, 1);
@@ -73,7 +75,7 @@ int main()
 
 
 	AnimationSprite.setSourceRSize(vector2f(64.0f,64.0f));
-	demoMobVector.push_back(Mob(&AnimationSprite, true));
+//	demoMobVector.push_back(Mob(&AnimationSprite, true));
 
 	sprite.setColorRGB(255.0f, 255.0f, 255.0f);
 	sprite2.setColorRGB(255.0f, 255.0f, 255.0f);
@@ -103,7 +105,6 @@ int main()
 			demoMobVector[i].speed.y = demoMobVector[i].speed.y +((rand() % 100) * 0.01f);
 			demoMobVector[i].speed.y = demoMobVector[i].speed.y - ((rand() % 100) * 0.01f);
 			demoMobVector[i].Update();
-
 			if (demoMobVector[i].animationEnabled == true)
 			{
 				demoMobVector[i].ChangeFrame();
