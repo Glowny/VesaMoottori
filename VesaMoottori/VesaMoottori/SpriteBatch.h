@@ -31,7 +31,7 @@ public:
 
 private:
 	void Sort(); // Pit‰‰ piirrot j‰rjestyksess‰.
-	vector2f TextureToGLCoord(float x, float y);
+	vector2f TextureToGLCoord(float x, float y, vector2f spriteSize);
 	vector2f PositionToGlCoord(float x, float y);
 	GLfloat ColorToGLCoord(GLfloat x);
 

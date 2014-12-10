@@ -53,7 +53,7 @@ int main()
 		spritee->setTexture(Gooby);
 		// origin tehty vitulleen
 		SpriteBatch.AddSprite(*spritee);
-		demoMobVector.push_back(Mob(spritee, true));
+		demoMobVector.push_back(Mob(spritee));
 	}
 
 
@@ -65,7 +65,7 @@ int main()
 
 	for (unsigned i = 0; i < demoMobVector.size(); i++)
 	{
-		demoMobVector[i].sprite->setPosition(vector2f(100.0f, 100.0f));
+		demoMobVector[i].sprite->setPosition(vector2f(800.0f, 800.0f));
 	}
 
 
@@ -91,10 +91,10 @@ int main()
 		
 		for (unsigned i = 0; i < demoMobVector.size(); i++)
 		{
-			demoMobVector[i].speed.x = demoMobVector[i].speed.x +((rand() % 100) * 0.1f);
-			demoMobVector[i].speed.x = demoMobVector[i].speed.x - ((rand() % 100) * 0.1f);
-			demoMobVector[i].speed.y = demoMobVector[i].speed.y +((rand() % 100) * 0.1f);
-			demoMobVector[i].speed.y = demoMobVector[i].speed.y - ((rand() % 100) * 0.1f);
+			demoMobVector[i].speed.x = demoMobVector[i].speed.x +((rand() % 100) * 0.01f);
+			demoMobVector[i].speed.x = demoMobVector[i].speed.x - ((rand() % 100) * 0.01f);
+			demoMobVector[i].speed.y = demoMobVector[i].speed.y +((rand() % 100) * 0.01f);
+			demoMobVector[i].speed.y = demoMobVector[i].speed.y - ((rand() % 100) * 0.01f);
 			demoMobVector[i].Update();
 
 			if (demoMobVector[i].animationEnabled == true)

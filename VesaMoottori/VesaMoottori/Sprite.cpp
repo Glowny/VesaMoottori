@@ -73,7 +73,10 @@ vector2f Sprite::getSourceRSize()
 {
 	return sourceRectSize;
 }
-
+vector2f Sprite::getSize()
+{
+	return size;
+}
 void Sprite::setOrigin(vector2f origin)
 {
 	this->origin = origin;

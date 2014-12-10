@@ -44,7 +44,7 @@ void SpriteBatch::CreateBuffer()
 				if (index > 6)
 				{
 					vector2f positionGL = PositionToGlCoord(vertexArray[0], vertexArray[1]);
-					vector2f textureGL = TextureToGLCoord(vertexArray[5], vertexArray[6]);
+					vector2f textureGL = TextureToGLCoord(vertexArray[5], vertexArray[6], drawables[i].sprite->getSize());
 					GLfloat red = ColorToGLCoord(vertexArray[2]);
 					GLfloat green = ColorToGLCoord(vertexArray[3]);
 					GLfloat blue = ColorToGLCoord(vertexArray[4]);
@@ -244,11 +244,11 @@ SpriteBatch::~SpriteBatch()
 //	}
 //}
 
-vector2f SpriteBatch::TextureToGLCoord(float x, float y)
+vector2f SpriteBatch::TextureToGLCoord(float x, float y, vector2f spriteSize)
 {
 	vector2f temp;
-	temp.x = (x / size.x);
-	temp.y = (y / size.y);
+	temp.x = (x / spriteSize.x);
+	temp.y = (y / spriteSize.y);
 	return temp;
 }
 
