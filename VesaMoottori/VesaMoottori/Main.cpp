@@ -38,7 +38,7 @@ int main()
 	
 	sprite.setTexture(Gooby2);
 	sprite.setSize(vector2f(200, 200));
-	sprite.setOrigin(vector2f(0, 0));
+	sprite.setOrigin(vector2f(100,100));
 	sprite.setPosition(vector2f(750, 750));
 	sprite2.setTexture(Gooby);
 	sprite2.setSize(vector2f(10, 10));
