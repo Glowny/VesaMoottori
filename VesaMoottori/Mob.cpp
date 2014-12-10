@@ -11,6 +11,15 @@ Mob::Mob(Sprite *sprite)
 	speed = vector2f(0, 0);
 }
 
+Mob::Mob(Sprite *sprite, bool enableAnimation)
+{
+	this->sprite = sprite;
+	animationEnabled = enableAnimation;
+	speed = vector2f(0, 0);
+	currentFrameX = 0;
+	currentFrameY = 0;
+}
+
 Mob::~Mob()
 {
 }
@@ -38,5 +47,20 @@ void Mob::CheckBoundaries()
 	else if (location.y <= -1.0f)
 	{
 		speed.y =speed.y + 0.01f;
+	}
+}
+
+void Mob::ChangeFrame()
+{
+	sprite->setSourceRPosition(vector2f(currentFrameX*64.0f, currentFrameY*64.0f));
+	currentFrameX++;
+	if (currentFrameX > 3)
+	{
+		currentFrameX = 0;
+		currentFrameY++;
+	}
+	if (currentFrameY > 3)
+	{
+		currentFrameY = 0;
 	}
 }

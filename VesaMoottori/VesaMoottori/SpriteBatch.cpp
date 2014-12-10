@@ -123,7 +123,7 @@ void SpriteBatch::Draw()
 
 				// lopuksi tämän indeksin piirrettävä tekstuuri, ja asetetaan määrä ykköseen.
 				currentTextureIndex = drawables[i].sprite->texture->getTextureIndex();
-				textureAmount = 0;		// ehkä 1
+				textureAmount = 1;		// ehkä 1
 				glBindTexture(GL_TEXTURE_2D, 0u);
 			}
 		};

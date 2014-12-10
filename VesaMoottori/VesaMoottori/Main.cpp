@@ -27,7 +27,7 @@ int main()
 	Shader.LinkProgram();
 	SpriteBatch.SetShaderProgram(Shader);
 	
-	Animation = Resources.CreateTexture("Animation.png", "Animation", vector2f(0.0f, 0.0f), 1.0f);
+	Animation = Resources.CreateTexture("Animation.png", "Animation", vector2f(0.0f, 0.0f), 0.5f);
 	Gooby2 = Resources.CreateTexture("goofy.png", "goofy", vector2f(0.0f, 0.0f), 1.0f);
 	Gooby = Resources.CreateTexture("gooby.png", "gooby", vector2f(0.0f, 0.0f), 1.0f);
 
@@ -47,19 +47,23 @@ int main()
 	demoMobVector.push_back(Mob(&AnimationSprite));
 
 	
-	for (unsigned i = 0; i < 700; i++)
+	for (unsigned i = 0; i < 5; i++)
 	{
 		Sprite* spritee = new Sprite;
-		spritee->setTexture(Gooby2);
+		spritee->setTexture(Animation);
+		spritee->setSourceRSize(vector2f(64.0f, 64.0f));
+		// origin tehty vitulleen
 		SpriteBatch.AddSprite(*spritee, 2);
-		demoMobVector.push_back(Mob(spritee));
+		demoMobVector.push_back(Mob(spritee, true));
 	}
 
 
 	demoMobVector.push_back(Mob(&sprite));
 	SpriteBatch.AddSprite(sprite2, 1);
 	SpriteBatch.AddSprite(sprite, 1);
+	SpriteBatch.AddSprite(AnimationSprite, 0);
 	SpriteBatch.AddSprite(sprite3, 0);
+
 	for (unsigned i = 0; i < demoMobVector.size(); i++)
 	{
 		demoMobVector[i].sprite->setPosition(vector2f(0.0f, 0.0f));
@@ -67,6 +71,8 @@ int main()
 
 
 	AnimationSprite.setSourceRSize(vector2f(64.0f,64.0f));
+	demoMobVector.push_back(Mob(&AnimationSprite, true));
+
 	sprite.setColorRGB(0.1f, 0.2f, 0.3f);
 	sprite2.setColorRGB(0.4f, 0.5f, 0.6f);
 	sprite3.setColorRGB(0.7f, 0.8f, 0.9f);
@@ -91,19 +97,13 @@ int main()
 			demoMobVector[i].speed.y = demoMobVector[i].speed.y +((rand() % 100) * 0.00001f);
 			demoMobVector[i].speed.y = demoMobVector[i].speed.y - ((rand() % 100) * 0.00001f);
 			demoMobVector[i].Update();
-		}
-		AnimationSprite.setSourceRPosition(vector2f(animationPositionX*64.0f, animationPositionY*64.0f));
 
-		animationPositionX++;
-		if (animationPositionX > 3)
-		{
-			animationPositionX = 0;
-			animationPositionY++;
+			if (demoMobVector[i].animationEnabled == true)
+			{
+				demoMobVector[i].ChangeFrame();
+			}
 		}
-		if (animationPositionY > 3)
-		{
-			animationPositionY = 0;
-		}
+
 		//SpriteBatch.purkkaChanges();
 
 		MSG messages;

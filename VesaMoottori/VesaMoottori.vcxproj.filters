@@ -123,5 +123,11 @@
     <Image Include="goofy.png">
       <Filter>Resources</Filter>
     </Image>
+    <Image Include="Animation.png">
+      <Filter>Resources</Filter>
+    </Image>
+    <Image Include="exp2.png">
+      <Filter>Resources</Filter>
+    </Image>
   </ItemGroup>
 </Project>

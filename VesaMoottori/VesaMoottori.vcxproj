@@ -145,6 +145,8 @@
     <ClCompile Include="VesaMoottori\Window.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <Image Include="Animation.png" />
+    <Image Include="exp2.png" />
     <Image Include="goofy.png" />
     <Image Include="tex.png" />
   </ItemGroup>
