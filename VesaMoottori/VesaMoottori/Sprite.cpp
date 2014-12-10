@@ -73,6 +73,11 @@ vector2f Sprite::getSourceRSize()
 {
 	return sourceRectSize;
 }
+void Sprite::setSize(vector2f size)
+{
+	this->size = size;
+}
+
 vector2f Sprite::getSize()
 {
 	return size;
@@ -94,9 +99,7 @@ void Sprite::setColorRGB(float red, float blue, float green)
 	this->blue = blue;
 	this->green = green;
 	colorChanged = true;
-	// DEBUGAAN SAA OTTAA POIS
-	changeColorData();
-	//
+
 }
 
 float Sprite::getColorR()
@@ -211,7 +214,6 @@ void Sprite::createIndexData()
 	GLuint index [] =
 	{ 0, 1, 2, 1, 2, 3 };
 	
-
 	for (unsigned i = 0; i < 6; ++i)
 		INDEX_DATA[i] = index[i];
 

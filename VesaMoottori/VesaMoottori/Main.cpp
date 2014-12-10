@@ -34,6 +34,7 @@ int main()
 	AnimationSprite.setTexture(Animation);
 	
 	sprite.setTexture(Gooby);
+	sprite.setPosition(vector2f(750, 750));
 	sprite2.setTexture(Gooby);
 	sprite3.setTexture(Gooby2);
 
@@ -57,7 +58,6 @@ int main()
 	}
 
 
-	demoMobVector.push_back(Mob(&sprite));
 	SpriteBatch.AddSprite(sprite2, 1);
 	SpriteBatch.AddSprite(sprite, 1);
 	SpriteBatch.AddSprite(AnimationSprite, 0);

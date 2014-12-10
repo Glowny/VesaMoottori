@@ -27,7 +27,7 @@ public:
 	void setOrigin(vector2f origin);
 	vector2f getOrigin();
 	
-	// setsize vois olla iha jees
+	void Sprite::setSize(vector2f size);;
 	vector2f getSize();
 
 	void setColorRGB(float red, float blue, float green);

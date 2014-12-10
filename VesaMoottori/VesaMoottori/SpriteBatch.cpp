@@ -49,13 +49,13 @@ void SpriteBatch::CreateBuffer()
 					GLfloat green = ColorToGLCoord(vertexArray[3]);
 					GLfloat blue = ColorToGLCoord(vertexArray[4]);
 
-					vertexArray[0] = positionGL.x;
-					vertexArray[1] = positionGL.y;
+					vertexArray[0] = positionGL.y;
+					vertexArray[1] = positionGL.x;
 					vertexArray[2] = red;
 					vertexArray[3] = blue;
 					vertexArray[4] = green;
-					vertexArray[5] = textureGL.x;
-					vertexArray[6] = textureGL.y;
+					vertexArray[5] = textureGL.y;		// !!! KÄÄNNETTY
+					vertexArray[6] = textureGL.x;		//
 
 					for (int i = 0; i < 7; i++)
 					{
@@ -255,8 +255,8 @@ vector2f SpriteBatch::TextureToGLCoord(float x, float y, vector2f spriteSize)
 vector2f SpriteBatch::PositionToGlCoord(float x, float y)
 {
 	vector2f temp;
-	temp.x = (x / size.x) - 1;
-	temp.y = (y / size.y) - 1;
+	temp.x = 2*(x / size.x) -1;
+	temp.y = 2*(y / size.y) -1;
 	return temp;
 }
 
