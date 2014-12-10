@@ -24,10 +24,11 @@ public:
 	bool LinkProgram();
 	void RunProgram();
 
-	void GetAttribPointer(GLuint pos, GLuint color, GLuint tex);
-	int GetProgramLocation(std::string programName);
 	int GetAttributeLocation(std::string attributeName);
+	int GetProgramLocation(std::string programName);
 	bool GetLinkStatus();
+
+	//void GetAttribPointer(GLuint pos, GLuint color, GLuint tex);
 
 private:
 	std::vector<ShaderVertexAttrib> vertexAttribs;

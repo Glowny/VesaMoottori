@@ -65,19 +65,6 @@ void ShaderProgram::RunProgram()
 	glUseProgram(glObject);
 }
 
-void ShaderProgram::GetAttribPointer(GLuint pos,GLuint color, GLuint tex)
-{
-	glVertexAttribPointer(pos, 2u, GL_FLOAT, GL_FALSE, 7 * sizeof(GLfloat),
-		reinterpret_cast<GLvoid*>(0));
-	glVertexAttribPointer(color, 3u, GL_FLOAT, GL_FALSE, 7 * sizeof(GLfloat),
-		reinterpret_cast<GLvoid*>(2 * sizeof(GLfloat)));
-	glVertexAttribPointer(tex, 2u, GL_FLOAT, GL_FALSE, 7 * sizeof(GLfloat),
-		reinterpret_cast<GLvoid*>(5 * sizeof(GLfloat)));
-	glEnableVertexAttribArray(pos);
-	glEnableVertexAttribArray(color);
-	glEnableVertexAttribArray(tex);
-}
-
 int ShaderProgram::GetProgramLocation(std::string programName)
 {
 	return glObject;
@@ -86,7 +73,7 @@ int ShaderProgram::GetProgramLocation(std::string programName)
 int ShaderProgram::GetAttributeLocation(std::string attributeName)
 {
 	GLuint tempLocation = glGetAttribLocation(glObject, attributeName.c_str());
-	std::cout << "Searching for " << attributeName << ", location is: " << tempLocation << std::endl;
+	//std::cout << "Searching for " << attributeName << ", location is: " << tempLocation << std::endl;
 	return tempLocation;
 }
 
@@ -99,3 +86,16 @@ bool ShaderProgram::GetLinkStatus()
 	else
 		return true;
 }
+
+//void ShaderProgram::GetAttribPointer(GLuint pos,GLuint color, GLuint tex)
+//{
+//	glVertexAttribPointer(pos, 2u, GL_FLOAT, GL_FALSE, 7 * sizeof(GLfloat),
+//		reinterpret_cast<GLvoid*>(0));
+//	glVertexAttribPointer(color, 3u, GL_FLOAT, GL_FALSE, 7 * sizeof(GLfloat),
+//		reinterpret_cast<GLvoid*>(2 * sizeof(GLfloat)));
+//	glVertexAttribPointer(tex, 2u, GL_FLOAT, GL_FALSE, 7 * sizeof(GLfloat),
+//		reinterpret_cast<GLvoid*>(5 * sizeof(GLfloat)));
+//	glEnableVertexAttribArray(pos);
+//	glEnableVertexAttribArray(color);
+//	glEnableVertexAttribArray(tex);
+//}
