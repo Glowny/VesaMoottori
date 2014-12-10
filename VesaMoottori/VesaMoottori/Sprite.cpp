@@ -14,7 +14,6 @@
 
 Sprite::Sprite()
 {
-	// SpriteBatchissa tehdään muutokset opengl koordinaatteihin (-1 - 1)
 	// Tähän annetaan pikselikoordinaatit
 	texture = NULL;
 	vertexData = NULL;
@@ -35,7 +34,7 @@ void Sprite::setTexture(Texture *tex)
 	sourceRectSize = tex->GetSize();
 	size = tex->GetSize();
 	texturePositionChanged = true;
-	changeVertexData();
+	createVertexData();
 }
 
 
@@ -76,11 +75,11 @@ vector2f Sprite::getSourceRSize()
 void Sprite::setSize(vector2f size)
 {
 	// mad maths, saatetaan poistaa koska kusee käyttäjän sourceRectSizen, eli ehkä käyttäjä itse resizee sen uudelleen?
+	// voidaan ehkä tehdä toinen funktio joka "fittaa" kuvan nykyisenkokoisena uuteen muotoon.
 	sourceRectSize = vector2f(sourceRectSize.x/this->size.x*size.x, sourceRectSize.y/this->size.y*size.y);	
 	this->size = size;
 	positionChanged = true;
 	texturePositionChanged = true;
-
 }
 
 vector2f Sprite::getSize()
@@ -122,7 +121,7 @@ float Sprite::getColorB()
 	return blue;
 }
 // vanha
-void Sprite::changeVertexData()
+void Sprite::createVertexData()
 {
 	vector2f topLeft(sourceRectPosition.x, sourceRectPosition.y);
 	vector2f bottomLeft(sourceRectPosition.x, sourceRectPosition.y + sourceRectSize.y);
@@ -228,7 +227,7 @@ void Sprite::createIndexData()
 
 GLsizei Sprite::getIndexSize()
 {
-	return 6;		// jossakin voisi olla joko spritessä tai tekstuurissa tallessa kuinka tämän koko, samoin verteksin
+	return 6;		// Moottorilla voi tehdä vain neliöitä \o/
 }
 GLsizei Sprite::getVertexSize()
 {

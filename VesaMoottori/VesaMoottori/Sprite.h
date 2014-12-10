@@ -40,7 +40,7 @@ public:
 	float getColorG();
 	float getColorB();
 
-	void changeVertexData(); // vanha, kaikki muutetaan.
+	void createVertexData(); // vanha, kaikki muutetaan.
 	void createIndexData(); // luo kulmasonnan
 
 	GLsizei getIndexSize();

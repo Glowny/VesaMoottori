@@ -27,6 +27,9 @@ int main()
 	Shader.LinkProgram();
 	SpriteBatch.SetShaderProgram(Shader);
 	
+	// DEMOA //
+
+
 	Animation = Resources.CreateTexture("Animation.png", "Animation", vector2f(0.0f, 0.0f), 0.5f);
 	Gooby2 = Resources.CreateTexture("goofy.png", "goofy", vector2f(0.0f, 0.0f), 1.0f);
 	Gooby = Resources.CreateTexture("gooby.png", "gooby", vector2f(0.0f, 0.0f), 1.0f);
@@ -49,7 +52,6 @@ int main()
 	demoMobVector.push_back(Mob(&sprite2));
 	demoMobVector.push_back(Mob(&AnimationSprite));
 
-	
 	for (unsigned i = 0; i < 5; i++)
 	{
 		Sprite* spritee = new Sprite;
@@ -58,7 +60,6 @@ int main()
 		SpriteBatch.AddSprite(*spritee);
 		demoMobVector.push_back(Mob(spritee));
 	}
-
 
 	SpriteBatch.AddSprite(sprite2, 1);
 	SpriteBatch.AddSprite(sprite, 1);
@@ -77,6 +78,10 @@ int main()
 	sprite.setColorRGB(255.0f, 255.0f, 255.0f);
 	sprite2.setColorRGB(255.0f, 255.0f, 255.0f);
 	sprite3.setColorRGB(255.0f, 255.0f, 255.0f);
+
+	// DEMO LOPPU //
+
+
 	// Tarkistetaan attribuuttien lokaatio.
 	const GLint posLocation = Shader.GetAttributeLocation("attrPosition");
 	const GLint colorLocation = Shader.GetAttributeLocation("attrColor");
@@ -86,11 +91,11 @@ int main()
 	glEnableVertexAttribArray(posLocation);
 	glEnableVertexAttribArray(colorLocation);
 	glEnableVertexAttribArray(texLocation);
-	int animationPositionX = 0;
-	int animationPositionY = 0;
+
 	while(Window.IsOpen())
 	{
 		
+		// DEMOA //
 		for (unsigned i = 0; i < demoMobVector.size(); i++)
 		{
 			demoMobVector[i].speed.x = demoMobVector[i].speed.x +((rand() % 100) * 0.01f);
@@ -105,7 +110,7 @@ int main()
 			}
 		}
 
-		//SpriteBatch.purkkaChanges();
+		// DEMO LOPPU //
 
 		MSG messages;
 		while(Window.Update(messages))
@@ -119,12 +124,12 @@ int main()
 
 		}
 		Window.Clear();
-		SpriteBatch.Update();
-
+		
+		SpriteBatch.Update();	// vertexAttribPointerien täytyy olla updaten ja drawin välissä, pitäskö hakea
+		// spritebatchissa olevalla shaderprogramilla?
 		glVertexAttribPointer(posLocation, 2u, GL_FLOAT, GL_FALSE, 7 * sizeof(GLfloat), reinterpret_cast<GLvoid*>(0));
 		glVertexAttribPointer(colorLocation, 3u, GL_FLOAT, GL_FALSE, 7 * sizeof(GLfloat), reinterpret_cast<GLvoid*>(2 * sizeof(GLfloat)));
 		glVertexAttribPointer(texLocation, 2u, GL_FLOAT, GL_FALSE, 7 * sizeof(GLfloat), reinterpret_cast<GLvoid*>(5 * sizeof(GLfloat)));
-
 		SpriteBatch.Draw();
 		
 		// drawelements spritebatchsisa
