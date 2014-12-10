@@ -107,6 +107,7 @@
     <ClInclude Include="VesaMoottori\ShaderProgram.h">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">false</ExcludedFromBuild>
     </ClInclude>
+    <ClInclude Include="VesaMoottori\ShaderVertexAttrib.h" />
     <ClInclude Include="VesaMoottori\Sprite.h">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">false</ExcludedFromBuild>
     </ClInclude>

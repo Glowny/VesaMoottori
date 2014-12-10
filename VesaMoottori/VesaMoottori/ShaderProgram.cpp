@@ -2,14 +2,6 @@
 #include <iostream>
 #include <fstream>
 #include <cassert>
-//#define NDEBUG // Poista kommentointi tästä niin assertit poistetaan käytöstä.
-// Voi myös laittaa preprocessor macroihin.
-
-ShaderProgram::ShaderProgram()
-{
-	created = false;
-	glObject = 0;
-}
 
 bool ShaderProgram::AddShader(char* shaderCode, GLenum type)
 {
@@ -33,7 +25,17 @@ bool ShaderProgram::AddShader(char* shaderCode, GLenum type)
 
 	glAttachShader(glObject, newShader); // Lisätään shaderit shader-ohjelmaan.
 	return true;
-};
+}
+
+void ShaderProgram::AddVertexAttribPointer(std::string attributeName, GLint size, GLsizei stride, GLint offset)
+{
+	ShaderVertexAttrib tempAttrib;
+	tempAttrib.attributeName = attributeName;
+	tempAttrib.offset = offset;
+	tempAttrib.size = size;
+	tempAttrib.stride = stride;
+	vertexAttribs.push_back(tempAttrib);
+}
 
 bool ShaderProgram::LinkProgram()
 {
@@ -46,6 +48,21 @@ bool ShaderProgram::LinkProgram()
 		return false;
 	else
 		return true;
+}
+
+void ShaderProgram::RunProgram()
+{
+	if(vertexAttribs.size() != 0)
+	{
+		for(std::vector<ShaderVertexAttrib>::iterator it = vertexAttribs.begin(); it != vertexAttribs.end(); it++)
+		{
+			GLint location = GetAttributeLocation(it->attributeName);
+			glVertexAttribPointer(location, it->size, GL_FLOAT, GL_FALSE,
+				it->stride * sizeof(GLfloat), reinterpret_cast<GLvoid*>((it->offset) * sizeof(GLfloat)));
+			glEnableVertexAttribArray(location);
+		}
+	}
+	glUseProgram(glObject);
 }
 
 void ShaderProgram::GetAttribPointer(GLuint pos,GLuint color, GLuint tex)
@@ -61,12 +78,24 @@ void ShaderProgram::GetAttribPointer(GLuint pos,GLuint color, GLuint tex)
 	glEnableVertexAttribArray(tex);
 }
 
-void ShaderProgram::RunProgram()
-{
-	glUseProgram(glObject);
-}
-
 int ShaderProgram::GetProgramLocation(std::string programName)
 {
 	return glObject;
+}
+
+int ShaderProgram::GetAttributeLocation(std::string attributeName)
+{
+	GLuint tempLocation = glGetAttribLocation(glObject, attributeName.c_str());
+	std::cout << "Searching for " << attributeName << ", location is: " << tempLocation << std::endl;
+	return tempLocation;
+}
+
+bool ShaderProgram::GetLinkStatus()
+{
+	GLint* isLinked = new GLint;
+	glGetProgramiv(glObject, GL_LINK_STATUS, isLinked);
+	if(isLinked == GL_FALSE)
+		return false;
+	else
+		return true;
 }

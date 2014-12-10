@@ -1,8 +1,10 @@
 #pragma once
 #include "GL\glew.h"
+#include "ShaderVertexAttrib.h"
 #include <string>
 #include <map>
 #include <iostream>
+#include <vector>
 
 // ShaderProgram sis‰lt‰‰ shader objektin jota muokataan ja johon voi lis‰t‰ shadereita.
 // Shader objekti alustetaan vasta kun ensimm‰inen shader-ohjelma lis‰t‰‰n siihen.
@@ -14,34 +16,21 @@
 class ShaderProgram
 {
 public:
-	ShaderProgram();
+	ShaderProgram() : created(false), glObject(0) {};
 	~ShaderProgram() {};
 
 	bool AddShader(char* shaderCode, GLenum type);
+	void AddVertexAttribPointer(std::string attributeName, GLint size, GLsizei stride, GLint offset);
 	bool LinkProgram();
+	void RunProgram();
 
 	void GetAttribPointer(GLuint pos, GLuint color, GLuint tex);
-	void RunProgram();
 	int GetProgramLocation(std::string programName);
-
-	int GetAttributeLocation(std::string attributeName) {
-		GLuint tempLocation = glGetAttribLocation(glObject, attributeName.c_str());
-		std::cout << "Searching for " << attributeName << ", location is: " << tempLocation << std::endl;
-		return tempLocation;
-	}
-
-	bool GetLinkStatus() {
-		GLint* isLinked = new GLint;
-		glGetProgramiv(glObject, GL_LINK_STATUS, isLinked);
-		if (isLinked == GL_FALSE)
-			return false;
-		else
-			return true;
-	}
-
-	
+	int GetAttributeLocation(std::string attributeName);
+	bool GetLinkStatus();
 
 private:
+	std::vector<ShaderVertexAttrib> vertexAttribs;
 	GLuint glObject;
 	bool created;
 };
