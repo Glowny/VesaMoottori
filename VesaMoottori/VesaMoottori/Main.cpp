@@ -12,8 +12,8 @@ int main()
 {
 	srand(time(NULL));
 	ResourceManager Resources;
-	Texture			*Gooby, *Gooby2, *Animation;
-	Sprite			sprite, sprite2, sprite3, AnimationSprite;
+	Texture			*Gooby, *Gooby2, *Animation, *Explosion;
+	Sprite			sprite, sprite2, sprite3, animationSprite, explosion;
 	bool			isRunning = true;
 	GraphicsDevice	Window("eitoimicustomnimi", 800, 800);
 	ShaderProgram	Shader;
@@ -30,52 +30,54 @@ int main()
 	// DEMOA //
 
 
-	Animation = Resources.CreateTexture("Animation.png", "Animation", vector2f(0.0f, 0.0f), 0.5f);
+	Animation = Resources.CreateTexture("Animation.png", "Animation", vector2f(0.0f, 0.0f), 1.0f);
+	Explosion = Resources.CreateTexture("exp2.png", "Explosion", vector2f(0.0f, 0.0f),1.0f);
 	Gooby2 = Resources.CreateTexture("goofy.png", "goofy", vector2f(0.0f, 0.0f), 1.0f);
 	Gooby = Resources.CreateTexture("gooby.png", "gooby", vector2f(0.0f, 0.0f), 1.0f);
 
-	AnimationSprite.setTexture(Animation);
-	
+	animationSprite.setTexture(Animation);
+	explosion.setTexture(Explosion);
+
 	sprite.setTexture(Gooby2);
-	sprite.setSize(vector2f(200, 200));
-	sprite.setOrigin(vector2f(100,100));
+	sprite.setSize(vector2f(150, 150));
+	sprite.setOrigin(vector2f(75,75));
 	sprite.setPosition(vector2f(750, 750));
 	sprite2.setTexture(Gooby);
 	sprite2.setSize(vector2f(10, 10));
 
 	sprite3.setTexture(Gooby2);
-
-	SpriteBatch.AddSprite(AnimationSprite, 2);
-
-
+	sprite3.setSize(vector2f(20, 20));
 
 	std::vector<Mob> demoMobVector; // Tällä vektorilla liikutetaan.
 	demoMobVector.push_back(Mob(&sprite));
-	//demoMobVector.push_back(Mob(&sprite3));
-	//demoMobVector.push_back(Mob(&AnimationSprite));
-
-	//for (unsigned i = 0; i < 5; i++)
-	//{
-	//	Sprite* spritee = new Sprite;
-	//	spritee->setTexture(Gooby);
-	//	// origin tehty vitulleen
-	//	SpriteBatch.AddSprite(*spritee);
-	//	demoMobVector.push_back(Mob(spritee));
-	//}
+	demoMobVector.push_back(Mob(&sprite3));
+	demoMobVector.push_back(Mob(&animationSprite, true));
+	demoMobVector.push_back(Mob(&explosion, true));
+	animationSprite.setSourceRSize(vector2f(64.0f, 64.0f));
+	explosion.setSourceRSize(vector2f(64.0f, 64.0f));
+	for (unsigned i = 0; i < 10; i++)
+	{
+		Sprite* spritee = new Sprite;
+		spritee->setTexture(Gooby);
+		spritee->setSize(vector2f(50 * (i%5), 50 * (i%5)));
+		SpriteBatch.AddSprite(*spritee, 3);
+		demoMobVector.push_back(Mob(spritee));
+	}
 
 	SpriteBatch.AddSprite(sprite2, 1);
 	SpriteBatch.AddSprite(sprite, 1);
-	SpriteBatch.AddSprite(AnimationSprite, 0);
+	SpriteBatch.AddSprite(animationSprite, 0);
 	SpriteBatch.AddSprite(sprite3, 0);
+	SpriteBatch.AddSprite(explosion, 0);
 
 	for (unsigned i = 0; i < demoMobVector.size(); i++)
 	{
-		demoMobVector[i].sprite->setPosition(vector2f(800.0f, 800.0f));
+		demoMobVector[i].sprite->setPosition(vector2f(0.0f, 0.0f));
 	}
 
 
-	AnimationSprite.setSourceRSize(vector2f(64.0f,64.0f));
-//	demoMobVector.push_back(Mob(&AnimationSprite, true));
+	
+	
 
 	sprite.setColorRGB(255.0f, 255.0f, 255.0f);
 	sprite2.setColorRGB(255.0f, 255.0f, 255.0f);
@@ -100,10 +102,10 @@ int main()
 		// DEMOA //
 		for (unsigned i = 0; i < demoMobVector.size(); i++)
 		{
-			demoMobVector[i].speed.x = demoMobVector[i].speed.x +((rand() % 100) * 0.01f);
-			demoMobVector[i].speed.x = demoMobVector[i].speed.x - ((rand() % 100) * 0.01f);
-			demoMobVector[i].speed.y = demoMobVector[i].speed.y +((rand() % 100) * 0.01f);
-			demoMobVector[i].speed.y = demoMobVector[i].speed.y - ((rand() % 100) * 0.01f);
+			demoMobVector[i].speed.x = demoMobVector[i].speed.x +((rand() % 100) * 0.001f);
+			demoMobVector[i].speed.x = demoMobVector[i].speed.x - ((rand() % 100) * 0.001f);
+			demoMobVector[i].speed.y = demoMobVector[i].speed.y +((rand() % 100) * 0.001f);
+			demoMobVector[i].speed.y = demoMobVector[i].speed.y - ((rand() % 100) * 0.001f);
 			demoMobVector[i].Update();
 			if (demoMobVector[i].animationEnabled == true)
 			{

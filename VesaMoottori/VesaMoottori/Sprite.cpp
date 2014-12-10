@@ -198,16 +198,16 @@ void Sprite::changeTexturePosition()
 	vector2f bottomRight(sourceRectPosition.x + sourceRectSize.x, sourceRectPosition.y + sourceRectSize.y);
 
 	VERTEX_DATA[5] = topLeft.x;
-	VERTEX_DATA[6] =  topLeft.y;
+	VERTEX_DATA[6] = topLeft.y;
 
-	VERTEX_DATA [5+7] = bottomLeft.x;
-	VERTEX_DATA [6+7] = bottomLeft.y;
+	VERTEX_DATA[5 + 7] = bottomLeft.x;
+	VERTEX_DATA[6 + 7] = bottomLeft.y;
 
-	VERTEX_DATA [5+14] = topRight.x;
-	VERTEX_DATA [6+14] = topRight.y;	
+	VERTEX_DATA[5 + 14] =  topRight.x;
+	VERTEX_DATA[6 + 14] = topRight.y;
 
-	VERTEX_DATA[5 + 21] = bottomRight.x;
-	VERTEX_DATA[6 + 21] = bottomRight.y;
+	VERTEX_DATA[5 + 21] =  bottomRight.x;
+	VERTEX_DATA[6 + 21] =  bottomRight.y;
 
 	texturePositionChanged = false;
 }
