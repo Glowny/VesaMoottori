@@ -19,7 +19,7 @@ bool ShaderProgram::AddShader(char* shaderCode, GLenum type)
 
 	glGetShaderiv(newShader, GL_COMPILE_STATUS, &linkCheck); // Testataan onnistuiko kompilointi.
 	std::cout << "AddShader type (" << type << ") compile: " << linkCheck << std::endl;
-	assert(linkCheck);	// pistin kaatumaan jos failaa, koska atm missään ei checkata tämän funktion palauttamaa boolia.
+	assert(linkCheck != GL_FALSE);	
 	if (linkCheck == 0)
 		return false;
 
@@ -43,7 +43,7 @@ bool ShaderProgram::LinkProgram()
 	glLinkProgram(glObject); // Linkkaaminen luo executablen shadereihin, jotka siihen on lisätty.
 	glGetProgramiv(glObject, GL_LINK_STATUS, &linkCheck); // Testatataan shadereiden linkkaaminen objektiin.
 	std::cout << "Program [" << glObject << "] linker bool: " << linkCheck << std::endl;
-	assert(linkCheck == 0); // Kaatumaan jos failaa, koska tämän palauttamaa boolia ei checkata atm.
+	assert(linkCheck != GL_FALSE); // Kaatumaan jos failaa, koska tämän palauttamaa boolia ei checkata atm.
 	if (linkCheck == 0)
 		return false;
 	else

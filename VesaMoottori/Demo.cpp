@@ -23,7 +23,7 @@ void Demo::LoadResources()
 void Demo::InitShaders()
 {
 	shader.AddShader(resourceManager.FindShader("vertex"), GL_VERTEX_SHADER);
-	shader.AddShader(resourceManager.FindShader("fragment"), GL_VERTEX_SHADER);
+	shader.AddShader(resourceManager.FindShader("fragment"), GL_FRAGMENT_SHADER);
 	shader.LinkProgram();
 
 	shader.AddVertexAttribPointer("attrPosition", 2, 7, 0);
@@ -38,14 +38,14 @@ void Demo::InitSpriteBatches()
 }
 	float sizeMultipler = 1;
 	bool dir = true;
-	float currentColor[3];
+	float currentColor[3]{100,200,255};
 void Demo::SceneOne()
 {
 
 	Sprite animation, resize, colorChange;
 
 	animation.setTexture(resourceManager.FindTexture("Animation"));
-	animation.setSize(vector2f(92.0f, 92.0f));
+	//animation.setSize(vector2f(92.0f, 92.0f));
 	animation.setSourceRSize(vector2f(64.0f, 64.0f));
 
 	resize.setTexture(resourceManager.FindTexture("gooby"));
@@ -57,8 +57,8 @@ void Demo::SceneOne()
 	spriteBatch.AddSprite(animation, 0);
 	spriteBatch.AddSprite(resize, 0);
 	spriteBatch.AddSprite(colorChange, 0);
-	mobV.push_back(&animation);
-	mobV.push_back(&resize);
+	mobV.push_back(Mob(&animation, true));
+	mobV.push_back(Mob(&resize));
 	/*mobV.push_back(&colorChange);*/
 
 	for (int i = 0; i < 10; i++)
@@ -109,8 +109,8 @@ void Demo::SceneOne()
 		colorChange.setColorRGB(currentColor[0], currentColor[1], currentColor[2]);
 		for (int i = 0; i < 3; i++)
 		{
-			currentColor[i] = currentColor[i] + (rand() % 100 * 0.001f);
-			currentColor[i] = currentColor[i] - (rand() % 100 * 0.001f);
+			currentColor[i] = currentColor[i] + (rand() % 100 * 0.1f);
+			currentColor[i] = currentColor[i] - (rand() % 100 * 0.1f);
 			if (currentColor[i] < 0)
 			{	
 				currentColor[i] = 2;
