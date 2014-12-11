@@ -48,10 +48,10 @@ void Demo::SceneOne()
 	//animation.setSize(vector2f(92.0f, 92.0f));
 	animation.setSourceRSize(vector2f(64.0f, 64.0f));
 
-	resize.setTexture(resourceManager.FindTexture("gooby"));
+	resize.setTexture(resourceManager.FindTexture("goofy"));
 
-	colorChange.setTexture(resourceManager.FindTexture("gooby"));
-	colorChange.setSize(vector2f(100, 100));
+	colorChange.setTexture(resourceManager.FindTexture("goofy"));
+	colorChange.setSize(vector2f(250, 250));
 	colorChange.setPosition(vector2f(600, 600));
 
 	spriteBatch.AddSprite(animation, 0);
@@ -59,12 +59,13 @@ void Demo::SceneOne()
 	spriteBatch.AddSprite(colorChange, 0);
 	mobV.push_back(Mob(&animation, true));
 	mobV.push_back(Mob(&resize));
+	mobV.push_back(Mob(&colorChange));
 	/*mobV.push_back(&colorChange);*/
 
 	for (int i = 0; i < 10; i++)
 	{
 		Sprite* sprite = new Sprite;
-		sprite->setTexture(resourceManager.FindTexture("gooby"));
+		sprite->setTexture(resourceManager.FindTexture("goofy"));
 		sprite->setSize(vector2f(50.0f * (i % 5), 50.0f * (i % 5)));
 		sprite->setPosition(vector2f(500, 500));
 		spriteBatch.AddSprite(*sprite, 3);

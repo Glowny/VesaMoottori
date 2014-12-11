@@ -1,0 +1,252 @@
+#include "Sprite.h"
+
+//Sprite::Sprite()
+//{
+//	texture = NULL;
+//	vertexData = NULL;
+//	indexData = NULL;
+//	position = vector2f(0.0f, 0.0f);
+//	origin = vector2f(0.0f, 0.0f);
+//	red = 1.0f;
+//	blue = 1.0f;
+//	green = 1.0f;
+//}
+
+Sprite::Sprite()
+{
+	// Tähän annetaan pikselikoordinaatit
+	texture = NULL;
+	vertexData = NULL;
+	indexData = NULL;
+	sourceRectSize.x = 0.0f;
+	sourceRectSize.y = 0.0f;
+	position = vector2f(0.0f, 0.0f);
+	sourceRectPosition = vector2f(0.0f, 0.0f);
+	origin = vector2f(0.0f, 0.0f);
+	red = 255.0f; blue = 255.0f; green = 255.0f;
+	changeColorData();
+	changePositionData();
+	changeTextureData();
+	createIndexData();
+
+}
+
+void Sprite::setTexture(Texture *tex)
+{
+	texture = tex;
+	sourceRectSize = tex->GetSize();
+	size = tex->GetSize();
+	changeTextureData();
+	changePositionData();
+}
+
+
+vector2f Sprite::getTextureSize()
+{
+	return texture->GetSize();
+}
+
+void Sprite::setPosition(vector2f position)
+{
+	this->position = position;
+	changePositionData();
+}
+vector2f Sprite::getPosition()
+{
+	return position;
+}
+
+void Sprite::setSourceRPosition(vector2f position)
+{
+	sourceRectPosition = position;
+	changeTextureData();
+}
+vector2f Sprite::getSourceRPosition()
+{
+	return sourceRectPosition;
+}
+
+void Sprite::setSourceRSize(vector2f size)
+{
+	sourceRectSize = size;
+	changeTextureData();
+}
+vector2f Sprite::getSourceRSize()
+{
+	return sourceRectSize;
+}
+void Sprite::setSize(vector2f size)
+{
+	// mad maths, saatetaan poistaa koska kusee käyttäjän sourceRectSizen, eli ehkä käyttäjä itse resizee sen uudelleen?
+	// voidaan ehkä tehdä toinen funktio joka "fittaa" kuvan nykyisenkokoisena uuteen muotoon.
+	// Muutenkin on vähä tyhmästi
+	//sourceRectSize = vector2f(sourceRectSize.x/this->size.x*size.x, sourceRectSize.y/this->size.y*size.y);
+	sourceRectSize = size;
+	this->size = size;
+	changePositionData();
+	changeTextureData();
+
+	//Tulipa mieleen että näistäkin funktioista (changePositionData yms) voitaisiin luopua asettamalla pointterit
+	//suoraan VERTEX_DATA taulukkoon, jolloin niitä haettaessa palautettaisiin sillä hetkellä olevat arvot.
+	//Näin vältyttäs törkeältä määrältä kopioimista.
+	//Paitsi laskut pitäs sitten tehä spritebatchin puolella.
+}
+
+vector2f Sprite::getSize()
+{
+	return size;
+}
+void Sprite::setOrigin(vector2f origin)
+{
+	this->origin = origin;
+	changePositionData();
+}
+
+vector2f Sprite::getOrigin()
+{
+	return origin;
+}
+
+void Sprite::setColorRGB(float red, float blue, float green)
+{
+	this->red = red;
+	this->blue = blue;
+	this->green = green;
+	changeColorData();
+
+}
+
+float Sprite::getColorR()
+{
+	return red;
+}
+
+float Sprite::getColorG()
+{
+	return green;
+}
+
+float Sprite::getColorB()
+{
+	return blue;
+}
+// vanha
+//void Sprite::createVertexData()
+//{
+//	vector2f topLeft(sourceRectPosition.x, sourceRectPosition.y);
+//	vector2f bottomLeft(sourceRectPosition.x, sourceRectPosition.y - sourceRectSize.y);
+//	vector2f topRight(sourceRectPosition.x - sourceRectSize.x, sourceRectPosition.y);
+//	vector2f bottomRight(sourceRectPosition.x - sourceRectSize.x, sourceRectPosition.y - sourceRectSize.y);
+//
+//	GLfloat vertex[] = 
+//	{
+//		position.x - origin.x, position.y - origin.y,
+//		red, blue, green,
+//		topLeft.x, topLeft.y,	
+//
+//		position.x - origin.x, position.y - origin.y + size.y,
+//		red, blue, green,
+//		bottomLeft.x, bottomLeft.y,
+//
+//		position.x - origin.x + size.x, position.y - origin.y,
+//		red, blue, green,
+//		topRight.x, topRight.y,
+//
+//		position.x - origin.x + size.x, position.y - origin.y + size.y,
+//		red, blue, green,
+//		bottomRight.x, bottomRight.y
+//	};
+//
+//	for (unsigned i = 0; i < 28; ++i)
+//		VERTEX_DATA[i] = vertex[i];
+//
+//	 ei pakosta tarvita
+//	texture->CreateBuffer(vertex, sizeof(vertex), INDEX_DATA, 6*4);
+//}
+
+void Sprite::changePositionData()
+{
+	VERTEX_DATA[0] = position.x + origin.x;
+	VERTEX_DATA[1] = position.y - origin.y;
+
+	VERTEX_DATA[0 + 7] = position.x + origin.x;
+	VERTEX_DATA[1 + 7] = position.y - origin.y + size.y;
+
+	VERTEX_DATA[0 + 14] = position.x + origin.x - size.x;
+	VERTEX_DATA[1 + 14] = position.y - origin.y;
+
+	VERTEX_DATA[0 + 21] = position.x + origin.x - size.x;
+	VERTEX_DATA[1 + 21] = position.y - origin.y + size.y;
+
+}
+void Sprite::changeColorData()
+{
+	VERTEX_DATA[2] = red;
+	VERTEX_DATA[3] = blue;
+	VERTEX_DATA[4] = green;
+
+	VERTEX_DATA[2 + 7] = red;
+	VERTEX_DATA[3 + 7] = blue;
+	VERTEX_DATA[4 + 7] = green;
+
+	VERTEX_DATA[2 + 14] = red;
+	VERTEX_DATA[3 + 14] = blue;
+	VERTEX_DATA[4 + 14] = green;
+
+	VERTEX_DATA[2 + 21] = red;
+	VERTEX_DATA[3 + 21] = blue;
+	VERTEX_DATA[4 + 21] = green;
+
+}
+void Sprite::changeTextureData()
+{
+	vector2f topLeft(sourceRectPosition.x, sourceRectPosition.y);
+	vector2f bottomLeft(sourceRectPosition.x, sourceRectPosition.y + sourceRectSize.y);
+	vector2f topRight(sourceRectPosition.x + sourceRectSize.x, sourceRectPosition.y);
+	vector2f bottomRight(sourceRectPosition.x + sourceRectSize.x, sourceRectPosition.y + sourceRectSize.y);
+
+	VERTEX_DATA[5] = topLeft.x;
+	VERTEX_DATA[6] = topLeft.y;
+
+	VERTEX_DATA[5 + 7] = bottomLeft.x;
+	VERTEX_DATA[6 + 7] = bottomLeft.y;
+
+	VERTEX_DATA[5 + 14] =  topRight.x;
+	VERTEX_DATA[6 + 14] = topRight.y;
+
+	VERTEX_DATA[5 + 21] =  bottomRight.x;
+	VERTEX_DATA[6 + 21] =  bottomRight.y;
+
+
+}
+
+void Sprite::createIndexData()
+{
+	//nelikulmio
+	GLuint index [] =
+	{ 0, 1, 2, 1, 2, 3 };
+	
+	for (unsigned i = 0; i < 6; ++i)
+		INDEX_DATA[i] = index[i];
+
+}
+
+// Tämänkin toteutus spritebatchissa jottei liiku välillä dataa joista osa väärässä muodossa
+
+GLsizei Sprite::getIndexSize()
+{
+	return 6;		// Moottorilla voi tehdä vain neliöitä \o/
+}
+GLsizei Sprite::getVertexSize()
+{
+	return 28;
+}
+
+GLfloat* Sprite::getVertexPointer()
+{
+	return VERTEX_DATA;
+}
+GLuint* Sprite::getIndexPointer()
+{
+	return INDEX_DATA;
+}
