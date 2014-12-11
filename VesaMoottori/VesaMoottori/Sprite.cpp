@@ -25,7 +25,8 @@ Sprite::Sprite()
 	origin = vector2f(0.0f, 0.0f);
 	red = 255.0f; blue = 255.0f; green = 255.0f;
 	createIndexData();
-
+	changeColorData();
+	changeTexturePositionData();
 }
 
 void Sprite::setTexture(Texture *tex)
@@ -34,7 +35,7 @@ void Sprite::setTexture(Texture *tex)
 	sourceRectSize = tex->GetSize();
 	size = tex->GetSize();
 	texturePositionChanged = true;
-	createVertexData();
+	positionChanged = true;
 }
 
 
@@ -123,38 +124,38 @@ float Sprite::getColorB()
 	return blue;
 }
 // vanha
-void Sprite::createVertexData()
-{
-	vector2f topLeft(sourceRectPosition.x, sourceRectPosition.y);
-	vector2f bottomLeft(sourceRectPosition.x, sourceRectPosition.y - sourceRectSize.y);
-	vector2f topRight(sourceRectPosition.x - sourceRectSize.x, sourceRectPosition.y);
-	vector2f bottomRight(sourceRectPosition.x - sourceRectSize.x, sourceRectPosition.y - sourceRectSize.y);
-
-	GLfloat vertex[] = 
-	{
-		position.x - origin.x, position.y - origin.y,
-		red, blue, green,
-		topLeft.x, topLeft.y,	
-
-		position.x - origin.x, position.y - origin.y + size.y,
-		red, blue, green,
-		bottomLeft.x, bottomLeft.y,
-
-		position.x - origin.x + size.x, position.y - origin.y,
-		red, blue, green,
-		topRight.x, topRight.y,
-
-		position.x - origin.x + size.x, position.y - origin.y + size.y,
-		red, blue, green,
-		bottomRight.x, bottomRight.y
-	};
-
-	for (unsigned i = 0; i < 28; ++i)
-		VERTEX_DATA[i] = vertex[i];
-
-	// ei pakosta tarvita
-	//texture->CreateBuffer(vertex, sizeof(vertex), INDEX_DATA, 6*4);
-}
+//void Sprite::createVertexData()
+//{
+//	vector2f topLeft(sourceRectPosition.x, sourceRectPosition.y);
+//	vector2f bottomLeft(sourceRectPosition.x, sourceRectPosition.y - sourceRectSize.y);
+//	vector2f topRight(sourceRectPosition.x - sourceRectSize.x, sourceRectPosition.y);
+//	vector2f bottomRight(sourceRectPosition.x - sourceRectSize.x, sourceRectPosition.y - sourceRectSize.y);
+//
+//	GLfloat vertex[] = 
+//	{
+//		position.x - origin.x, position.y - origin.y,
+//		red, blue, green,
+//		topLeft.x, topLeft.y,	
+//
+//		position.x - origin.x, position.y - origin.y + size.y,
+//		red, blue, green,
+//		bottomLeft.x, bottomLeft.y,
+//
+//		position.x - origin.x + size.x, position.y - origin.y,
+//		red, blue, green,
+//		topRight.x, topRight.y,
+//
+//		position.x - origin.x + size.x, position.y - origin.y + size.y,
+//		red, blue, green,
+//		bottomRight.x, bottomRight.y
+//	};
+//
+//	for (unsigned i = 0; i < 28; ++i)
+//		VERTEX_DATA[i] = vertex[i];
+//
+//	// ei pakosta tarvita
+//	//texture->CreateBuffer(vertex, sizeof(vertex), INDEX_DATA, 6*4);
+//}
 
 void Sprite::changePositionData()
 {
@@ -192,7 +193,7 @@ void Sprite::changeColorData()
 
 	colorChanged = false;
 }
-void Sprite::changeTexturePosition()
+void Sprite::changeTexturePositionData()
 {
 	vector2f topLeft(sourceRectPosition.x, sourceRectPosition.y);
 	vector2f bottomLeft(sourceRectPosition.x, sourceRectPosition.y + sourceRectSize.y);

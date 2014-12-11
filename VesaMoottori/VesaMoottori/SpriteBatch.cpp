@@ -91,7 +91,7 @@ void SpriteBatch::Update()
 			drawables[i].sprite->changePositionData();
 
 		if (drawables[i].sprite->texturePositionChanged)
-			drawables[i].sprite->changeTexturePosition();
+			drawables[i].sprite->changeTexturePositionData();
 
 		if (drawables[i].sprite->colorChanged)
 			drawables[i].sprite->changeColorData();

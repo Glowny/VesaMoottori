@@ -36,7 +36,7 @@ public:
 	float getColorG();
 	float getColorB();
 
-	void createVertexData(); // vanha, kaikki muutetaan.
+	//void createVertexData(); // vanha, kaikki muutetaan.
 	void createIndexData(); // luo kulmasonnan
 
 	GLsizei getIndexSize();
@@ -66,7 +66,7 @@ private:
 	bool texturePositionChanged;
 	void changePositionData();
 	void changeColorData();
-	void changeTexturePosition();
+	void changeTexturePositionData();
 
 
 };
