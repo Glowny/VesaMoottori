@@ -80,6 +80,9 @@
     <ClInclude Include="VesaMoottori\ShaderVertexAttrib.h">
       <Filter>Source Files\STRUCTS</Filter>
     </ClInclude>
+    <ClInclude Include="Demo.h">
+      <Filter>Demo</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="VesaMoottori\Main.cpp">
@@ -116,6 +119,9 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Mob.cpp">
+      <Filter>Demo</Filter>
+    </ClCompile>
+    <ClCompile Include="Demo.cpp">
       <Filter>Demo</Filter>
     </ClCompile>
   </ItemGroup>

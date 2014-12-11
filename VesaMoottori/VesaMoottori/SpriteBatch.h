@@ -20,6 +20,7 @@ public:
 
 	void AddSprite(Sprite &sprite);
 	void AddSprite(Sprite &sprite, int order);
+	void clearDrawables();
 
 	void purkkaChanges()
 	{
@@ -46,6 +47,7 @@ private:
 	std::vector<GLfloat> vertexData;
 	GLuint buffer[2];
 	void CreateBuffer();
+	void unbindBuffers();
 
 	/*
 

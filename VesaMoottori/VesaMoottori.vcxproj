@@ -84,6 +84,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="Demo.h" />
     <ClInclude Include="Keyboard.h" />
     <ClInclude Include="Mob.h" />
     <ClInclude Include="VesaMoottori\Assert.h">
@@ -122,6 +123,7 @@
     <ClInclude Include="VesaMoottori\Window.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="Demo.cpp" />
     <ClCompile Include="Keyboard.cpp" />
     <ClCompile Include="Mob.cpp" />
     <ClCompile Include="VesaMoottori\Buffers.cpp">

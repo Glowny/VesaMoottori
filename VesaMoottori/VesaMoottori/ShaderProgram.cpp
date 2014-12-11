@@ -43,7 +43,7 @@ bool ShaderProgram::LinkProgram()
 	glLinkProgram(glObject); // Linkkaaminen luo executablen shadereihin, jotka siihen on lisätty.
 	glGetProgramiv(glObject, GL_LINK_STATUS, &linkCheck); // Testatataan shadereiden linkkaaminen objektiin.
 	std::cout << "Program [" << glObject << "] linker bool: " << linkCheck << std::endl;
-	assert(linkCheck); // Kaatumaan jos failaa, koska tämän palauttamaa boolia ei checkata atm.
+	assert(linkCheck == 0); // Kaatumaan jos failaa, koska tämän palauttamaa boolia ei checkata atm.
 	if (linkCheck == 0)
 		return false;
 	else

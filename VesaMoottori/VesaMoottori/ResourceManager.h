@@ -11,13 +11,13 @@ public:
 	ResourceManager() {};
 	~ResourceManager() {};
 
-	Texture* CreateTexture(std::string pictureName, std::string textureName, vector2f position, float scale);
+	//Texture* CreateTexture(std::string pictureName, std::string textureName);
 
 	char* LoadShader(std::string fileName, std::string shaderName);
 	char* FindShader(std::string shaderName);
 
-	//Texture* CreateTexture(std::string pictureName, std::string textureName);
-	//Texture* FindTexture(std::string textureName);
+	void CreateTexture(std::string pictureName, std::string textureName);
+	Texture* FindTexture(std::string textureName);
 	//void AddImageLocation(std::string filename);	//kuvan sijainti vektoriin, jos vaikka käynnistäessä la
 	//char* LoadShader(std::string filename);		//palauttaa tällä hetkellä shaderin & uppii shadermappiin
 	//char* FindShader(std::string filename);		//palauttaa shaderin shadermapista

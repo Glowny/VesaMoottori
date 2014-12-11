@@ -32,10 +32,6 @@ public:
 
 	void setColorRGB(float red, float blue, float green);
 
-	void Draw()
-	{
-		texture->Draw();
-	}
 	float getColorR();
 	float getColorG();
 	float getColorB();

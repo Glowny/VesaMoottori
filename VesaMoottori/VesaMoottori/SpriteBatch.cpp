@@ -8,7 +8,7 @@ SpriteBatch::SpriteBatch()
 {
 	changes = true;
 	size = vector2f(0.0f, 0.0f);
-	glGenBuffers(2, &buffer[0]);
+	//glGenBuffers(2, &buffer[0]);
 }
 
 SpriteBatch::SpriteBatch(GraphicsDevice &window)
@@ -101,10 +101,8 @@ void SpriteBatch::Update()
 	// GL_DYNAMIC_DRAW
 
 	glBufferSubData(GL_ARRAY_BUFFER, 0u, vertexData.size()*sizeof(GLfloat), &vertexData.front());
-
-
-
 }
+
 void SpriteBatch::Draw()
 {
 
@@ -163,11 +161,6 @@ void SpriteBatch::Draw()
 		glDrawElements(GL_TRIANGLES, textureAmount * 6u, GL_UNSIGNED_INT, reinterpret_cast<GLvoid*>((drawables.size() - textureAmount) * 6u * sizeof(GLuint)));
 		glBindTexture(GL_TEXTURE_2D, 0u);
 
-
-		//Debugaukseen, saa poistaa.
-		vertexData;
-		indexData;
-		//
 	}
 }
 
@@ -189,6 +182,11 @@ void SpriteBatch::AddSprite(Sprite &sprite, int order)
 	drawables.insert(FindLocation(order), temp);
 
 }
+void SpriteBatch::clearDrawables()
+{
+	drawables.clear();	// saattaa joutua v‰rkk‰‰m‰‰n.
+}
+
 
 void SpriteBatch::SetShaderProgram(ShaderProgram &shaderProgram)
 {
@@ -225,7 +223,7 @@ std::vector<Drawable>::iterator SpriteBatch::FindLocation(int order)
 
 SpriteBatch::~SpriteBatch()
 {
-	// TERMINATE EVERYTHING
+	unbindBuffers();
 }
 
 //asetetaan buffereihin oikea piirtoj‰rjestys.
@@ -265,3 +263,8 @@ GLfloat SpriteBatch::ColorToGLCoord(GLfloat color)
 	return color / 255;
 }
 
+void SpriteBatch::unbindBuffers()
+{
+	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0u);
+	glBindBuffer(GL_ARRAY_BUFFER, 0u);
+}

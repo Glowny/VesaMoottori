@@ -6,11 +6,25 @@
 #include "SpriteBatch.h"
 #include "Keyboard.h"
 #include "..\Mob.h"
+#include "..\Demo.h"
 #include <time.h>
 
 int main()
 {
-	srand(time(NULL));
+	Demo demo;
+	demo.SceneOne();
+}
+
+
+
+//return (int) Messages.wParam;
+//glBindTexture(GL_TEXTURE_2D, 0u);
+//glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0u);
+//glBindBuffer(GL_ARRAY_BUFFER, 0u);
+//glDeleteTextures(1, &texture);
+//glUseProgram(0);
+
+/*	srand(time(NULL));
 	ResourceManager Resources;
 	Texture			*Gooby, *Gooby2, *Animation, *Explosion;
 	Sprite			sprite, sprite2, sprite3, animationSprite, explosion;
@@ -24,16 +38,20 @@ int main()
 
 	Shader.AddShader(Resources.LoadShader("vertexShader.txt", "vertex"), GL_VERTEX_SHADER);
 	Shader.AddShader(Resources.LoadShader("fragmentShader.txt", "fragment"), GL_FRAGMENT_SHADER);
+	Resources.CreateTexture("Animation.png", "Animation");
+	Resources.CreateTexture("exp2.png", "Explosion");
+	Resources.CreateTexture("goofy.png", "goofy");
+	Resources.CreateTexture("gooby.png", "gooby");
 	Shader.LinkProgram();
 	SpriteBatch.SetShaderProgram(Shader);
 	
 	// DEMOA //
 
 
-	Animation = Resources.CreateTexture("Animation.png", "Animation", vector2f(0.0f, 0.0f), 1.0f);
-	Explosion = Resources.CreateTexture("exp2.png", "Explosion", vector2f(0.0f, 0.0f),1.0f);
-	Gooby2 = Resources.CreateTexture("goofy.png", "goofy", vector2f(0.0f, 0.0f), 1.0f);
-	Gooby = Resources.CreateTexture("gooby.png", "gooby", vector2f(0.0f, 0.0f), 1.0f);
+	Animation = Resources.FindTexture("Animation");
+	Explosion = Resources.FindTexture("Explosion");
+	Gooby2 = Resources.FindTexture("goofy");
+	Gooby = Resources.FindTexture("gooby");
 
 	animationSprite.setTexture(Animation);
 	explosion.setTexture(Explosion);
@@ -74,9 +92,16 @@ int main()
 	{
 		demoMobVector[i].sprite->setPosition(vector2f(0.0f, 0.0f));
 	}
+	demoMobVector[1].sprite->setOrigin(vector2f(100, 100));
 
 
-	
+	Shader.AddVertexAttribPointer("attrPosition", 2, 7, 0);
+	Shader.AddVertexAttribPointer("attrColor", 3, 7, 2);
+	Shader.AddVertexAttribPointer("textPosition", 2, 7, 5);
+
+	//glVertexAttribPointer(posLocation, 2u, GL_FLOAT, GL_FALSE, 7 * sizeof(GLfloat), reinterpret_cast<GLvoid*>(0));
+	//glVertexAttribPointer(colorLocation, 3u, GL_FLOAT, GL_FALSE, 7 * sizeof(GLfloat), reinterpret_cast<GLvoid*>(2 * sizeof(GLfloat)));
+	//glVertexAttribPointer(texLocation, 2u, GL_FLOAT, GL_FALSE, 7 * sizeof(GLfloat), reinterpret_cast<GLvoid*>(5 * sizeof(GLfloat)));
 	
 
 	sprite.setColorRGB(255.0f, 255.0f, 255.0f);
@@ -87,15 +112,17 @@ int main()
 
 
 	// Tarkistetaan attribuuttien lokaatio.
-	const GLint posLocation = Shader.GetAttributeLocation("attrPosition");
-	const GLint colorLocation = Shader.GetAttributeLocation("attrColor");
-	const GLint texLocation = Shader.GetAttributeLocation("textPosition");
+	//const GLint posLocation = Shader.GetAttributeLocation("attrPosition");
+	//const GLint colorLocation = Shader.GetAttributeLocation("attrColor");
+	//const GLint texLocation = Shader.GetAttributeLocation("textPosition");
 
 	//Shader.RunProgram();
-	glEnableVertexAttribArray(posLocation);
-	glEnableVertexAttribArray(colorLocation);
-	glEnableVertexAttribArray(texLocation);
+	//glEnableVertexAttribArray(posLocation);
+	//glEnableVertexAttribArray(colorLocation);
+	//glEnableVertexAttribArray(texLocation);
 
+	float sizeMultipler = 1;
+	bool dir = true;
 	while(Window.IsOpen())
 	{
 		
@@ -112,6 +139,24 @@ int main()
 				demoMobVector[i].ChangeFrame();
 			}
 		}
+		demoMobVector[1].sprite->setSize(vector2f(sizeMultipler * 300, sizeMultipler * 300));
+		if (sizeMultipler > 1)
+		{
+			dir = false;
+		}
+		else if (sizeMultipler < 0)
+		{
+			dir = true;
+		}
+		if (dir)
+		{
+			sizeMultipler = sizeMultipler + 0.01f;
+		}
+		else
+		{
+			sizeMultipler = sizeMultipler - 0.01f;
+		}
+	
 
 		// DEMO LOPPU //
 
@@ -128,30 +173,14 @@ int main()
 		}
 		Window.Clear();
 		
-		SpriteBatch.Update();	// vertexAttribPointerien täytyy olla updaten ja drawin välissä, pitäskö hakea
-		// spritebatchissa olevalla shaderprogramilla?
-		glVertexAttribPointer(posLocation, 2u, GL_FLOAT, GL_FALSE, 7 * sizeof(GLfloat), reinterpret_cast<GLvoid*>(0));
-		glVertexAttribPointer(colorLocation, 3u, GL_FLOAT, GL_FALSE, 7 * sizeof(GLfloat), reinterpret_cast<GLvoid*>(2 * sizeof(GLfloat)));
-		glVertexAttribPointer(texLocation, 2u, GL_FLOAT, GL_FALSE, 7 * sizeof(GLfloat), reinterpret_cast<GLvoid*>(5 * sizeof(GLfloat)));
+		SpriteBatch.Update();	
+
 		SpriteBatch.Draw();
-		
-		// drawelements spritebatchsisa
 
 		Window.Display();
 	}
-	glBindTexture(GL_TEXTURE_2D, 0u);
-	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0u);
-	glBindBuffer(GL_ARRAY_BUFFER, 0u);
+	//glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0u);
+	//glBindBuffer(GL_ARRAY_BUFFER, 0u);
 	glUseProgram(0);
 
-	return 0;
-}
-
-
-
-//return (int) Messages.wParam;
-//glBindTexture(GL_TEXTURE_2D, 0u);
-//glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0u);
-//glBindBuffer(GL_ARRAY_BUFFER, 0u);
-//glDeleteTextures(1, &texture);
-//glUseProgram(0);
+	return 0;*/

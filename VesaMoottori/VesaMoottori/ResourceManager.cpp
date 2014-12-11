@@ -46,21 +46,21 @@ Image* ResourceManager::FindImage(std::string fileName)
 	}
 }
 
-Texture* ResourceManager::CreateTexture(std::string fileName, std::string textureName, vector2f position, float scale)
-{
-	Texture *tempTexture;
-
-	if (LoadPicture(fileName)) // Jos kuvan lataaminen onnistuu.
-	{
-		tempTexture = new Texture(FindImage(fileName), position, scale); // Luodaan tekstuuri kuvan perusteella.
-		std::cout << "Loaded " << fileName << " Succesfully!" << std::endl;
-	}
-	else
-		return NULL;
-
-	textures.insert(std::pair<std::string, Texture*>(textureName, tempTexture)); // Lis‰t‰‰n texture-mappiin.
-	return tempTexture; // Palautetaan suoraan pointteri luotuun tekstuuriin.
-}
+//Texture* ResourceManager::CreateTexture(std::string fileName, std::string textureName)
+//{
+//	Texture *tempTexture;
+//
+//	if (LoadPicture(fileName)) // Jos kuvan lataaminen onnistuu.
+//	{
+//		tempTexture = new Texture(FindImage(fileName)); // Luodaan tekstuuri kuvan perusteella.
+//		std::cout << "Loaded " << fileName << " Succesfully!" << std::endl;
+//	}
+//	else
+//		return NULL;
+//
+//	textures.insert(std::pair<std::string, Texture*>(textureName, tempTexture)); // Lis‰t‰‰n texture-mappiin.
+//	return tempTexture; // Palautetaan suoraan pointteri luotuun tekstuuriin.
+//}
 
 char* ResourceManager::LoadShader(std::string fileName, std::string shaderName)
 {
@@ -113,17 +113,20 @@ char* ResourceManager::ShaderReader(std::string fileName)
 }
 
 
-//Texture* ResourceManager::CreateTexture(std::string pictureName, std::string textureName)
-//{
-//	Texture tempTexture = Texture(FindImage(pictureName), vector2f(0,0), 1); // Luodaan tekstuuri kuvan perusteella.
-//	textures.insert(std::pair<std::string, Texture>(textureName, tempTexture)); // Lis‰t‰‰n texture-mappiin.
-//	return &textures[textureName]; // Palautetaan suoraan pointteri luotuun tekstuuriin.
-//}
+void ResourceManager::CreateTexture(std::string pictureName, std::string textureName)
+{
+	LoadPicture(pictureName);
+	Texture* tempTexture = new Texture(FindImage(pictureName)); // Luodaan tekstuuri kuvan perusteella.
+	
+	textures.insert(std::pair<std::string, Texture*>(textureName, tempTexture)); // Lis‰t‰‰n texture-mappiin.
+}
 
-//Texture* ResourceManager::FindTexture(std::string textureName)
-//{
-//	return &textures[textureName];
-//}
+Texture* ResourceManager::FindTexture(std::string textureName)
+{
+	std::map<std::string, Texture*>::iterator it = textures.find(textureName);;
+	if (textures.end() != it)
+		return (it->second);
+}
 
 /*char* ResourceManager::FindShader(std::string filename)
 {
