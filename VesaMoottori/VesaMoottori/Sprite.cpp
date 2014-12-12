@@ -1,7 +1,5 @@
 #include "Sprite.h"
 
-
-
 Sprite::Sprite()
 {
 	// Tähän annetaan pikselikoordinaatit

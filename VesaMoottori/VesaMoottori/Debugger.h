@@ -7,7 +7,6 @@
 #include <stdio.h>
 #include <stdarg.h>
 
-
 class Debugger
 {
 public:
