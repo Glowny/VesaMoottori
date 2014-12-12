@@ -2,22 +2,18 @@
 #include <iostream>
 #include <GL\glew.h>
 
-GraphicsDevice::GraphicsDevice()
+GraphicsDevice::GraphicsDevice() : renderingContext(0), pixelFormat(0)
 {
 	window = new Window();
-	renderingContext = 0;
-	pixelFormat = 0;	
 	if(Register())
 		std::cout << "GraphicsDevice created." << std::endl;
 	else
 		std::cout << "GraphicsDevice failed." << std::endl;
 }
 
-GraphicsDevice::GraphicsDevice(std::string name, int width, int height)
+GraphicsDevice::GraphicsDevice(std::string name, int width, int height) : renderingContext(0), pixelFormat(0)
 {
 	window = new Window(name, width, height);
-	renderingContext = 0;
-	pixelFormat = 0;
 	if(Register())
 		std::cout << "GraphicsDevice created." << std::endl;
 	else
@@ -70,20 +66,11 @@ bool GraphicsDevice::Glew()
 		return false;
 	}
 
-	glClearColor(0.0f, 1.0f, 0.0f, 0.0f);
+	glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
 	glEnable(GL_BLEND);
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
 	return true;
-}
-
-void GraphicsDevice::SetWindow(Window &window)
-{
-	(this->window) = &window;
-	if(Register())
-		std::cout << "GraphicsDevice (SetWindow) succeed." << std::endl;
-	else
-		std::cout << "GraphicsDevice (SetWindow) fail." << std::endl;
 }
 
 bool GraphicsDevice::Update(MSG &messages)
@@ -101,16 +88,30 @@ void GraphicsDevice::Display()
 	SwapBuffers(window->GetDevice());
 }
 
-void GraphicsDevice::Clear()
-{
-	glClear(GL_COLOR_BUFFER_BIT);
-}
-
 bool GraphicsDevice::IsOpen()
 {
 	//return window->IsOpen();
 	// Koodataan myöhemmin paremmat ikkuna-komennot jos on tarvetta.
 	return true;
+}
+
+void GraphicsDevice::Clear()
+{
+	glClear(GL_COLOR_BUFFER_BIT);
+}
+
+void GraphicsDevice::SetWindow(Window &window)
+{
+	(this->window) = &window;
+	if(Register())
+		std::cout << "GraphicsDevice (SetWindow) succeed." << std::endl;
+	else
+		std::cout << "GraphicsDevice (SetWindow) fail." << std::endl;
+}
+
+void GraphicsDevice::SetClearColor(float red, float green, float blue)
+{
+	glClearColor(red, green, blue, 0.0f);
 }
 
 vector2i GraphicsDevice::GetSize()
@@ -123,13 +124,3 @@ GraphicsDevice::~GraphicsDevice()
 	wglDeleteContext(renderingContext); // Tuhotaan renderöinti sisältö - pitää vielä koodata windowiin.
 	delete window;
 }
-
-//bool GraphicsDevice::Close()
-//{
-//	return window->Close();
-//}
-
-//void GraphicsDevice::Show()
-//{
-//	ShowWindow(window->GetHandle(), SW_SHOWNORMAL);
-//}

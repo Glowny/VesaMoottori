@@ -1,35 +1,44 @@
 #include "Window.h"
 #include <iostream>
 
-Window::Window()
+LRESULT CALLBACK Window::WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
+{
+	switch(message)
+	{
+	case WM_CLOSE: // Sent as a signal that a window or an application should terminate.
+		DestroyWindow(hWnd);
+		break;
+	case WM_DESTROY: // Sent when a window is being destroyed.
+		PostQuitMessage(0);
+		break;
+	default:
+		return DefWindowProc(hWnd, message, wParam, lParam);
+		break;
+	}
+	return 0;
+}
+
+Window::Window() : windowHandle(0), deviceContext(0), style(0), opened(false)
 {
 	className			= L"Win";
 	windowName			= L"Window";
-	windowHandle		= 0;
-	deviceContext		= 0;
-	style				= 0;
 	clientArea.left		= 0;
 	clientArea.top		= 0;
 	clientArea.right	= 500;
 	clientArea.bottom	= 500;
 	style				= WS_OVERLAPPEDWINDOW;
-	opened				= false;
 	Register();
 }
 
-Window::Window(std::string name, int width, int height)
+Window::Window(std::string name, int width, int height) : windowHandle(0), deviceContext(0), style(0), opened(false)
 {
 	className			= L"Win";
 	windowName			= L"Window"; // Custom nimi TO-DO.
-	windowHandle		= 0;
-	deviceContext		= 0;
-	style				= 0;
 	clientArea.left		= 0;
 	clientArea.top		= 0;
 	clientArea.right	= width;
 	clientArea.bottom	= height;
 	style				= WS_OVERLAPPEDWINDOW;
-	opened				= false;
 	Register();
 }
 
@@ -101,23 +110,6 @@ bool Window::Update(MSG &messages)
 	}
 	else
 		return false;
-}
-
-LRESULT CALLBACK Window::WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
-{
-	switch (message)
-	{
-	case WM_CLOSE: // Sent as a signal that a window or an application should terminate.
-		DestroyWindow(hWnd);
-		break;
-	case WM_DESTROY: // Sent when a window is being destroyed.
-		PostQuitMessage(0);
-		break;
-	default:
-		return DefWindowProc(hWnd, message, wParam, lParam);
-		break;
-	}
-	return 0;
 }
 
 HDC Window::GetDevice()

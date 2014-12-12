@@ -12,10 +12,11 @@ public:
 
 	Window();
 	Window(std::string name, int width, int height);
+	~Window();
 	
 	bool Register();
 	void SetSize(int width, int height);
-	bool Window::Update(MSG &messages);
+	bool Update(MSG &messages);
 
 	HDC GetDevice();
 	HWND GetHandle();
@@ -24,15 +25,13 @@ public:
 	bool IsOpen();
 	vector2i GetSize();
 
-	~Window();
-
 private:
-	wchar_t*		className;
-	wchar_t*		windowName;
-	HWND			windowHandle; // Holds window handle.
-	HDC				deviceContext; // Private GDI device context.
-	WNDCLASSEX		win;
-	DWORD			style;
-	RECT			clientArea;
-	bool			opened;
+	wchar_t*	className;
+	wchar_t*	windowName;
+	HWND		windowHandle; // Holds window handle.
+	HDC			deviceContext; // Private GDI device context.
+	WNDCLASSEX	win;
+	DWORD		style;
+	RECT		clientArea;
+	bool		opened;
 };
