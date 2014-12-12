@@ -119,12 +119,12 @@ void SpriteBatch::Draw()
 
 	if (drawables.size() != 0) 
 	{
-		GLuint currentTextureIndex = drawables[0].sprite->texture->getTextureIndex();
+		GLuint currentTextureIndex = drawables[0].sprite->texture->GetIndex();
 		unsigned textureAmount = 0;
 		for (unsigned i = 0; i < drawables.size(); i++)
 		{
 			// tarkastetaan onko tämän indeksin tekstuuri sama kuin edellisen, [0]-indeksi aina true.
-			if (drawables[i].sprite->texture->getTextureIndex() == currentTextureIndex)		
+			if (drawables[i].sprite->texture->GetIndex() == currentTextureIndex)		
 			{
 				textureAmount++;
 			}
@@ -147,7 +147,7 @@ void SpriteBatch::Draw()
 				glDrawElements(GL_TRIANGLES, textureAmount * 6u, GL_UNSIGNED_INT, reinterpret_cast<GLvoid*>((i - textureAmount) * 6u * sizeof(GLuint)));
 
 				// lopuksi tämän indeksin piirrettävä tekstuuri, ja asetetaan määrä ykköseen.
-				currentTextureIndex = drawables[i].sprite->texture->getTextureIndex();
+				currentTextureIndex = drawables[i].sprite->texture->GetIndex();
 				textureAmount = 1;		// ehkä 1
 				glBindTexture(GL_TEXTURE_2D, 0u);
 			}
@@ -156,7 +156,7 @@ void SpriteBatch::Draw()
 
 
 
-		currentTextureIndex = drawables[drawables.size()-1].sprite->texture->getTextureIndex();
+		currentTextureIndex = drawables[drawables.size()-1].sprite->texture->GetIndex();
 		glBindTexture(GL_TEXTURE_2D, currentTextureIndex);
 		glDrawElements(GL_TRIANGLES, textureAmount * 6u, GL_UNSIGNED_INT, reinterpret_cast<GLvoid*>((drawables.size() - textureAmount) * 6u * sizeof(GLuint)));
 		glBindTexture(GL_TEXTURE_2D, 0u);

@@ -6,6 +6,7 @@ Texture::Texture(Image *image)
 
 	glGenTextures(1, &textureIndex);
 	glBindTexture(GL_TEXTURE_2D, textureIndex);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
 
 	// Ei ole hyvin kustomoitu tämä texture.
 	// Voi luoda ainoastaan alpha-channel PNG.
@@ -14,8 +15,20 @@ Texture::Texture(Image *image)
 		image->height,
 		0, GL_RGBA, GL_UNSIGNED_BYTE,
 		image->decodedImage.data());
+}
 
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-	//CreateBuffer(vertexData, sizeof(vertexData), indexData, sizeof(indexData));
-	//glBindTexture(GL_TEXTURE_2D, 0u);
+GLuint Texture::GetIndex()
+{
+	return textureIndex;
+}
+
+vector2f Texture::GetSize()
+{
+	return vector2f((float)image->width, (float)image->height);
+}
+
+Texture::~Texture()
+{
+	// Tee myöhemmin.
+	//glDeleteTextures(1, &textureIndex);
 }

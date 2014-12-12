@@ -35,8 +35,10 @@ Texture* ResourceManager::CreateTexture(std::string fileName, std::string textur
 Texture* ResourceManager::FindTexture(std::string textureName)
 {
 	std::map<std::string, Texture*>::iterator it = textures.find(textureName);;
-	if (textures.end() != it)
+	if(textures.end() != it)
 		return (it->second);
+	else
+		return NULL;
 }
 
 Image* ResourceManager::FindImage(std::string fileName)

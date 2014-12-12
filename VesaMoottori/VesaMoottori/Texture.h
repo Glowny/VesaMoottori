@@ -1,38 +1,22 @@
 #pragma once
 #include <GL\glew.h>
-#include "lodepng.h"
 #include "Image.h"
-#include "TextureBuffer.h"
 #include "vector2.h"
 
 class Texture
 {
+	// Texture luokkaa ei voi tällä hetkellä käyttää itsessään.
+	// Ainoastaan ResourceManagerin kautta.
+	friend class ResourceManager;
+
 public:
-	Texture() {}; // Default konstruktoria ei tueta atm.
+	GLuint GetIndex();
+	vector2f GetSize();
+	~Texture();
 
-	Texture(Image *image);
-//	Texture(Image *image, vector2f position, float scale);
-	//void Draw(); Ei piirretä itekseen ei tarvita
-
-	//void SetPosition(vector2f position); Spriten kautta sijainti ei tarvita
-	vector2f GetSize()		// ehkä tarvitaa
-	{
-		return vector2f((float)(image->width), (float)(image->height));
-	}
-	//void SetScale(float scale) {		// spriten kautta koon muutos, ei tarvita.
-	//	(this->scale) = scale;
-	//}
-
-	void CreateBuffer(const void *data, GLsizei dataSize, const void *index, GLsizei indexSize);
-	GLuint GetTexture() { return textureIndex; } // Palauttaa bindatun indeksin textureen.
-	//void DestroyTexture(GLuint index);
-	~Texture() {};
-	GLuint getTextureIndex()
-	{
-		return textureIndex;
-	}
 private:
-	TextureBuffer buffer;
+	Texture() : textureIndex(0), image(NULL) {};
+	Texture(Image *image);
 	GLuint textureIndex;
 	Image *image;
 };
