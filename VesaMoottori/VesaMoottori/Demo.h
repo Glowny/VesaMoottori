@@ -17,6 +17,7 @@ public:
 	Demo();
 	~Demo();
 	void SceneOne();
+	void SceneTwo();
 	void TerminateScene();
 private:
 	void LoadResources();

@@ -13,7 +13,8 @@ void Demo::LoadResources()
 {
 	resourceManager.LoadShader("vertexShader.txt", "vertex");
 	resourceManager.LoadShader("fragmentShader.txt", "fragment");
-
+	
+	resourceManager.CreateTexture("BigSpaceGun.png", "Space");
 	resourceManager.CreateTexture("Animation.png", "Animation"); 
 	resourceManager.CreateTexture("exp2.png", "Explosion");
 	resourceManager.CreateTexture("goofy.png", "goofy");
@@ -39,7 +40,7 @@ void Demo::InitSpriteBatches()
 
 void Demo::SceneOne()
 {
-
+	srand(time(NULL));
 	Sprite animation, resize, colorChange, animation_and_resize;
 
 	animation.setTexture(resourceManager.FindTexture("Animation"));
@@ -101,28 +102,29 @@ void Demo::SceneOne()
 
 		if (dir)
 		{
-			sizeMultipler = sizeMultipler + 0.0007f;
+			sizeMultipler = sizeMultipler + 0.007f;
 		}
 		else
 		{
-			sizeMultipler = sizeMultipler - 0.0007f;
+			sizeMultipler = sizeMultipler - 0.007f;
 		}
 		if (sizeMultipler > 1)
 		{
 			dir = false;
-			sizeMultipler = 0.995f;
+
 		}
-		else if (sizeMultipler < 0.10)
+		else if (sizeMultipler < 0)
 		{
 			dir = true;
-			sizeMultipler = 0.10f;
+
 		}
 
 		colorChange.setColorRGB(currentColor[0], currentColor[1], currentColor[2]);
+		animation_and_resize.setColorRGB(currentColor[1], currentColor[2], currentColor[0]);
 		for (int i = 0; i < 3; i++)
 		{
-			currentColor[i] = currentColor[i] + (rand() % 100 * 0.1f);
-			currentColor[i] = currentColor[i] - (rand() % 100 * 0.1f);
+			currentColor[i] = currentColor[i] + (rand() % 100 * 0.3f);
+			currentColor[i] = currentColor[i] - (rand() % 100 * 0.3f);
 			if (currentColor[i] < 0)
 			{	
 				currentColor[i] = 2;
@@ -143,13 +145,53 @@ void Demo::SceneOne()
 		}
 		
 		window->Clear();
-		spriteBatch.Update();
 		spriteBatch.Draw();
 		window->Display();
 	}
 
 }
 
+
+
+void Demo::SceneTwo()
+{
+	srand(time(NULL));
+	int spawn = 0;
+	while (window->IsOpen())	// Tähän joku toinen quittiehto.
+	{
+		spawn++;
+		if (spawn > 60)
+		{
+			spawn = 0;
+			Sprite* sprite = new Sprite();
+			sprite->setTexture(resourceManager.FindTexture("BigSpaceGun.png"));
+			sprite->setSourceRPosition(vector2f(64.0f, 64.0f));
+			sprite->setSourceRSize(vector2f(64.0f, 64.0f));
+			sprite->setSize(vector2f(96.0f, 96.0f));
+			spriteBatch.AddSprite(*sprite);
+			mobV.push_back(Mob(sprite));
+		}
+		for (int i = 0; i < mobV.size(); i++)
+		{
+			mobV[i].Update();
+		}
+		
+		MSG messages;
+		while (window->Update(messages))
+		{
+			if (messages.message == WM_QUIT)
+			{
+				// Tuhotaan ikkuna, ei ole vielä koodattu.
+			}
+		}
+
+		window->Clear();
+		spriteBatch.Draw();
+		window->Display();
+	}
+
+	
+}
 
 void Demo::TerminateScene()
 {

@@ -15,7 +15,7 @@ public:
 	SpriteBatch(GraphicsDevice &window);
 	~SpriteBatch();
 
-	void Update();
+
 	void Draw();
 
 	void AddSprite(Sprite &sprite);
@@ -26,6 +26,7 @@ public:
 	void SetDevice(GraphicsDevice &window);
 
 private:
+	void Update(); // NYT DRAWISSA
 	void Sort(); // Pit‰‰ piirrot j‰rjestyksess‰.
 	vector2f TextureToGLCoord(float x, float y, vector2f spriteSize);
 	vector2f PositionToGlCoord(float x, float y);

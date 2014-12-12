@@ -1,13 +1,13 @@
 #pragma once
-#include <vector>
-#include "vector2.h"
 #include "GL\glew.h"
+#include "vector2.h"
 #include "Texture.h"
+#include <vector>
 
 class Sprite
-	
 {
 	friend class SpriteBatch;
+
 public:
 	Sprite();
 	~Sprite() {};
@@ -27,47 +27,34 @@ public:
 	void setOrigin(vector2f origin);
 	vector2f getOrigin();
 	
-	void Sprite::setSize(vector2f size);;
+	void setSize(vector2f size);;
 	vector2f getSize();
 
 	void setColorRGB(float red, float blue, float green);
-
 	float getColorR();
 	float getColorG();
 	float getColorB();
 
-	//void createVertexData(); // vanha, kaikki muutetaan.
-	void createIndexData(); // luo kulmasonnan
-
+private:
+	void changePositionData();
+	void changeColorData();
+	void changeTexturePositionData();
+	void createIndexData();
 	GLsizei getIndexSize();
 	GLsizei getVertexSize();
 	GLfloat* getVertexPointer();
 	GLuint* getIndexPointer();
 
-private:
-
-
-	Texture *texture;
-	// n‰‰ on jotai kummajasia
-	GLfloat *vertexData;
-	GLuint *indexData;
-	//
-	vector2f position;
-	vector2f origin;
-	vector2f size;
-	GLfloat red, blue, green;
-	vector2f sourceRectSize;
-	vector2f sourceRectPosition;
-	GLfloat VERTEX_DATA[28];
-	GLuint INDEX_DATA[6];
-
-	bool colorChanged;
-	bool positionChanged;
-	bool texturePositionChanged;
-	void changePositionData();
-	void changeColorData();
-	void changeTexturePositionData();
-
-
+	bool		colorChanged;
+	bool		positionChanged;
+	bool		texturePositionChanged;
+	Texture		*texture;
+	vector2f	position;
+	vector2f	origin;
+	vector2f	size;
+	GLfloat		red, blue, green;
+	vector2f	sourceRectSize;
+	vector2f	sourceRectPosition;
+	GLfloat		VERTEX_DATA[28];
+	GLuint		INDEX_DATA[6];
 };
-
