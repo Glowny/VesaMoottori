@@ -48,6 +48,7 @@ void SpriteBatch::Update()
 
 void SpriteBatch::Draw()
 {
+	if (drawables.size() != 0)
 	Update();
 
 	if (shaderProgram->GetLinkStatus()) // Tarkistetaan shaderin linkkaus.
@@ -88,7 +89,7 @@ void SpriteBatch::Draw()
 
 				// Lopuksi tämän indeksin piirrettävä tekstuuri, ja asetetaan määrä ykköseen.
 				currentTextureIndex = drawables[i].sprite->texture->GetIndex();
-				textureAmount = 1;		// ehkä 1
+				textureAmount = 1;		
 				glBindTexture(GL_TEXTURE_2D, 0u);
 			}
 		}

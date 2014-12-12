@@ -12,7 +12,7 @@
 int main()
 {
 	Demo demo;
-	demo.SceneTwo();
+	demo.SceneOne();
 }
 
 

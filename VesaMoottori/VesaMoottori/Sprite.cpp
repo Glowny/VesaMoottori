@@ -75,10 +75,8 @@ vector2f Sprite::getOrigin()
 
 void Sprite::setSize(vector2f size)
 {
-	/*sourceRectSize = vector2f((sourceRectSize.x / this->size.x)*size.x, (sourceRectSize.y / this->size.y)*size.y);*/
 	this->size = size;
 	positionChanged = true;
-	//texturePositionChanged = true;
 }
 
 vector2f Sprite::getSize()
@@ -179,7 +177,7 @@ void Sprite::createIndexData()
 
 GLsizei Sprite::getIndexSize()
 {
-	return 6; // Moottorilla voi tehdä vain neliöitä \o/
+	return 6; // Moottorilla voi tehdä vain nelikulmioita \o/
 }
 
 GLsizei Sprite::getVertexSize()
