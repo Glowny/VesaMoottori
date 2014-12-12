@@ -1,5 +1,4 @@
 #pragma once
-#include <GL\glew.h>
 #include <map>
 #include <string>
 #include "Image.h"
@@ -11,18 +10,10 @@ public:
 	ResourceManager() {};
 	~ResourceManager() {};
 
-	//Texture* CreateTexture(std::string pictureName, std::string textureName);
-
 	char* LoadShader(std::string fileName, std::string shaderName);
 	char* FindShader(std::string shaderName);
-
-	void CreateTexture(std::string pictureName, std::string textureName);
+	Texture* CreateTexture(std::string pictureName, std::string textureName);
 	Texture* FindTexture(std::string textureName);
-	//void AddImageLocation(std::string filename);	//kuvan sijainti vektoriin, jos vaikka k‰ynnist‰ess‰ la
-	//char* LoadShader(std::string filename);		//palauttaa t‰ll‰ hetkell‰ shaderin & uppii shadermappiin
-	//char* FindShader(std::string filename);		//palauttaa shaderin shadermapista
-	//GLuint GetTexture() { return texture; }
-	//void CreateTexture(Image *image);
 
 private:
 	std::map<unsigned int, Image> decodedImages; // Sis‰lt‰‰ ladatut kuvat.

@@ -34,10 +34,5 @@ public:
 private:
 	TextureBuffer buffer;
 	GLuint textureIndex;
-	//GLfloat scale;
-	//vector2f position;
 	Image *image;
-	GLfloat vertexData[28];
-	GLuint indexData[6];
-	//const GLuint indexData[6];
 };
