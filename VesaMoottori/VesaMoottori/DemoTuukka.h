@@ -12,19 +12,11 @@
 class DemoTuukka
 {
 public:
-	DemoTuukka();
-	~DemoTuukka();
+	DemoTuukka() {};
+	~DemoTuukka() {};
 	void TuukkaScene();
-	void TerminateScene();
 
 private:
-	void LoadResources();
-	void InitShaders();
-	void InitSpriteBatches();
-
-	GraphicsDevice		*window;
-	ResourceManager		resourceManager;
-	ShaderProgram		shader;
-	SpriteBatch			spriteBatch;
-	Keyboard			keyboard;
+	ResourceManager R;
+	Keyboard Keyboard;
 };

@@ -31,6 +31,14 @@ struct vector2f
 		y = 0.0f;
 	}
 
+	vector2f operator* (float number)
+	{
+		vector2f temp;
+		temp.x *= temp.x * number;
+		temp.y *= temp.y * number;
+		return temp;
+	}
+
 	float x;
 	float y;
 };
