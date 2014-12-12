@@ -101,21 +101,21 @@ void Demo::SceneOne()
 
 		if (dir)
 		{
-			sizeMultipler = sizeMultipler + 0.0007f;
+			sizeMultipler = sizeMultipler + 0.007f;
 		}
 		else
 		{
-			sizeMultipler = sizeMultipler - 0.0007f;
+			sizeMultipler = sizeMultipler - 0.007f;
 		}
 		if (sizeMultipler > 1)
 		{
 			dir = false;
-			sizeMultipler = 0.995f;
+
 		}
-		else if (sizeMultipler < 0.10)
+		else if (sizeMultipler < 0)
 		{
 			dir = true;
-			sizeMultipler = 0.10f;
+
 		}
 
 		colorChange.setColorRGB(currentColor[0], currentColor[1], currentColor[2]);
@@ -150,6 +150,33 @@ void Demo::SceneOne()
 
 }
 
+
+
+void Demo::SceneTwo()
+{
+		
+	while (window->IsOpen())	// Tähän joku toinen quittiehto.
+	{
+		Sprite* sprite = new Sprite();
+		sprite->setTexture(resourceManager.FindTexture(""));
+
+		MSG messages;
+		while (window->Update(messages))
+		{
+			if (messages.message == WM_QUIT)
+			{
+				// Tuhotaan ikkuna, ei ole vielä koodattu.
+			}
+		}
+
+		window->Clear();
+		spriteBatch.Update();
+		spriteBatch.Draw();
+		window->Display();
+	}
+
+	
+}
 
 void Demo::TerminateScene()
 {

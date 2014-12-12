@@ -75,10 +75,10 @@ vector2f Sprite::getOrigin()
 
 void Sprite::setSize(vector2f size)
 {
-	sourceRectSize = vector2f((sourceRectSize.x / this->size.x)*size.x, (sourceRectSize.y / this->size.y)*size.y);
+	/*sourceRectSize = vector2f((sourceRectSize.x / this->size.x)*size.x, (sourceRectSize.y / this->size.y)*size.y);*/
 	this->size = size;
 	positionChanged = true;
-	texturePositionChanged = true;
+	//texturePositionChanged = true;
 }
 
 vector2f Sprite::getSize()
