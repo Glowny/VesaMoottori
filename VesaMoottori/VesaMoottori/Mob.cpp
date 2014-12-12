@@ -53,7 +53,8 @@ void Mob::CheckBoundaries()
 
 void Mob::ChangeFrame()
 {
-	sprite->setSourceRPosition(vector2f(currentFrameX*64.0f, currentFrameY*64.0f));
+	
+	sprite->setSourceRPosition(vector2f(currentFrameX*sprite->getSourceRSize().x, currentFrameY*sprite->getSourceRSize().y));
 	currentFrameX++;
 	if (currentFrameX > 3)
 	{
