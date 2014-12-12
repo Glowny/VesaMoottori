@@ -33,15 +33,37 @@ void DemoToni::InitSpriteBatches()
 
 void DemoToni::SceneToni()
 {
+	//DeMOTONI
+	vector2f _speed = vector2f(0, 0);
+	bool goup = true;
+	bool godown = false;
 	Sprite Dolan;
 
 	Dolan.setTexture(resourceManager.FindTexture("dolan"));
-	Dolan.setSourceRSize(vector2f(64.0f, 64.0f));
-	Dolan.setSize(vector2f(100, 100));
+	Dolan.setSize(vector2f(1000, 1000));
+	Dolan.setPosition(vector2f(1500, 900));
+	//DeMOTONI
+	
+	spriteBatch.AddSprite(Dolan, 1);
 
-	spriteBatch.AddSprite(Dolan, 0);
 
-	Dolan.setPosition(vector2f(500, 500));
+	//While loop
+
+	//DeMOTONI
+	_speed.y -= 0.010;
+	if (Dolan.getPosition().y > 300 && goup)
+	{
+		Dolan.setPosition(vector2f(Dolan.getPosition().x + _speed.x, Dolan.getPosition().y + _speed.y));
+	}
+	else
+	{
+		Dolan.setPosition(vector2f(Dolan.getPosition().x + _speed.x, Dolan.getPosition().y - _speed.y));
+	}
+	//DeMOTONI
+
+	//
+
+
 
 	window->Clear();
 	spriteBatch.Draw();
