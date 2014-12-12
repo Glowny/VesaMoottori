@@ -157,25 +157,42 @@ void Demo::SceneTwo()
 {
 	srand((unsigned int)time(NULL));
 	int spawn = 0;
+	Sprite sprite1;
+	sprite1.setTexture(resourceManager.FindTexture("goofy"));
+	sprite1.setPosition(vector2f(299, 299));
+	sprite1.setSize(vector2f(200, 299));
+	spriteBatch.AddSprite(sprite1);
+	mobV.push_back(Mob(&sprite1, 0));
+
 	while (window->IsOpen())	// Tähän joku toinen quittiehto.
 	{
 		spawn++;
-		if (spawn > 60)
+		if (spawn > 100)
 		{
 			spawn = 0;
 			Sprite* sprite = new Sprite();
-			sprite->setTexture(resourceManager.FindTexture("BigSpaceGun.png"));
-			sprite->setSourceRPosition(vector2f(64.0f, 64.0f));
-			sprite->setSourceRSize(vector2f(64.0f, 64.0f));
+			sprite->setTexture(resourceManager.FindTexture("Space"));
+			sprite->setSourceRPosition(vector2f(50.0f, 50.0f));
+			sprite->setSourceRSize(vector2f(128.0f, 128.0f));
 			sprite->setSize(vector2f(96.0f, 96.0f));
-			spriteBatch.AddSprite(*sprite);
-			mobV.push_back(Mob(sprite));
+			sprite->setPosition(vector2f((rand() % 1800), (rand() % 1200)));
+			spriteBatch.AddSprite(*sprite, 0);
+			mobV.push_back(Mob(sprite, 0));
 		}
+<<<<<<< HEAD
 		for (size_t i = 0; i < mobV.size(); i++)
+=======
+		for (unsigned i = 0; i < mobV.size(); i++)
+>>>>>>> origin/master
 		{
+			mobV[i].speed.x = mobV[i].speed.x + ((rand() % 100) * 0.001f);
+			mobV[i].speed.x = mobV[i].speed.x - ((rand() % 100) * 0.001f);
+			mobV[i].speed.y = mobV[i].speed.y + ((rand() % 100) * 0.001f);
+			mobV[i].speed.y = mobV[i].speed.y - ((rand() % 100) * 0.001f);
+
 			mobV[i].Update();
+			
 		}
-		
 		MSG messages;
 		while (window->Update(messages))
 		{

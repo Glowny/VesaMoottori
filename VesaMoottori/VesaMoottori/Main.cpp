@@ -16,7 +16,7 @@ int main()
 	Demo1.TuukkaScene(); // Lopettaa scenen tietyn ajan p‰‰st‰.
 
 	Demo demo;
-	demo.SceneTwo();
+	demo.SceneOne();
 }
 
 
