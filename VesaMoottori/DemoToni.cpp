@@ -44,7 +44,6 @@ void DemoToni::SceneToni()
 	Dolan.setPosition(vector2f(500, 500));
 
 	window->Clear();
-	spriteBatch.Update();
 	spriteBatch.Draw();
 	window->Display();
 

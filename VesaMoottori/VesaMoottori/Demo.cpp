@@ -156,15 +156,25 @@ void Demo::SceneOne()
 void Demo::SceneTwo()
 {
 	srand(time(NULL));
-
+	int spawn = 0;
 	while (window->IsOpen())	// Tähän joku toinen quittiehto.
 	{
-		Sprite* sprite = new Sprite();
-		sprite->setTexture(resourceManager.FindTexture("BigSpaceGun.png"));
-		sprite->setSourceRPosition(vector2f(64.0f, 64.0f));
-		sprite->setSourceRSize(vector2f(64.0f, 64.0f));
-		sprite->setSize(vector2f(96.0f, 96.0f));
-
+		spawn++;
+		if (spawn > 60)
+		{
+			spawn = 0;
+			Sprite* sprite = new Sprite();
+			sprite->setTexture(resourceManager.FindTexture("BigSpaceGun.png"));
+			sprite->setSourceRPosition(vector2f(64.0f, 64.0f));
+			sprite->setSourceRSize(vector2f(64.0f, 64.0f));
+			sprite->setSize(vector2f(96.0f, 96.0f));
+			spriteBatch.AddSprite(*sprite);
+			mobV.push_back(Mob(sprite));
+		}
+		for (int i = 0; i < mobV.size(); i++)
+		{
+			mobV[i].Update();
+		}
 		
 		MSG messages;
 		while (window->Update(messages))

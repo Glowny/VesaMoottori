@@ -100,7 +100,9 @@
     <ClInclude Include="VesaMoottori\DemoToni.h">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
     </ClInclude>
-    <ClInclude Include="VesaMoottori\DemoTuukka.h" />
+    <ClInclude Include="VesaMoottori\DemoTuukka.h">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
+    </ClInclude>
     <ClInclude Include="VesaMoottori\Drawable.h" />
     <ClInclude Include="VesaMoottori\GraphicsDevice.h" />
     <ClInclude Include="VesaMoottori\Image.h">
@@ -141,7 +143,9 @@
     <ClCompile Include="VesaMoottori\DemoToni.cpp">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
     </ClCompile>
-    <ClCompile Include="VesaMoottori\DemoTuukka.cpp" />
+    <ClCompile Include="VesaMoottori\DemoTuukka.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
+    </ClCompile>
     <ClCompile Include="VesaMoottori\GraphicsDevice.cpp" />
     <ClCompile Include="VesaMoottori\Keyboard.cpp" />
     <ClCompile Include="VesaMoottori\lodepng.cpp" />
