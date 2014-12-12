@@ -5,8 +5,8 @@
 #include "Sprite.h"
 #include "SpriteBatch.h"
 #include "Keyboard.h"
-#include "..\Mob.h"
-#include "..\Demo.h"
+#include "Mob.h"
+#include "Demo.h"
 #include <time.h>
 
 int main()

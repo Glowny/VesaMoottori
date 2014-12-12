@@ -46,22 +46,6 @@ Image* ResourceManager::FindImage(std::string fileName)
 	}
 }
 
-//Texture* ResourceManager::CreateTexture(std::string fileName, std::string textureName)
-//{
-//	Texture *tempTexture;
-//
-//	if (LoadPicture(fileName)) // Jos kuvan lataaminen onnistuu.
-//	{
-//		tempTexture = new Texture(FindImage(fileName)); // Luodaan tekstuuri kuvan perusteella.
-//		std::cout << "Loaded " << fileName << " Succesfully!" << std::endl;
-//	}
-//	else
-//		return NULL;
-//
-//	textures.insert(std::pair<std::string, Texture*>(textureName, tempTexture)); // Lisätään texture-mappiin.
-//	return tempTexture; // Palautetaan suoraan pointteri luotuun tekstuuriin.
-//}
-
 char* ResourceManager::LoadShader(std::string fileName, std::string shaderName)
 {
 	char *code = ShaderReader(fileName);
@@ -112,12 +96,26 @@ char* ResourceManager::ShaderReader(std::string fileName)
 	return tempChar;
 }
 
+//Texture* ResourceManager::CreateTexture(std::string fileName, std::string textureName)
+//{
+//	Texture *tempTexture;
+//
+//	if (LoadPicture(fileName)) // Jos kuvan lataaminen onnistuu.
+//	{
+//		tempTexture = new Texture(FindImage(fileName)); // Luodaan tekstuuri kuvan perusteella.
+//		std::cout << "Loaded " << fileName << " Succesfully!" << std::endl;
+//	}
+//	else
+//		return NULL;
+//
+//	textures.insert(std::pair<std::string, Texture*>(textureName, tempTexture)); // Lisätään texture-mappiin.
+//	return tempTexture; // Palautetaan suoraan pointteri luotuun tekstuuriin.
+//}
 
 void ResourceManager::CreateTexture(std::string pictureName, std::string textureName)
 {
 	LoadPicture(pictureName);
 	Texture* tempTexture = new Texture(FindImage(pictureName)); // Luodaan tekstuuri kuvan perusteella.
-	
 	textures.insert(std::pair<std::string, Texture*>(textureName, tempTexture)); // Lisätään texture-mappiin.
 }
 
@@ -127,62 +125,3 @@ Texture* ResourceManager::FindTexture(std::string textureName)
 	if (textures.end() != it)
 		return (it->second);
 }
-
-/*char* ResourceManager::FindShader(std::string filename)
-{
-	unsigned int  hashedShaderName = MyHasher(filename);
-	std::map < unsigned int, char* >::iterator it = shaders.find(hashedShaderName);
-	if(shaders.end() != it)
-	{
-		return it->second;		// !!!!!!!!!
-	}
-	else
-	{
-		return NULL;	//varmaan errormessagea
-	}
-}
-
-// pistetäänkö myös mappiin?
-char *ResourceManager::LoadShader(std::string filename)
-{
-	unsigned int hashedShaderName = MyHasher(filename);		// haetaan hashattu shaderin nimi
-	if(shaders.end() != shaders.find(hashedShaderName))	// tarkastetaan onko shaderiä jo upittu // VÄÄRINPÄIN SAATANA
-	{
-		// error ei olee shaderia
-		return NULL;
-	}
-	else
-	{
-		std::ifstream readFile(filename, std::ios::in);
-		if(readFile.is_open())
-		{
-		}
-		else
-		{
-			//errormessage, could not open file
-			return NULL;
-		}
-		readFile.seekg(0, readFile.end);
-		int fileLength = (int)readFile.tellg();
-		readFile.seekg(0, readFile.beg);
-		if(fileLength == 0)
-		{
-			//errormessage, file empty
-		}
-		else
-		{
-		}
-		std::string fileContents((std::istreambuf_iterator<char>(readFile)), std::istreambuf_iterator<char>());
-		char *tempChar = new char[fileContents.length() + 1];
-		std::strcpy(tempChar, fileContents.c_str());
-
-		readFile.close();
-		shaders.insert(std::pair<unsigned int, char*>(hashedShaderName, tempChar));
-		return tempChar;	// poistetaan käytöstä jos tuntuu tyhmältä ladata joka kerta tiedostosta kun haeteaan shaderi.
-	}
-}
-
-void ResourceManager::AddImageLocation(std::string filename)
-{
-	imageLocations.push_back(filename);
-} */

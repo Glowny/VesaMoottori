@@ -1,12 +1,12 @@
 #pragma once
 #include "Mob.h"
-#include "VesaMoottori\Texture.h"
-#include "VesaMoottori\Sprite.h"
-#include "VesaMoottori\SpriteBatch.h"
-#include "VesaMoottori\ShaderProgram.h"
-#include "VesaMoottori\GraphicsDevice.h"
-#include "VesaMoottori\ResourceManager.h"
-#include "VesaMoottori\Keyboard.h"
+#include "Texture.h"
+#include "Sprite.h"
+#include "SpriteBatch.h"
+#include "ShaderProgram.h"
+#include "GraphicsDevice.h"
+#include "ResourceManager.h"
+#include "Keyboard.h"
 
 
 #include <Time.h>

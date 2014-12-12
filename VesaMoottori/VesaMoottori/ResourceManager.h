@@ -33,8 +33,4 @@ private:
 	bool LoadPicture(std::string fileName); // Lisätään kuva mappiin.
 	unsigned int MyHasher(std::string fileName); // Muuttaa stringin uchariksi.
 	char* ShaderReader(std::string fileName);
-
-	//GLuint texture;
-	//std::map<unsigned int, char*> shaders;			//shadermap
-	//std::vector<std::string> imageLocations;			//ei ehkä välttämätön. Helppo muokattavuus jos vaikka tekstifileessä, josta voidaan sitten hakea kaikki tarvittavat kuvat.
 };

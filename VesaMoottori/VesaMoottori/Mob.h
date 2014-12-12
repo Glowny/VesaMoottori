@@ -1,5 +1,5 @@
 #pragma once
-#include "VesaMoottori\Sprite.h"
+#include "Sprite.h"
 
 
 class Mob
