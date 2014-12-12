@@ -144,6 +144,9 @@
     <ClCompile Include="VesaMoottori\DemoToni.cpp">
       <Filter>Demo</Filter>
     </ClCompile>
+    <ClCompile Include="DemoToni.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Image Include="tex.png">

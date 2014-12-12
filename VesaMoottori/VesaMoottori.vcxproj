@@ -130,6 +130,7 @@
     <ClInclude Include="VesaMoottori\Window.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="DemoToni.cpp" />
     <ClCompile Include="VesaMoottori\Buffers.cpp">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
     </ClCompile>
