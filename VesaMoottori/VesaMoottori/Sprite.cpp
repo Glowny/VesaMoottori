@@ -2,10 +2,8 @@
 
 Sprite::Sprite()
 {
-	// Tähän annetaan pikselikoordinaatit
+	// Tähän annetaan pikselikoordinaatit.
 	texture = NULL;
-	vertexData = NULL;
-	indexData = NULL;
 	sourceRectSize.x = 0.0f;
 	sourceRectSize.y = 0.0f;
 	position = vector2f(0.0f, 0.0f);
@@ -26,7 +24,6 @@ void Sprite::setTexture(Texture *tex)
 	positionChanged = true;
 }
 
-
 vector2f Sprite::getTextureSize()
 {
 	return texture->GetSize();
@@ -37,6 +34,7 @@ void Sprite::setPosition(vector2f position)
 	this->position = position;
 	positionChanged = true;
 }
+
 vector2f Sprite::getPosition()
 {
 	return position;
@@ -47,6 +45,7 @@ void Sprite::setSourceRPosition(vector2f position)
 	sourceRectPosition = position;
 	texturePositionChanged = true;
 }
+
 vector2f Sprite::getSourceRPosition()
 {
 	return sourceRectPosition;
@@ -57,24 +56,12 @@ void Sprite::setSourceRSize(vector2f size)
 	sourceRectSize = size;
 	texturePositionChanged = true;
 }
+
 vector2f Sprite::getSourceRSize()
 {
 	return sourceRectSize;
 }
-void Sprite::setSize(vector2f size)
-{
-	double ebin1[2], ebin2[2];
-	ebin1[0] = sourceRectSize.x;
-	sourceRectSize = vector2f((sourceRectSize.x / this->size.x)*size.x, (sourceRectSize.y / this->size.y)*size.y);
-	this->size = size;
-	positionChanged = true;
-	texturePositionChanged = true;
-}
 
-vector2f Sprite::getSize()
-{
-	return size;
-}
 void Sprite::setOrigin(vector2f origin)
 {
 	this->origin = origin;
@@ -86,13 +73,25 @@ vector2f Sprite::getOrigin()
 	return origin;
 }
 
+void Sprite::setSize(vector2f size)
+{
+	sourceRectSize = vector2f((sourceRectSize.x / this->size.x)*size.x, (sourceRectSize.y / this->size.y)*size.y);
+	this->size = size;
+	positionChanged = true;
+	texturePositionChanged = true;
+}
+
+vector2f Sprite::getSize()
+{
+	return size;
+}
+
 void Sprite::setColorRGB(float red, float blue, float green)
 {
 	this->red = red;
 	this->blue = blue;
 	this->green = green;
 	colorChanged = true;
-
 }
 
 float Sprite::getColorR()
@@ -109,39 +108,6 @@ float Sprite::getColorB()
 {
 	return blue;
 }
-// vanha
-//void Sprite::createVertexData()
-//{
-//	vector2f topLeft(sourceRectPosition.x, sourceRectPosition.y);
-//	vector2f bottomLeft(sourceRectPosition.x, sourceRectPosition.y - sourceRectSize.y);
-//	vector2f topRight(sourceRectPosition.x - sourceRectSize.x, sourceRectPosition.y);
-//	vector2f bottomRight(sourceRectPosition.x - sourceRectSize.x, sourceRectPosition.y - sourceRectSize.y);
-//
-//	GLfloat vertex[] = 
-//	{
-//		position.x - origin.x, position.y - origin.y,
-//		red, blue, green,
-//		topLeft.x, topLeft.y,	
-//
-//		position.x - origin.x, position.y - origin.y + size.y,
-//		red, blue, green,
-//		bottomLeft.x, bottomLeft.y,
-//
-//		position.x - origin.x + size.x, position.y - origin.y,
-//		red, blue, green,
-//		topRight.x, topRight.y,
-//
-//		position.x - origin.x + size.x, position.y - origin.y + size.y,
-//		red, blue, green,
-//		bottomRight.x, bottomRight.y
-//	};
-//
-//	for (unsigned i = 0; i < 28; ++i)
-//		VERTEX_DATA[i] = vertex[i];
-//
-//	// ei pakosta tarvita
-//	//texture->CreateBuffer(vertex, sizeof(vertex), INDEX_DATA, 6*4);
-//}
 
 void Sprite::changePositionData()
 {
@@ -159,6 +125,7 @@ void Sprite::changePositionData()
 
 	positionChanged = false;
 }
+
 void Sprite::changeColorData()
 {
 	VERTEX_DATA[2] = red;
@@ -179,6 +146,7 @@ void Sprite::changeColorData()
 
 	colorChanged = false;
 }
+
 void Sprite::changeTexturePositionData()
 {
 	vector2f topLeft(sourceRectPosition.x, sourceRectPosition.y);
@@ -203,21 +171,17 @@ void Sprite::changeTexturePositionData()
 
 void Sprite::createIndexData()
 {
-	//nelikulmio
-	GLuint index [] =
-	{ 0, 1, 2, 1, 2, 3 };
+	GLuint index [] = { 0, 1, 2, 1, 2, 3 }; // Nelikulmio.
 	
 	for (unsigned i = 0; i < 6; ++i)
 		INDEX_DATA[i] = index[i];
-
 }
-
-// Tämänkin toteutus spritebatchissa jottei liiku välillä dataa joista osa väärässä muodossa
 
 GLsizei Sprite::getIndexSize()
 {
-	return 6;		// Moottorilla voi tehdä vain neliöitä \o/
+	return 6; // Moottorilla voi tehdä vain neliöitä \o/
 }
+
 GLsizei Sprite::getVertexSize()
 {
 	return 28;
@@ -227,6 +191,7 @@ GLfloat* Sprite::getVertexPointer()
 {
 	return VERTEX_DATA;
 }
+
 GLuint* Sprite::getIndexPointer()
 {
 	return INDEX_DATA;

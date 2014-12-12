@@ -85,6 +85,15 @@
     <ClInclude Include="VesaMoottori\Mob.h">
       <Filter>Demo</Filter>
     </ClInclude>
+    <ClInclude Include="VesaMoottori\DemoTuukka.h">
+      <Filter>Demo</Filter>
+    </ClInclude>
+    <ClInclude Include="VesaMoottori\DemoJoel.h">
+      <Filter>Demo</Filter>
+    </ClInclude>
+    <ClInclude Include="VesaMoottori\DemoToni.h">
+      <Filter>Demo</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="VesaMoottori\Main.cpp">
@@ -124,6 +133,15 @@
       <Filter>Demo</Filter>
     </ClCompile>
     <ClCompile Include="VesaMoottori\Mob.cpp">
+      <Filter>Demo</Filter>
+    </ClCompile>
+    <ClCompile Include="VesaMoottori\DemoTuukka.cpp">
+      <Filter>Demo</Filter>
+    </ClCompile>
+    <ClCompile Include="VesaMoottori\DemoJoel.cpp">
+      <Filter>Demo</Filter>
+    </ClCompile>
+    <ClCompile Include="VesaMoottori\DemoToni.cpp">
       <Filter>Demo</Filter>
     </ClCompile>
   </ItemGroup>
