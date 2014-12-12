@@ -51,8 +51,25 @@ void DemoTuukka::TuukkaScene()
 	CHARACTER.setSourceRSize(FRAME_SIZE);
 	Game.AddSprite(CHARACTER);
 
+	vector2f UI_SIZE = R.FindTexture("UI")->GetSize();
+	BG_UI.setSize(UI_SIZE);
+	BG_UI.setOrigin(UI_SIZE * 0.5f);
+	BG_UI.setPosition(vector2f(IKKUNA_SIZE.x * 0.5f, IKKUNA_SIZE.y * 0.2f));
+	UI.AddSprite(BG_UI);
 
-	BG_UI.setSize(vector2f(377, 144));
-	//BG_UI.setOrigin(vector2f())
+	while(running)
+	{
+		MSG MESSAGES;
+		while(Ikkuna.Update(MESSAGES))
+		{
+			Ikkuna.Clear();
+			BG.Draw();
+			Game.Draw();
+			UI.Draw();
+			Ikkuna.Display();
+		}
+	}
+
+
 
 }

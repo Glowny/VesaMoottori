@@ -6,17 +6,17 @@
 #include "GraphicsDevice.h"
 #include "ResourceManager.h"
 #include "Keyboard.h"
-#include <Time.h>
-#include <vector>
 
 class DemoTuukka
 {
 public:
-	DemoTuukka() {};
+	DemoTuukka() : running(true) {};
 	~DemoTuukka() {};
 	void TuukkaScene();
+	void CloseScene() { running = false; }
 
 private:
+	bool running;
 	ResourceManager R;
 	Keyboard Keyboard;
 };

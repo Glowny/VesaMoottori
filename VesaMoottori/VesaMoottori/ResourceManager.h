@@ -8,12 +8,14 @@ class ResourceManager
 {
 public:
 	ResourceManager() {};
-	~ResourceManager() {};
+	~ResourceManager() { DeleteAll(); }
 
 	char* LoadShader(std::string fileName, std::string shaderName);
 	char* FindShader(std::string shaderName);
 	Texture* CreateTexture(std::string pictureName, std::string textureName);
 	Texture* FindTexture(std::string textureName);
+
+	void DeleteAll();
 
 private:
 	std::map<unsigned int, Image> decodedImages; // Sis‰lt‰‰ ladatut kuvat.
