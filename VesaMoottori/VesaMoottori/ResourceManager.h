@@ -8,7 +8,7 @@ class ResourceManager
 {
 public:
 	ResourceManager() {};
-	~ResourceManager() { DeleteAll(); }
+	~ResourceManager() {};
 
 	char* LoadShader(std::string fileName, std::string shaderName);
 	char* FindShader(std::string shaderName);
