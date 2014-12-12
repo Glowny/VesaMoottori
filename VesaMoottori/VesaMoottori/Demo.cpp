@@ -101,21 +101,21 @@ void Demo::SceneOne()
 
 		if (dir)
 		{
-			sizeMultipler = sizeMultipler + 0.005f;
+			sizeMultipler = sizeMultipler + 0.0007f;
 		}
 		else
 		{
-			sizeMultipler = sizeMultipler - 0.005f;
+			sizeMultipler = sizeMultipler - 0.0007f;
 		}
 		if (sizeMultipler > 1)
 		{
 			dir = false;
-			sizeMultipler = 0.995;
+			sizeMultipler = 0.995f;
 		}
-		else if (sizeMultipler < 0)
+		else if (sizeMultipler < 0.10)
 		{
 			dir = true;
-			sizeMultipler = 0.005;
+			sizeMultipler = 0.10f;
 		}
 
 		colorChange.setColorRGB(currentColor[0], currentColor[1], currentColor[2]);
