@@ -179,11 +179,8 @@ void Demo::SceneTwo()
 			spriteBatch.AddSprite(*sprite, 0);
 			mobV.push_back(Mob(sprite, 0));
 		}
-<<<<<<< HEAD
-		for (size_t i = 0; i < mobV.size(); i++)
-=======
+
 		for (unsigned i = 0; i < mobV.size(); i++)
->>>>>>> origin/master
 		{
 			mobV[i].speed.x = mobV[i].speed.x + ((rand() % 100) * 0.001f);
 			mobV[i].speed.x = mobV[i].speed.x - ((rand() % 100) * 0.001f);
