@@ -48,6 +48,8 @@ void SpriteBatch::Update()
 
 void SpriteBatch::Draw()
 {
+	Update();
+
 	if (shaderProgram->GetLinkStatus()) // Tarkistetaan shaderin linkkaus.
 		shaderProgram->RunProgram();
 	else

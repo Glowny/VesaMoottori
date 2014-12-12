@@ -13,7 +13,8 @@ void Demo::LoadResources()
 {
 	resourceManager.LoadShader("vertexShader.txt", "vertex");
 	resourceManager.LoadShader("fragmentShader.txt", "fragment");
-
+	
+	resourceManager.CreateTexture("BigSpaceGun.png", "Space");
 	resourceManager.CreateTexture("Animation.png", "Animation"); 
 	resourceManager.CreateTexture("exp2.png", "Explosion");
 	resourceManager.CreateTexture("goofy.png", "goofy");
@@ -39,7 +40,7 @@ void Demo::InitSpriteBatches()
 
 void Demo::SceneOne()
 {
-
+	srand(time(NULL));
 	Sprite animation, resize, colorChange, animation_and_resize;
 
 	animation.setTexture(resourceManager.FindTexture("Animation"));
@@ -119,10 +120,11 @@ void Demo::SceneOne()
 		}
 
 		colorChange.setColorRGB(currentColor[0], currentColor[1], currentColor[2]);
+		animation_and_resize.setColorRGB(currentColor[1], currentColor[2], currentColor[0]);
 		for (int i = 0; i < 3; i++)
 		{
-			currentColor[i] = currentColor[i] + (rand() % 100 * 0.1f);
-			currentColor[i] = currentColor[i] - (rand() % 100 * 0.1f);
+			currentColor[i] = currentColor[i] + (rand() % 100 * 0.3f);
+			currentColor[i] = currentColor[i] - (rand() % 100 * 0.3f);
 			if (currentColor[i] < 0)
 			{	
 				currentColor[i] = 2;
@@ -143,7 +145,6 @@ void Demo::SceneOne()
 		}
 		
 		window->Clear();
-		spriteBatch.Update();
 		spriteBatch.Draw();
 		window->Display();
 	}
@@ -154,12 +155,17 @@ void Demo::SceneOne()
 
 void Demo::SceneTwo()
 {
-		
+	srand(time(NULL));
+
 	while (window->IsOpen())	// Tähän joku toinen quittiehto.
 	{
 		Sprite* sprite = new Sprite();
-		sprite->setTexture(resourceManager.FindTexture(""));
+		sprite->setTexture(resourceManager.FindTexture("BigSpaceGun.png"));
+		sprite->setSourceRPosition(vector2f(64.0f, 64.0f));
+		sprite->setSourceRSize(vector2f(64.0f, 64.0f));
+		sprite->setSize(vector2f(96.0f, 96.0f));
 
+		
 		MSG messages;
 		while (window->Update(messages))
 		{
@@ -170,7 +176,6 @@ void Demo::SceneTwo()
 		}
 
 		window->Clear();
-		spriteBatch.Update();
 		spriteBatch.Draw();
 		window->Display();
 	}
