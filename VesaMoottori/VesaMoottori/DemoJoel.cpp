@@ -1,7 +1,6 @@
-#include "Demo.h"
+#include "DemoJoel.h"
 
-
-Demo::Demo()
+DemoJoel::DemoJoel()
 {
 	window = new GraphicsDevice("Demo", 1800, 1200);
 	LoadResources();
@@ -9,18 +8,16 @@ Demo::Demo()
 	InitSpriteBatches();
 }
 
-void Demo::LoadResources()
+void DemoJoel::LoadResources()
 {
 	resourceManager.LoadShader("vertexShader.txt", "vertex");
 	resourceManager.LoadShader("fragmentShader.txt", "fragment");
 
-	resourceManager.CreateTexture("Animation.png", "Animation"); 
-	resourceManager.CreateTexture("exp2.png", "Explosion");
-	resourceManager.CreateTexture("goofy.png", "goofy");
-	resourceManager.CreateTexture("gooby.png", "gooby");
+	resourceManager.CreateTexture("Walking.png", "Walker");
+	resourceManager.CreateTexture("Enemy.png", "Enemy");
 }
 
-void Demo::InitShaders()
+void DemoJoel::InitShaders()
 {
 	shader.AddShader(resourceManager.FindShader("vertex"), GL_VERTEX_SHADER);
 	shader.AddShader(resourceManager.FindShader("fragment"), GL_FRAGMENT_SHADER);
@@ -31,108 +28,70 @@ void Demo::InitShaders()
 	shader.AddVertexAttribPointer("textPosition", 2, 7, 5);
 }
 
-void Demo::InitSpriteBatches()
+void DemoJoel::InitSpriteBatches()
 {
 	spriteBatch = SpriteBatch(*window);
 	spriteBatch.SetShaderProgram(shader);
 }
 
-void Demo::SceneOne()
+void DemoJoel::SceneOne()
 {
+	int enemyCount = 0;
+	Sprite hero;
+	Sprite* Enemy = new Sprite;
+	hero.setTexture(resourceManager.FindTexture("Walker"));
+	hero.setSourceRSize(vector2f(125.0f, 125.0f));
+	hero.setPosition(vector2f(600, 600));
 
-	Sprite animation, resize, colorChange, animation_and_resize;
+	spriteBatch.AddSprite(hero, 0);
 
-	animation.setTexture(resourceManager.FindTexture("Animation"));
-	animation.setSourceRSize(vector2f(64.0f, 64.0f));
-	animation.setSize(vector2f(70, 70));
+	mobH.push_back(Mob(&hero, true));
 
-	animation_and_resize.setTexture(resourceManager.FindTexture("Animation"));
-	animation_and_resize.setSourceRSize(vector2f(64.0f, 64.0f));
-	animation_and_resize.setSize(vector2f(10.0f, 10.0f));
 
-	resize.setTexture(resourceManager.FindTexture("goofy"));
-	resize.setSize(vector2f(500, 500));
-	resize.setPosition(vector2f(400, 400));
-	colorChange.setTexture(resourceManager.FindTexture("goofy"));
-	colorChange.setSize(vector2f(250, 250));
-	colorChange.setPosition(vector2f(600, 600));
-
-	spriteBatch.AddSprite(animation, 0);
-	spriteBatch.AddSprite(resize, 0);
-	spriteBatch.AddSprite(animation_and_resize, 0);
-	spriteBatch.AddSprite(colorChange, 0);
-
-	mobV.push_back(Mob(&animation, true));
-	mobV.push_back(Mob(&resize));
-	mobV.push_back(Mob(&animation_and_resize, true));
-	mobV.push_back(Mob(&colorChange));
-
-	for (int i = 0; i < 10; i++)
-	{
-		Sprite* sprite = new Sprite;
-		sprite->setTexture(resourceManager.FindTexture("goofy"));
-		sprite->setSize(vector2f(50.0f * (i % 5), 50.0f * (i % 5)));
-		sprite->setPosition(vector2f(500, 500));
-		spriteBatch.AddSprite(*sprite, 3);
-		mobV.push_back(sprite);
-	}
-	float sizeMultipler = 1;
-	bool dir = true;
-	float currentColor[3]{100, 200, 255};
+	//if (hero.getPosition().x < zombi.getPosition().x)
+	//{ }
+	//if (hero.getPosition().x > zombi.getPosition().x)
+	//{ zombi.}
 
 	while (window->IsOpen())	// Tähän joku toinen quittiehto.
 	{
-		resize.setSize(vector2f(sizeMultipler * 400, sizeMultipler * 400));
-		animation_and_resize.setSize(vector2f(sizeMultipler * 400, sizeMultipler * 400));
+		if (enemyCount == 0)
+		{
+			for (enemyCount; enemyCount < 6; enemyCount++)
+			{
+				
+				Enemy->setTexture(resourceManager.FindTexture("Enemy"));
+				Enemy->setSourceRSize(vector2f(128, 128));
+				int random = rand() % 3;
+
+				if (random == 1)
+					Enemy->setPosition(vector2f(1800, 800));
+
+				else
+					Enemy->setPosition(vector2f(0, 800));
+
+				spriteBatch.AddSprite(*Enemy, 1);
+				mobV.push_back(Enemy);
+			}
+		}
+
 		for (unsigned i = 0; i < mobV.size(); i++)
 		{
-			mobV[i].speed.x = mobV[i].speed.x + ((rand() % 100) * 0.001f);
-			mobV[i].speed.x = mobV[i].speed.x - ((rand() % 100) * 0.001f);
-			mobV[i].speed.y = mobV[i].speed.y + ((rand() % 100) * 0.001f);
-			mobV[i].speed.y = mobV[i].speed.y - ((rand() % 100) * 0.001f);
+			if (hero.getPosition().x < Enemy->getPosition().x)
+				mobV[i].speed.x = mobV[i].speed.x++;
+
+			if (hero.getPosition().x > Enemy->getPosition().x)
+				mobV[i].speed.x = mobV[i].speed.x--;
 
 			mobV[i].Update();
 			if (mobV[i].animationEnabled == true)
 			{
 				mobV[i].ChangeFrame();
 			}
-			
-		}
 
-		if (dir)
-		{
-			sizeMultipler = sizeMultipler + 0.005f;
 		}
-		else
-		{
-			sizeMultipler = sizeMultipler - 0.005f;
-		}
-		if (sizeMultipler > 1)
-		{
-			dir = false;
-			sizeMultipler = 0.995;
-		}
-		else if (sizeMultipler < 0)
-		{
-			dir = true;
-			sizeMultipler = 0.005;
-		}
+		mobH[0].Update();
 
-		colorChange.setColorRGB(currentColor[0], currentColor[1], currentColor[2]);
-		for (int i = 0; i < 3; i++)
-		{
-			currentColor[i] = currentColor[i] + (rand() % 100 * 0.1f);
-			currentColor[i] = currentColor[i] - (rand() % 100 * 0.1f);
-			if (currentColor[i] < 0)
-			{	
-				currentColor[i] = 2;
-			}
-			else if (currentColor[i] > 255)
-			{
-				currentColor[i] = 253;
-			}
-		}
-		
 		MSG messages;
 		while (window->Update(messages))
 		{
@@ -141,7 +100,7 @@ void Demo::SceneOne()
 				// Tuhotaan ikkuna, ei ole vielä koodattu.
 			}
 		}
-		
+
 		window->Clear();
 		spriteBatch.Update();
 		spriteBatch.Draw();
@@ -151,11 +110,11 @@ void Demo::SceneOne()
 }
 
 
-void Demo::TerminateScene()
+void DemoJoel::TerminateScene()
 {
 	mobV.clear();
 	spriteBatch.ClearDrawables();
 }
-Demo::~Demo()
+DemoJoel::~DemoJoel()
 {
 }

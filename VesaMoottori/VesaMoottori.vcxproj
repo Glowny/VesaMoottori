@@ -94,6 +94,7 @@
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
     </ClInclude>
     <ClInclude Include="VesaMoottori\Demo.h" />
+    <ClInclude Include="VesaMoottori\DemoJoel.h" />
     <ClInclude Include="VesaMoottori\Drawable.h" />
     <ClInclude Include="VesaMoottori\GraphicsDevice.h" />
     <ClInclude Include="VesaMoottori\Image.h">
@@ -127,6 +128,7 @@
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
     </ClCompile>
     <ClCompile Include="VesaMoottori\Demo.cpp" />
+    <ClCompile Include="VesaMoottori\DemoJoel.cpp" />
     <ClCompile Include="VesaMoottori\GraphicsDevice.cpp" />
     <ClCompile Include="VesaMoottori\Keyboard.cpp" />
     <ClCompile Include="VesaMoottori\lodepng.cpp" />

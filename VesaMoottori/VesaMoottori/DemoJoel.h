@@ -7,15 +7,13 @@
 #include "GraphicsDevice.h"
 #include "ResourceManager.h"
 #include "Keyboard.h"
-
-
 #include <Time.h>
 #include <vector>
-class Demo
+class DemoJoel
 {
 public:
-	Demo();
-	~Demo();
+	DemoJoel();
+	~DemoJoel();
 	void SceneOne();
 	void TerminateScene();
 private:
@@ -28,5 +26,6 @@ private:
 	SpriteBatch spriteBatch;
 	Keyboard keyboard;
 	std::vector<Mob> mobV;
+	std::vector<Mob> mobH;
 };
 
