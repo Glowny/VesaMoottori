@@ -13,10 +13,10 @@
 int main()
 {
 	DemoTuukka Demo1;
-	Demo1.TuukkaScene(); // Lopettaa scenen tietyn ajan p‰‰st‰.
+	//Demo1.TuukkaScene(); // Lopettaa scenen tietyn ajan p‰‰st‰.
 
 	Demo demo;
-	demo.SceneOne();
+	demo.SceneTwo();
 }
 
 

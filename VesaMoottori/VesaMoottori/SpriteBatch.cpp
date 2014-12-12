@@ -84,6 +84,7 @@ void SpriteBatch::AddSprite(Sprite &sprite, int order)
 	temp.drawOrder = order;
 	temp.sprite = &sprite;
 	drawables.insert(FindLocation(order), temp);
+	changes = true;
 
 }
 void SpriteBatch::ClearDrawables()
