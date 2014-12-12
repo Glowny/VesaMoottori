@@ -73,14 +73,16 @@
     <ClInclude Include="VesaMoottori\Drawable.h">
       <Filter>Source Files\STRUCTS</Filter>
     </ClInclude>
-    <ClInclude Include="Keyboard.h" />
-    <ClInclude Include="Mob.h">
-      <Filter>Demo</Filter>
-    </ClInclude>
     <ClInclude Include="VesaMoottori\ShaderVertexAttrib.h">
       <Filter>Source Files\STRUCTS</Filter>
     </ClInclude>
-    <ClInclude Include="Demo.h">
+    <ClInclude Include="VesaMoottori\Keyboard.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="VesaMoottori\Demo.h">
+      <Filter>Demo</Filter>
+    </ClInclude>
+    <ClInclude Include="VesaMoottori\Mob.h">
       <Filter>Demo</Filter>
     </ClInclude>
   </ItemGroup>
@@ -115,13 +117,13 @@
     <ClCompile Include="VesaMoottori\SpriteBatch.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Keyboard.cpp">
+    <ClCompile Include="VesaMoottori\Keyboard.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Mob.cpp">
+    <ClCompile Include="VesaMoottori\Demo.cpp">
       <Filter>Demo</Filter>
     </ClCompile>
-    <ClCompile Include="Demo.cpp">
+    <ClCompile Include="VesaMoottori\Mob.cpp">
       <Filter>Demo</Filter>
     </ClCompile>
   </ItemGroup>
