@@ -29,5 +29,6 @@ private:
 	SpriteBatch spriteBatch;
 	Keyboard keyboard;
 	std::vector<Mob> mobV;
+	Keyboard Keys;
 };
 

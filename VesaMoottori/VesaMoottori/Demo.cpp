@@ -14,7 +14,7 @@ void Demo::LoadResources()
 	resourceManager.LoadShader("vertexShader.txt", "vertex");
 	resourceManager.LoadShader("fragmentShader.txt", "fragment");
 	
-	resourceManager.CreateTexture("BigSpaceGun.png", "Space");
+	resourceManager.CreateTexture("zombies.png", "Zombies");
 	resourceManager.CreateTexture("Animation.png", "Animation"); 
 	resourceManager.CreateTexture("exp2.png", "Explosion");
 	resourceManager.CreateTexture("goofy.png", "goofy");
@@ -155,26 +155,25 @@ void Demo::SceneOne()
 
 void Demo::SceneTwo()
 {
+	// Toinen scene: testataan millä määrällä spritejä fps tippuu
+	// Input:
+	// R - toggle spritespawn
+	// A - Spawn 50 sprites
+
 	srand((unsigned int)time(NULL));
-	int spawn = 0;
-	Sprite sprite1;
-	sprite1.setTexture(resourceManager.FindTexture("goofy"));
-	sprite1.setPosition(vector2f(299, 299));
-	sprite1.setSize(vector2f(200, 299));
-	spriteBatch.AddSprite(sprite1);
-	mobV.push_back(Mob(&sprite1, 0));
+
+	bool spawn = false;
 
 	while (window->IsOpen())	// Tähän joku toinen quittiehto.
 	{
-		spawn++;
-		if (spawn > 100)
+
+		if (spawn == true)
 		{
-			spawn = 0;
 			Sprite* sprite = new Sprite();
-			sprite->setTexture(resourceManager.FindTexture("Space"));
-			sprite->setSourceRPosition(vector2f(50.0f, 50.0f));
-			sprite->setSourceRSize(vector2f(128.0f, 128.0f));
-			sprite->setSize(vector2f(96.0f, 96.0f));
+			sprite->setTexture(resourceManager.FindTexture("Zombies"));
+			sprite->setSourceRPosition(vector2f(3.0f, 10.0f));
+			sprite->setSourceRSize(vector2f(24.0f, 32.0f));
+			sprite->setSize(vector2f(128.0f, 128.0f));
 			sprite->setPosition(vector2f((rand() % 1800), (rand() % 1200)));
 			spriteBatch.AddSprite(*sprite, 0);
 			mobV.push_back(Mob(sprite, 0));
@@ -196,6 +195,24 @@ void Demo::SceneTwo()
 			if (messages.message == WM_QUIT)
 			{
 				// Tuhotaan ikkuna, ei ole vielä koodattu.
+			}
+			if (Keys.isKeyPressed(Keys.Key::R))
+			{
+				spawn = spawn + -1;
+			}
+			if (Keys.isKeyPressed(Keys.Key::A))
+			{
+				for (int i = 0; i < 100; i++)
+				{
+					Sprite* sprite = new Sprite();
+					sprite->setTexture(resourceManager.FindTexture("Zombies"));
+					sprite->setSourceRPosition(vector2f(3.0f, 10.0f));
+					sprite->setSourceRSize(vector2f(24.0f, 32.0f));
+					sprite->setSize(vector2f(128.0f, 128.0f));
+					sprite->setPosition(vector2f((rand() % 1800), (rand() % 1200)));
+					spriteBatch.AddSprite(*sprite, 0);
+					mobV.push_back(Mob(sprite, 0));
+				}
 			}
 		}
 
