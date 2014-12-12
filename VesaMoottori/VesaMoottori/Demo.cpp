@@ -154,7 +154,7 @@ void Demo::SceneOne()
 void Demo::TerminateScene()
 {
 	mobV.clear();
-	spriteBatch.clearDrawables();
+	spriteBatch.ClearDrawables();
 }
 Demo::~Demo()
 {
