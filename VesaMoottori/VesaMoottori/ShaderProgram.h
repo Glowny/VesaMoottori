@@ -28,8 +28,6 @@ public:
 	int GetProgramLocation(std::string programName);
 	bool GetLinkStatus();
 
-	//void GetAttribPointer(GLuint pos, GLuint color, GLuint tex);
-
 private:
 	std::vector<ShaderVertexAttrib> vertexAttribs;
 	GLuint glObject;
