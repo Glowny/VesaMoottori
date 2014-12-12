@@ -40,7 +40,7 @@ void Demo::InitSpriteBatches()
 
 void Demo::SceneOne()
 {
-	srand(time(NULL));
+	srand((unsigned int)time(NULL));
 	Sprite animation, resize, colorChange, animation_and_resize;
 
 	animation.setTexture(resourceManager.FindTexture("Animation"));
@@ -155,7 +155,7 @@ void Demo::SceneOne()
 
 void Demo::SceneTwo()
 {
-	srand(time(NULL));
+	srand((unsigned int)time(NULL));
 	int spawn = 0;
 	while (window->IsOpen())	// Tähän joku toinen quittiehto.
 	{
@@ -171,7 +171,7 @@ void Demo::SceneTwo()
 			spriteBatch.AddSprite(*sprite);
 			mobV.push_back(Mob(sprite));
 		}
-		for (int i = 0; i < mobV.size(); i++)
+		for (size_t i = 0; i < mobV.size(); i++)
 		{
 			mobV[i].Update();
 		}

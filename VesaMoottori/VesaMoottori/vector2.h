@@ -34,8 +34,24 @@ struct vector2f
 	vector2f operator* (float number)
 	{
 		vector2f temp;
-		temp.x *= temp.x * number;
-		temp.y *= temp.y * number;
+		temp.x = x * number;
+		temp.y = y * number;
+		return temp;
+	}
+
+	vector2f operator+ (const vector2f& vektori)
+	{
+		vector2f temp;
+		temp.x = x + vektori.x;
+		temp.y = y + vektori.y;
+		return temp;
+	}
+
+	vector2f operator- (const vector2f& vektori)
+	{
+		vector2f temp;
+		temp.x = x - vektori.x;
+		temp.y = y - vektori.y;
 		return temp;
 	}
 

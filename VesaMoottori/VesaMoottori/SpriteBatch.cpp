@@ -14,38 +14,6 @@ SpriteBatch::SpriteBatch(GraphicsDevice &window) : changes(true)
 	glGenBuffers(2, &buffer[0]);
 }
 
-void SpriteBatch::Update()
-{
-	if(changes)
-	{
-		// T‰ll‰ hetkell‰ Spritejen j‰rjestyst‰ ei voi vaihtaa SpriteaBatchiin lis‰‰miseen j‰lkeen.
-		//Sort(); // Sortataan ennen buffereiden tekoa.
-		CreateBuffer();
-		changes = false;
-
-		glBindBuffer(GL_ARRAY_BUFFER, buffer[0]);
-		glBufferData(GL_ARRAY_BUFFER, vertexData.size()*sizeof(GLfloat), &vertexData.front(), GL_DYNAMIC_DRAW);
-		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, buffer[1]);
-		glBufferData(GL_ELEMENT_ARRAY_BUFFER, indexData.size()*sizeof(GLuint), &indexData.front(), GL_DYNAMIC_DRAW);
-	}
-
-	CreateBuffer();
-
-	for (unsigned i = 0; i < drawables.size(); i++)
-	{
-		if (drawables[i].sprite->positionChanged)
-			drawables[i].sprite->changePositionData();
-
-		if (drawables[i].sprite->texturePositionChanged)
-			drawables[i].sprite->changeTexturePositionData();
-
-		if (drawables[i].sprite->colorChanged)
-			drawables[i].sprite->changeColorData();
-	}
-
-	glBufferSubData(GL_ARRAY_BUFFER, 0u, vertexData.size()*sizeof(GLfloat), &vertexData.front());
-}
-
 void SpriteBatch::Draw()
 {
 	Update();
@@ -130,6 +98,38 @@ void SpriteBatch::SetShaderProgram(ShaderProgram &shaderProgram)
 void SpriteBatch::SetDevice(GraphicsDevice &graphicsDevice)
 {
 	(this->graphicsDevice) = &graphicsDevice;
+}
+
+void SpriteBatch::Update()
+{
+	if(changes)
+	{
+		// T‰ll‰ hetkell‰ Spritejen j‰rjestyst‰ ei voi vaihtaa SpriteaBatchiin lis‰‰miseen j‰lkeen.
+		//Sort(); // Sortataan ennen buffereiden tekoa.
+		CreateBuffer();
+		changes = false;
+
+		glBindBuffer(GL_ARRAY_BUFFER, buffer[0]);
+		glBufferData(GL_ARRAY_BUFFER, vertexData.size()*sizeof(GLfloat), &vertexData.front(), GL_DYNAMIC_DRAW);
+		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, buffer[1]);
+		glBufferData(GL_ELEMENT_ARRAY_BUFFER, indexData.size()*sizeof(GLuint), &indexData.front(), GL_DYNAMIC_DRAW);
+	}
+
+	CreateBuffer();
+
+	for(unsigned i = 0; i < drawables.size(); i++)
+	{
+		if(drawables[i].sprite->positionChanged)
+			drawables[i].sprite->changePositionData();
+
+		if(drawables[i].sprite->texturePositionChanged)
+			drawables[i].sprite->changeTexturePositionData();
+
+		if(drawables[i].sprite->colorChanged)
+			drawables[i].sprite->changeColorData();
+	}
+
+	glBufferSubData(GL_ARRAY_BUFFER, 0u, vertexData.size()*sizeof(GLfloat), &vertexData.front());
 }
 
 void SpriteBatch::Sort()

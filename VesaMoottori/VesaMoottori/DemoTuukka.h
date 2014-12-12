@@ -1,11 +1,5 @@
 #pragma once
-#include "Texture.h"
-#include "Sprite.h"
-#include "SpriteBatch.h"
-#include "ShaderProgram.h"
-#include "GraphicsDevice.h"
 #include "ResourceManager.h"
-#include "Keyboard.h"
 
 class DemoTuukka
 {
@@ -18,5 +12,4 @@ public:
 private:
 	bool running;
 	ResourceManager R;
-	Keyboard Keyboard;
 };

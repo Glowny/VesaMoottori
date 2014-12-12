@@ -85,10 +85,10 @@
     <ClInclude Include="VesaMoottori\Mob.h">
       <Filter>Demo</Filter>
     </ClInclude>
-    <ClInclude Include="VesaMoottori\DemoJoel.h">
-      <Filter>Source Files</Filter>
-    </ClInclude>
     <ClInclude Include="VesaMoottori\DemoTuukka.h">
+      <Filter>Demo</Filter>
+    </ClInclude>
+    <ClInclude Include="VesaMoottori\DemoJoel.h">
       <Filter>Demo</Filter>
     </ClInclude>
   </ItemGroup>
@@ -132,10 +132,10 @@
     <ClCompile Include="VesaMoottori\Mob.cpp">
       <Filter>Demo</Filter>
     </ClCompile>
-    <ClCompile Include="VesaMoottori\DemoJoel.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="VesaMoottori\DemoTuukka.cpp">
+      <Filter>Demo</Filter>
+    </ClCompile>
+    <ClCompile Include="VesaMoottori\DemoJoel.cpp">
       <Filter>Demo</Filter>
     </ClCompile>
   </ItemGroup>

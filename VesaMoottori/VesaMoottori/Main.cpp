@@ -7,10 +7,14 @@
 #include "Keyboard.h"
 #include "Mob.h"
 #include "Demo.h"
+#include "DemoTuukka.h"
 #include <time.h>
 
 int main()
 {
+	DemoTuukka Demo1;
+	Demo1.TuukkaScene(); // Lopettaa scenen tietyn ajan p‰‰st‰.
+
 	Demo demo;
 	demo.SceneTwo();
 }

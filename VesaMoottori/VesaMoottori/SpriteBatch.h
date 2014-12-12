@@ -9,15 +9,12 @@
 
 class SpriteBatch
 {
-
 public:
 	SpriteBatch();
 	SpriteBatch(GraphicsDevice &window);
 	~SpriteBatch();
 
-
 	void Draw();
-
 	void AddSprite(Sprite &sprite);
 	void AddSprite(Sprite &sprite, int order);
 	void ClearDrawables();
@@ -26,7 +23,7 @@ public:
 	void SetDevice(GraphicsDevice &window);
 
 private:
-	void Update(); // NYT DRAWISSA
+	void Update();
 	void Sort(); // Pit‰‰ piirrot j‰rjestyksess‰.
 	vector2f TextureToGLCoord(float x, float y, vector2f spriteSize);
 	vector2f PositionToGlCoord(float x, float y);

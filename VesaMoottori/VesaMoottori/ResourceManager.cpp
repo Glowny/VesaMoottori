@@ -23,7 +23,7 @@ Texture* ResourceManager::CreateTexture(std::string fileName, std::string textur
 	if (LoadPicture(fileName)) // Jos kuvan lataaminen onnistuu.
 	{
 		tempTexture = new Texture(FindImage(fileName)); // Luodaan tekstuuri kuvan perusteella.
-		std::cout << "Loaded " << fileName << " Succesfully!" << std::endl;
+		std::cout << "Loaded " << fileName << " succesfully!" << std::endl;
 	}
 	else
 		return NULL;
