@@ -1,24 +1,23 @@
 #pragma once
 #include "Mob.h"
-#include "Texture.h"
-#include "Sprite.h"
 #include "SpriteBatch.h"
 #include "ShaderProgram.h"
 #include "GraphicsDevice.h"
 #include "ResourceManager.h"
 #include "Keyboard.h"
-
-
-#include <Time.h>
 #include <vector>
+
 class Demo
 {
 public:
 	Demo();
-	~Demo();
+	~Demo() {};
+
 	void SceneOne();
 	void SceneTwo();
+	void TuukkaScene();
 	void TerminateScene();
+
 private:
 	void LoadResources();
 	void InitShaders();

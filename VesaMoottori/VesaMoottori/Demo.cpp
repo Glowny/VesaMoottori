@@ -1,9 +1,10 @@
 #include "Demo.h"
-
+#include "Sprite.h"
+#include <Time.h>
 
 Demo::Demo()
 {
-	window = new GraphicsDevice("Demo", 1800, 1200);
+	window = new GraphicsDevice("Demo", 1024, 768);
 	LoadResources();
 	InitShaders();
 	InitSpriteBatches();
@@ -13,7 +14,7 @@ void Demo::LoadResources()
 {
 	resourceManager.LoadShader("vertexShader.txt", "vertex");
 	resourceManager.LoadShader("fragmentShader.txt", "fragment");
-	
+
 	resourceManager.CreateTexture("zombies.png", "Zombies");
 	resourceManager.CreateTexture("Animation.png", "Animation"); 
 	resourceManager.CreateTexture("exp2.png", "Explosion");
@@ -101,7 +102,6 @@ void Demo::SceneOne()
 			{
 				mobV[i].ChangeFrame();
 			}
-			
 		}
 
 		if (dir)
@@ -115,12 +115,10 @@ void Demo::SceneOne()
 		if (sizeMultipler > 1)
 		{
 			dir = false;
-
 		}
 		else if (sizeMultipler < 0)
 		{
 			dir = true;
-
 		}
 
 		colorChange.setColorRGB(currentColor[0], currentColor[1], currentColor[2]);
@@ -152,10 +150,7 @@ void Demo::SceneOne()
 		spriteBatch.Draw();
 		window->Display();
 	}
-
 }
-
-
 
 void Demo::SceneTwo()
 {
@@ -165,7 +160,6 @@ void Demo::SceneTwo()
 	// A - Spawn 50 sprites
 
 	srand((unsigned int)time(NULL));
-
 	bool spawn = false;
 
 	while (window->IsOpen())	// T‰h‰n joku toinen quittiehto.
@@ -193,6 +187,7 @@ void Demo::SceneTwo()
 			mobV[i].Update();
 			
 		}
+
 		MSG messages;
 		while (window->Update(messages))
 		{
@@ -224,8 +219,6 @@ void Demo::SceneTwo()
 		spriteBatch.Draw();
 		window->Display();
 	}
-
-	
 }
 
 void Demo::TerminateScene()
@@ -233,6 +226,125 @@ void Demo::TerminateScene()
 	mobV.clear();
 	spriteBatch.ClearDrawables();
 }
-Demo::~Demo()
+
+void Demo::TuukkaScene()
 {
+	//GraphicsDevice Ikkuna("Tuukka", 1024, 768);
+	SpriteBatch BG(*window);
+	SpriteBatch Game(*window);
+	SpriteBatch UI(*window);
+
+	resourceManager.CreateTexture("BG0.png", "BGFar");
+	resourceManager.CreateTexture("BG1.png", "BGMid");
+	resourceManager.CreateTexture("BG2.png", "BGClose");
+	resourceManager.CreateTexture("Hahmo.png", "Hahmo");
+	resourceManager.CreateTexture("UI.png", "UI");
+	resourceManager.CreateTexture("TuukkaScene.png", "Scene");
+
+	ShaderProgram ShaderProg;
+	ShaderProg.AddShader(resourceManager.LoadShader("TuukkaVertex.txt", "VERTEX_SHADER"), GL_VERTEX_SHADER);
+	ShaderProg.AddShader(resourceManager.LoadShader("TuukkaFragment.txt", "FRAGMENT_SHADER"), GL_FRAGMENT_SHADER);
+	ShaderProg.LinkProgram();
+
+	ShaderProg.AddVertexAttribPointer("attrPosition", 2, 7, 0);
+	ShaderProg.AddVertexAttribPointer("attrColor", 3, 7, 2);
+	ShaderProg.AddVertexAttribPointer("textPosition", 2, 7, 5);
+
+	BG.SetShaderProgram(ShaderProg);
+	Game.SetShaderProgram(ShaderProg);
+	UI.SetShaderProgram(ShaderProg);
+
+	Sprite BG_FAR, BG_FAR2, BG_MID, BG_CLOSE, CHARACTER, BG_UI, SCENE;
+	BG_FAR.setTexture(resourceManager.FindTexture("BGFar"));
+	BG_FAR2.setTexture(resourceManager.FindTexture("BGFar"));
+	BG_MID.setTexture(resourceManager.FindTexture("BGMid"));
+	BG_CLOSE.setTexture(resourceManager.FindTexture("BGClose"));
+	CHARACTER.setTexture(resourceManager.FindTexture("Hahmo"));
+	BG_UI.setTexture(resourceManager.FindTexture("UI"));
+	SCENE.setTexture(resourceManager.FindTexture("Scene"));
+
+	vector2f IKKUNA_SIZE = vector2f((float)window->GetSize().x, (float)window->GetSize().y);
+	vector2f NOLLA_PISTE = vector2f((float)window->GetSize().x, 0); // Miksi nollapiste on oikeassa-yl‰kulmassa?
+	BG_FAR.setSize(IKKUNA_SIZE);
+	BG_FAR.setPosition(NOLLA_PISTE);
+	BG_FAR2.setSize(IKKUNA_SIZE);
+	BG_FAR2.setPosition(vector2f(NOLLA_PISTE.x - BG_FAR2.getSize().x, NOLLA_PISTE.y));
+	BG_MID.setSize(IKKUNA_SIZE);
+	BG_MID.setPosition(NOLLA_PISTE);
+	BG_CLOSE.setSize(IKKUNA_SIZE);
+	BG_CLOSE.setPosition(NOLLA_PISTE);
+	BG.AddSprite(BG_FAR, 0);
+	BG.AddSprite(BG_FAR2, 0);
+	BG.AddSprite(BG_MID, 1);
+	//BG.AddSprite(BG_CLOSE, 2);
+
+	float CHARACTER_SIZE_MODIFIER = 4.0f;
+	int SPRITE_FRAMES = 3;
+	vector2f FRAME_SIZE = vector2f(resourceManager.FindTexture("Hahmo")->GetSize().x / (float)SPRITE_FRAMES, resourceManager.FindTexture("Hahmo")->GetSize().y);
+	CHARACTER.setSize(FRAME_SIZE * CHARACTER_SIZE_MODIFIER);
+	CHARACTER.setSourceRSize(FRAME_SIZE);
+	CHARACTER.setPosition(NOLLA_PISTE - vector2f(100, -300));
+	Game.AddSprite(CHARACTER);
+
+	vector2f UI_SIZE = resourceManager.FindTexture("UI")->GetSize();
+	vector2f SCENE_SIZE = resourceManager.FindTexture("Scene")->GetSize();
+	BG_UI.setSize(UI_SIZE);
+	BG_UI.setOrigin(UI_SIZE * 0.5f);
+	BG_UI.setPosition(vector2f(IKKUNA_SIZE.x * 0.5f, IKKUNA_SIZE.y * 0.82f));
+	SCENE.setSize(SCENE_SIZE);
+	SCENE.setOrigin(SCENE_SIZE * 0.5f);
+	SCENE.setPosition(vector2f(IKKUNA_SIZE.x * 0.5f, IKKUNA_SIZE.y * 0.95f));
+	UI.AddSprite(BG_UI);
+	UI.AddSprite(SCENE);
+
+	int i = 1, korkeus = 0;
+	float korkeus_mod = 1.0f;
+
+	while(true)
+	{
+		MSG MESSAGES;
+		while(window->Update(MESSAGES))
+		{
+			//TO-DO: Message receives.
+		}
+
+		window->Clear();
+		BG.Draw();
+		BG.ChangeBatch();
+		Game.Draw();
+		Game.ChangeBatch();
+		UI.Draw();
+		UI.ChangeBatch();
+		window->Display();
+
+		vector2f characterPosition = CHARACTER.getPosition();
+		if(korkeus < 10)
+		{
+			CHARACTER.setPosition(characterPosition + vector2f(-4, (1 * korkeus_mod)));
+			korkeus++;
+		}
+		else
+		{
+			korkeus = 0;
+			if(korkeus_mod == 1.0f)
+				korkeus_mod = -1.0f;
+			else
+				korkeus_mod = 1.0f;
+		}
+
+		vector2f cloudsPosition = BG_FAR.getPosition();
+		vector2f cloudsPosition2 = BG_FAR2.getPosition();
+		BG_FAR.setPosition(cloudsPosition + vector2f(5, 0));
+		BG_FAR2.setPosition(cloudsPosition2 + vector2f(5, 0));
+		if(i % 205 == 0)
+			BG_FAR.setPosition(vector2f(NOLLA_PISTE.x - BG_FAR2.getSize().x, NOLLA_PISTE.y));
+
+		i++;
+		if(i > 400) // Timer scenen lopettamiseen.
+			break;
+	}
+
+	// Jostain syyst‰ crashaa jos yritt‰‰ vaihtaa toiseen demoon.
+	// Oisko ikkunan luomisessa/tuhoamisessa h‰ikk‰‰?
+	//resourceManager.DeleteAll();
 }
