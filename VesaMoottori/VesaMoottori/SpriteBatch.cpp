@@ -214,7 +214,7 @@ void SpriteBatch::CreateBuffer()
 }
 void SpriteBatch::ChangeBatch()
 {
-	void UnbindBuffers();
+	UnbindBuffers();
 }
 
 void SpriteBatch::UnbindBuffers()
