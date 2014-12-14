@@ -264,7 +264,8 @@ void Demo::TuukkaScene()
 	SCENE.setTexture(resourceManager.FindTexture("Scene"));
 
 	vector2f IKKUNA_SIZE = vector2f((float)window->GetSize().x, (float)window->GetSize().y);
-	vector2f NOLLA_PISTE = vector2f((float)window->GetSize().x, 0); // Miksi nollapiste on oikeassa-yläkulmassa?
+	//vector2f NOLLA_PISTE = vector2f((float)window->GetSize().x, 0); // Miksi nollapiste on oikeassa-yläkulmassa?
+	vector2f NOLLA_PISTE = vector2f(0.0f, 0.0f); // Helpoin tapa fixata demo.
 	BG_FAR.setSize(IKKUNA_SIZE);
 	BG_FAR.setPosition(NOLLA_PISTE);
 	BG_FAR2.setSize(IKKUNA_SIZE);
@@ -290,10 +291,10 @@ void Demo::TuukkaScene()
 	vector2f SCENE_SIZE = resourceManager.FindTexture("Scene")->GetSize();
 	BG_UI.setSize(UI_SIZE);
 	BG_UI.setOrigin(UI_SIZE * 0.5f);
-	BG_UI.setPosition(vector2f(IKKUNA_SIZE.x * 0.5f, IKKUNA_SIZE.y * 0.82f));
+	BG_UI.setPosition(vector2f(100, IKKUNA_SIZE.y * 0.82f));
 	SCENE.setSize(SCENE_SIZE);
 	SCENE.setOrigin(SCENE_SIZE * 0.5f);
-	SCENE.setPosition(vector2f(IKKUNA_SIZE.x * 0.5f, IKKUNA_SIZE.y * 0.95f));
+	SCENE.setPosition(vector2f(-100, IKKUNA_SIZE.y * 0.95f));
 	UI.AddSprite(BG_UI);
 	UI.AddSprite(SCENE);
 
@@ -320,7 +321,7 @@ void Demo::TuukkaScene()
 		vector2f characterPosition = CHARACTER.getPosition();
 		if(korkeus < 10)
 		{
-			CHARACTER.setPosition(characterPosition + vector2f(-4, (1 * korkeus_mod)));
+			CHARACTER.setPosition(characterPosition + vector2f(4, (1 * korkeus_mod)));
 			korkeus++;
 		}
 		else
