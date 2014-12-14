@@ -4,6 +4,6 @@ int main()
 	Demo demo;
 	demo.TuukkaScene(); // Ajastettu.
 	demo.SceneOne(); // Painamalla S loppuu.
-	demo.SceneTwo();
+	//demo.SceneTwo();
 	return 0;
 }

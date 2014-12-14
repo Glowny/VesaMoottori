@@ -32,21 +32,25 @@ void Mob::Update()
 void Mob::CheckBoundaries()
 {
 	vector2f location = sprite->getPosition();
-	if (location.x >= 1800.0f)
+	if (location.x >= 1600.0f)
 	{
-		speed.x = speed.x - 1.0f;
+		speed.x = (speed.x - 0.2f)*0.9f;
+
 	}
 	else if (location.x <= 0.0f)
 	{
-		speed.x = speed.x + 1.0f;
+		speed.x = (speed.x + 0.2f)*0.9f;
+
 	}
 	if (location.y >= 1200.0f)
 	{
-		speed.y = speed.y - 1.0f;
+		speed.y = (speed.y - 0.2f)*0.9f;
+
 	}
 	else if (location.y <= 0.0f)
 	{
-		speed.y =speed.y + 1.0f;
+		speed.y = (speed.y + 0.2f)*0.9f;
+
 
 	}
 }

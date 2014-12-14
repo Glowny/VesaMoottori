@@ -41,11 +41,18 @@ void Demo::InitSpriteBatches()
 
 void Demo::SceneOne()
 {
+	// Scene: testataan mill‰ m‰‰r‰ll‰ spritej‰ fps tippuu
+	// Input:
+	// R - toggle spritespawn
+	// A - Spawn 50 sprites
+
+
 	srand((unsigned int)time(NULL));
 	Sprite animation, resize, colorChange, animation_and_resize, sprite_static;
 
 	sprite_static.setPosition(vector2f(100, 200));
-	sprite_static.setTexture(resourceManager.FindTexture("gooby"));
+	sprite_static.setTexture(resourceManager.FindTexture("goofy"));
+	sprite_static.setSize(vector2f(200, 200));
 	spriteBatch.AddSprite(sprite_static);
 
 	animation.setTexture(resourceManager.FindTexture("Animation"));
@@ -73,6 +80,8 @@ void Demo::SceneOne()
 	mobV.push_back(Mob(&animation_and_resize, true));
 	mobV.push_back(Mob(&colorChange));
 
+
+
 	for (int i = 0; i < 10; i++)
 	{
 		Sprite* sprite = new Sprite;
@@ -87,8 +96,34 @@ void Demo::SceneOne()
 	bool dir = true, running = true;;
 	float currentColor[3]{100, 200, 255};
 
+	srand((unsigned int)time(NULL));
+	bool spawn = false;
+
 	while (running)	// T‰h‰n joku toinen quittiehto.
 	{
+		if (spawn == true)
+		{
+			Sprite* sprite = new Sprite();
+			sprite->setTexture(resourceManager.FindTexture("Zombies"));
+			sprite->setSourceRPosition(vector2f(3.0f, 10.0f));
+			sprite->setSourceRSize(vector2f(24.0f, 32.0f));
+			sprite->setSize(vector2f(128.0f, 128.0f));
+			sprite->setPosition(vector2f((float)(rand() % 1800), (float)(rand() % 1200)));
+			spriteBatch.AddSprite(*sprite, 0);
+			mobV.push_back(Mob(sprite, 0));
+		}
+
+		for (unsigned i = 0; i < mobV.size(); i++)
+		{
+			mobV[i].speed.x = mobV[i].speed.x + ((rand() % 100) * 0.001f);
+			mobV[i].speed.x = mobV[i].speed.x - ((rand() % 100) * 0.001f);
+			mobV[i].speed.y = mobV[i].speed.y + ((rand() % 100) * 0.001f);
+			mobV[i].speed.y = mobV[i].speed.y - ((rand() % 100) * 0.001f);
+
+			mobV[i].Update();
+
+		}
+
 		resize.setSize(vector2f(sizeMultipler * 400, sizeMultipler * 400));
 		animation_and_resize.setSize(vector2f(sizeMultipler * 400, sizeMultipler * 400));
 		for (unsigned i = 0; i < mobV.size(); i++)
@@ -145,63 +180,6 @@ void Demo::SceneOne()
 			{
 				// Tuhotaan ikkuna, ei ole viel‰ koodattu.
 			}
-			if(Keys.isKeyPressed(Keys.Key::S))
-				running = false;
-		}
-		
-		window->Clear();
-		spriteBatch.Draw();
-		window->Display();
-	}
-}
-
-void Demo::SceneTwo()
-{
-	// Toinen scene: testataan mill‰ m‰‰r‰ll‰ spritej‰ fps tippuu
-	// Input:
-	// R - toggle spritespawn
-	// A - Spawn 50 sprites
-
-	srand((unsigned int)time(NULL));
-	bool spawn = false, running = true;
-
-	while (running)	// T‰h‰n joku toinen quittiehto.
-	{
-
-		if (spawn == true)
-		{
-			Sprite* sprite = new Sprite();
-			sprite->setTexture(resourceManager.FindTexture("Zombies"));
-			sprite->setSourceRPosition(vector2f(3.0f, 10.0f));
-			sprite->setSourceRSize(vector2f(24.0f, 32.0f));
-			sprite->setSize(vector2f(128.0f, 128.0f));
-			sprite->setPosition(vector2f((float)(rand() % 1800), (float)(rand() % 1200)));
-			spriteBatch.AddSprite(*sprite, 0);
-			mobV.push_back(Mob(sprite, 0));
-		}
-
-		for (unsigned i = 0; i < mobV.size(); i++)
-		{
-			mobV[i].speed.x = mobV[i].speed.x + ((rand() % 100) * 0.001f);
-			mobV[i].speed.x = mobV[i].speed.x - ((rand() % 100) * 0.001f);
-			mobV[i].speed.y = mobV[i].speed.y + ((rand() % 100) * 0.001f);
-			mobV[i].speed.y = mobV[i].speed.y - ((rand() % 100) * 0.001f);
-
-			mobV[i].Update();
-			
-		}
-
-		MSG messages;
-		while (window->Update(messages))
-		{
-			if (messages.message == WM_QUIT)
-			{
-				// Tuhotaan ikkuna, ei ole viel‰ koodattu.
-			}
-			//if (Keys.isKeyPressed(Keys.Key::R))
-			//{
-			//	spawn = spawn + -1;
-			//}
 			if (Keys.isKeyPressed(Keys.Key::A))
 			{
 				for (int i = 0; i < 100; i++)
@@ -219,12 +197,14 @@ void Demo::SceneTwo()
 			if(Keys.isKeyPressed(Keys.Key::S))
 				running = false;
 		}
-
+		
 		window->Clear();
 		spriteBatch.Draw();
 		window->Display();
 	}
 }
+
+
 
 void Demo::TerminateScene()
 {
