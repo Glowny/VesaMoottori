@@ -1,13 +1,13 @@
 #include "SpriteBatch.h"
 #include <algorithm>
 
-SpriteBatch::SpriteBatch() : changes(true)
+SpriteBatch::SpriteBatch() : changes(true), unBindedBuffers(false)
 {
 	size = vector2f(0.0f, 0.0f);
 	//glGenBuffers(2, &buffer[0]);
 }
 
-SpriteBatch::SpriteBatch(GraphicsDevice &window) : changes(true)
+SpriteBatch::SpriteBatch(GraphicsDevice &window) : changes(true), unBindedBuffers(false)
 {
 	size = vector2f((float)window.GetSize().x, (float)window.GetSize().y);
 	(this->graphicsDevice) = &window;
@@ -116,6 +116,14 @@ void SpriteBatch::Update()
 		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, buffer[1]);
 		glBufferData(GL_ELEMENT_ARRAY_BUFFER, indexData.size()*sizeof(GLuint), &indexData.front(), GL_DYNAMIC_DRAW);
 	}
+	if (unBindedBuffers)
+	{
+		glBindBuffer(GL_ARRAY_BUFFER, buffer[0]);
+		glBufferData(GL_ARRAY_BUFFER, vertexData.size()*sizeof(GLfloat), &vertexData.front(), GL_DYNAMIC_DRAW);
+		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, buffer[1]);
+		glBufferData(GL_ELEMENT_ARRAY_BUFFER, indexData.size()*sizeof(GLuint), &indexData.front(), GL_DYNAMIC_DRAW);
+		unBindedBuffers = false;
+	}
 
 	CreateBuffer();
 
@@ -215,13 +223,14 @@ void SpriteBatch::CreateBuffer()
 void SpriteBatch::ChangeBatch()
 {
 	UnbindBuffers();
+	unBindedBuffers = true;
 }
 
 void SpriteBatch::UnbindBuffers()
 {
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0u);
 	glBindBuffer(GL_ARRAY_BUFFER, 0u);
-	changes = true; // VÄLIAIKAINEN MUISTA POISTAAA
+
 }
 
 std::vector<Drawable>::iterator SpriteBatch::FindLocation(int order)

@@ -37,7 +37,7 @@ private:
 	std::vector<Drawable>	drawables;
 	ShaderProgram			*shaderProgram;
 	GraphicsDevice			*graphicsDevice;
-	bool					changes;
+	bool					changes, unBindedBuffers;
 	vector2f				size;
 	std::vector<GLuint>		indexData;
 	std::vector<GLfloat>	vertexData;
