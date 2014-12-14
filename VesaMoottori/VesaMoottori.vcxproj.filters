@@ -8,9 +8,6 @@
     <Filter Include="Resources">
       <UniqueIdentifier>{e1e1b4f3-d7b7-4f37-bd0c-200b231fb262}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Source Files\TODO">
-      <UniqueIdentifier>{ad5f920f-d816-4ae7-b0f3-321825fdfa34}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Source Files\DEPENDENCY">
       <UniqueIdentifier>{e4d37f70-82c3-4f9e-afe4-c8d35f0d387c}</UniqueIdentifier>
     </Filter>
@@ -19,9 +16,6 @@
     </Filter>
     <Filter Include="Source Files\RESOURCE MAGE">
       <UniqueIdentifier>{defdef71-b77c-474e-aad4-c6f09cb1ae25}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Source Files\SCRAP">
-      <UniqueIdentifier>{94191c3a-a871-4736-9f18-7bbd0c81ea8f}</UniqueIdentifier>
     </Filter>
     <Filter Include="Demo">
       <UniqueIdentifier>{2e614ca5-307a-485f-8855-e0fe941d9f6c}</UniqueIdentifier>
@@ -33,12 +27,6 @@
     </ClInclude>
     <ClInclude Include="VesaMoottori\GraphicsDevice.h">
       <Filter>Source Files</Filter>
-    </ClInclude>
-    <ClInclude Include="VesaMoottori\Assert.h">
-      <Filter>Source Files\TODO</Filter>
-    </ClInclude>
-    <ClInclude Include="VesaMoottori\Debugger.h">
-      <Filter>Source Files\TODO</Filter>
     </ClInclude>
     <ClInclude Include="VesaMoottori\lodepng.h">
       <Filter>Source Files\DEPENDENCY</Filter>
@@ -64,9 +52,6 @@
     <ClInclude Include="VesaMoottori\TextureBuffer.h">
       <Filter>Source Files\STRUCTS</Filter>
     </ClInclude>
-    <ClInclude Include="VesaMoottori\Buffers.h">
-      <Filter>Source Files\SCRAP</Filter>
-    </ClInclude>
     <ClInclude Include="VesaMoottori\SpriteBatch.h">
       <Filter>Source Files</Filter>
     </ClInclude>
@@ -89,6 +74,9 @@
       <Filter>Demo</Filter>
     </ClInclude>
     <ClInclude Include="VesaMoottori\DemoJoel.h">
+      <Filter>Demo</Filter>
+    </ClInclude>
+    <ClInclude Include="VesaMoottori\DemoToni.h">
       <Filter>Demo</Filter>
     </ClInclude>
   </ItemGroup>
@@ -117,9 +105,6 @@
     <ClCompile Include="VesaMoottori\ResourceManager.cpp">
       <Filter>Source Files\RESOURCE MAGE</Filter>
     </ClCompile>
-    <ClCompile Include="VesaMoottori\Buffers.cpp">
-      <Filter>Source Files\SCRAP</Filter>
-    </ClCompile>
     <ClCompile Include="VesaMoottori\SpriteBatch.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -136,6 +121,9 @@
       <Filter>Demo</Filter>
     </ClCompile>
     <ClCompile Include="VesaMoottori\DemoJoel.cpp">
+      <Filter>Demo</Filter>
+    </ClCompile>
+    <ClCompile Include="VesaMoottori\DemoToni.cpp">
       <Filter>Demo</Filter>
     </ClCompile>
   </ItemGroup>

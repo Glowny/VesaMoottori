@@ -1,9 +1,0 @@
-init/begin
-addshaderprog etc.
-clean/empty etc.
-
-(float x, float y) tai vector
-draw texture
-draw texture(region)
-draw sprite
-draw sprite(sourcerec.)
