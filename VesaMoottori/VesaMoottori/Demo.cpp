@@ -4,7 +4,7 @@
 
 Demo::Demo()
 {
-	window = new GraphicsDevice("Demo", 1024, 768);
+	window = new GraphicsDevice("Demo", 1600, 1200);
 	LoadResources();
 	InitShaders();
 	InitSpriteBatches();
