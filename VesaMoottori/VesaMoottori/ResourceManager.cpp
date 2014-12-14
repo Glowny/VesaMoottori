@@ -44,19 +44,7 @@ Texture* ResourceManager::FindTexture(std::string textureName)
 void ResourceManager::DeleteAll()
 {
 	decodedImages.clear();
-
-	//for(std::map<std::string, Texture*>::iterator it = textures.begin(); it != textures.end(); ++it)
-	//{
-	//	delete it->second;
-	//	//it = textures.erase(it);
-	//}
 	textures.clear();
-
-	//for(std::map<std::string, char*>::iterator it = shaders.begin(); it != shaders.end(); ++it)
-	//{
-	//	delete it->second;
-	//	//it = shaders.erase(it);
-	//}
 	shaders.clear();
 }
 

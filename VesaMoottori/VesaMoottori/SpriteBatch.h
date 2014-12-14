@@ -21,7 +21,7 @@ public:
 
 	void SetShaderProgram(ShaderProgram &shaderProgram);
 	void SetDevice(GraphicsDevice &window);
-	void ChangeBatch(); // Use this between draw() with more than one spritebatch
+	void ChangeBatch(); // Useamman spritebatchin piirtoon pit‰‰ k‰ytt‰‰ t‰t‰ draw:n j‰lkeen
 	
 private:
 	void Update();

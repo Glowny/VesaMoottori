@@ -13,9 +13,5 @@ struct Image
 		height = Height;
 	}
 
-	Image()
-	{
-		//width = 0;
-		//height = 0;
-	}
+	Image(){}
 };

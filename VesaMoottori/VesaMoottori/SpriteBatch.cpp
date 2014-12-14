@@ -4,7 +4,6 @@
 SpriteBatch::SpriteBatch() : changes(true), unBindedBuffers(false)
 {
 	size = vector2f(0.0f, 0.0f);
-	//glGenBuffers(2, &buffer[0]);
 }
 
 SpriteBatch::SpriteBatch(GraphicsDevice &window) : changes(true), unBindedBuffers(false)
@@ -26,9 +25,8 @@ void SpriteBatch::Draw()
 		// K‰ynnistet‰‰n default shaderi.
 	}
 
-	// Tarkistetaan onko mit‰‰n piirett‰v‰‰ edes.
-	// TO-FIX: Ohjelma kaatuu jos ei ole asetettu tekstuuria jokaiselle piirett‰v‰lle.
 
+	// Tarkistetaan onko mit‰‰n piirett‰v‰‰ edes.
 	if (drawables.size() != 0) 
 	{
 		GLuint currentTextureIndex = drawables[0].sprite->texture->GetIndex();
@@ -46,12 +44,7 @@ void SpriteBatch::Draw()
 				 piiret‰‰n kaikki edelliset joilla oli sama tekstuuri.
 				 Aloituskohta on indeksivektorin indeksien m‰‰r‰ (6) kerrottuna edellisen kierroksen kierrosm‰‰r‰ll‰ (i-1). 
 
-				 6u toimii vain jos kaikkien spritejen indeksim‰‰r‰ on sama (6),
-				 jos halutaan piirt‰‰ indeksim‰‰r‰lt‰‰n erikokoisia, on otettava talteen jo piirrettyjen indeksien koko, 
-				 sek‰ selvitt‰‰ ehtolauseessa, onko indeksim‰‰r‰ sama kuin edellisess‰.
-				 Eli vastaava muuttuja currentTextureIndex:lle.
-				 Kannattaa varmaan toteuttaa 6u:n tilalle sprite->getIndexSize(), VASTA kun aletaan tukemaan erilaisia indeksim‰‰ri‰,
-				 n‰in pysyy ajatus paremmin tehdess‰. */
+				 6u toimii vain jos kaikkien spritejen indeksim‰‰r‰ on sama (6) */
 
 				glDrawElements(GL_TRIANGLES, textureAmount * 6u, GL_UNSIGNED_INT, reinterpret_cast<GLvoid*>((i - textureAmount) * 6u * sizeof(GLuint)));
 
@@ -106,8 +99,6 @@ void SpriteBatch::Update()
 {
 	if(changes)
 	{
-		// T‰ll‰ hetkell‰ Spritejen j‰rjestyst‰ ei voi vaihtaa SpriteaBatchiin lis‰‰miseen j‰lkeen.
-		//Sort(); // Sortataan ennen buffereiden tekoa.
 		CreateBuffer();
 		changes = false;
 
@@ -203,8 +194,8 @@ void SpriteBatch::CreateBuffer()
 					GLfloat green = ColorToGLCoord(vertexArray[3]);
 					GLfloat blue = ColorToGLCoord(vertexArray[4]);
 
-					vertexArray[0] = positionGL.x * 1;	// K‰‰nnetty.
-					vertexArray[1] = positionGL.y * -1;
+					vertexArray[0] = positionGL.x * 1;	
+					vertexArray[1] = positionGL.y * -1; // K‰‰nnetty, jotta koordinaatisto alkaa vasemmasta yl‰kulmasta
 					vertexArray[2] = red;
 					vertexArray[3] = blue;
 					vertexArray[4] = green;
