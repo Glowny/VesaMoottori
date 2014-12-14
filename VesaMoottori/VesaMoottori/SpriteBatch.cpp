@@ -212,6 +212,10 @@ void SpriteBatch::CreateBuffer()
 		}
 	}
 }
+void SpriteBatch::ChangeBatch()
+{
+	void UnbindBuffers();
+}
 
 void SpriteBatch::UnbindBuffers()
 {
