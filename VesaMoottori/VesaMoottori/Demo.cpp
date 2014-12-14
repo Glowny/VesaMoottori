@@ -82,11 +82,12 @@ void Demo::SceneOne()
 		spriteBatch.AddSprite(*sprite, 3);
 		mobV.push_back(sprite);
 	}
+
 	float sizeMultipler = 1;
-	bool dir = true;
+	bool dir = true, running = true;;
 	float currentColor[3]{100, 200, 255};
 
-	while (window->IsOpen())	// Tähän joku toinen quittiehto.
+	while (running)	// Tähän joku toinen quittiehto.
 	{
 		resize.setSize(vector2f(sizeMultipler * 400, sizeMultipler * 400));
 		animation_and_resize.setSize(vector2f(sizeMultipler * 400, sizeMultipler * 400));
@@ -144,6 +145,8 @@ void Demo::SceneOne()
 			{
 				// Tuhotaan ikkuna, ei ole vielä koodattu.
 			}
+			if(Keys.isKeyPressed(Keys.Key::S))
+				running = false;
 		}
 		
 		window->Clear();
@@ -160,9 +163,9 @@ void Demo::SceneTwo()
 	// A - Spawn 50 sprites
 
 	srand((unsigned int)time(NULL));
-	bool spawn = false;
+	bool spawn = false, running = true;
 
-	while (window->IsOpen())	// Tähän joku toinen quittiehto.
+	while (running)	// Tähän joku toinen quittiehto.
 	{
 
 		if (spawn == true)
@@ -172,7 +175,7 @@ void Demo::SceneTwo()
 			sprite->setSourceRPosition(vector2f(3.0f, 10.0f));
 			sprite->setSourceRSize(vector2f(24.0f, 32.0f));
 			sprite->setSize(vector2f(128.0f, 128.0f));
-			sprite->setPosition(vector2f((rand() % 1800), (rand() % 1200)));
+			sprite->setPosition(vector2f((float)(rand() % 1800), (float)(rand() % 1200)));
 			spriteBatch.AddSprite(*sprite, 0);
 			mobV.push_back(Mob(sprite, 0));
 		}
@@ -195,10 +198,10 @@ void Demo::SceneTwo()
 			{
 				// Tuhotaan ikkuna, ei ole vielä koodattu.
 			}
-			if (Keys.isKeyPressed(Keys.Key::R))
-			{
-				spawn = spawn + -1;
-			}
+			//if (Keys.isKeyPressed(Keys.Key::R))
+			//{
+			//	spawn = spawn + -1;
+			//}
 			if (Keys.isKeyPressed(Keys.Key::A))
 			{
 				for (int i = 0; i < 100; i++)
@@ -208,11 +211,13 @@ void Demo::SceneTwo()
 					sprite->setSourceRPosition(vector2f(3.0f, 10.0f));
 					sprite->setSourceRSize(vector2f(24.0f, 32.0f));
 					sprite->setSize(vector2f(128.0f, 128.0f));
-					sprite->setPosition(vector2f((rand() % 1800), (rand() % 1200)));
+					sprite->setPosition(vector2f((float)(rand() % 1800), (float)(rand() % 1200)));
 					spriteBatch.AddSprite(*sprite, 0);
 					mobV.push_back(Mob(sprite, 0));
 				}
 			}
+			if(Keys.isKeyPressed(Keys.Key::S))
+				running = false;
 		}
 
 		window->Clear();
@@ -291,10 +296,10 @@ void Demo::TuukkaScene()
 	vector2f SCENE_SIZE = resourceManager.FindTexture("Scene")->GetSize();
 	BG_UI.setSize(UI_SIZE);
 	BG_UI.setOrigin(UI_SIZE * 0.5f);
-	BG_UI.setPosition(vector2f(100, IKKUNA_SIZE.y * 0.82f));
+	BG_UI.setPosition(vector2f(IKKUNA_SIZE.x * 0.5f, IKKUNA_SIZE.y * 0.82f));
 	SCENE.setSize(SCENE_SIZE);
 	SCENE.setOrigin(SCENE_SIZE * 0.5f);
-	SCENE.setPosition(vector2f(-100, IKKUNA_SIZE.y * 0.95f));
+	SCENE.setPosition(vector2f(IKKUNA_SIZE.x * 0.5f, IKKUNA_SIZE.y * 0.95f));
 	UI.AddSprite(BG_UI);
 	UI.AddSprite(SCENE);
 
