@@ -14,6 +14,7 @@ void DemoTuukka::TuukkaScene()
 	R.CreateTexture("BG2.png", "BGClose");
 	R.CreateTexture("Hahmo.png", "Hahmo");
 	R.CreateTexture("UI.png", "UI");
+	R.CreateTexture("TuukkaScene.png", "Scene");
 
 	ShaderProgram ShaderProg;
 	ShaderProg.AddShader(R.LoadShader("TuukkaVertex.txt", "VERTEX_SHADER"), GL_VERTEX_SHADER);
@@ -28,13 +29,14 @@ void DemoTuukka::TuukkaScene()
 	Game.SetShaderProgram(ShaderProg);
 	UI.SetShaderProgram(ShaderProg);
 
-	Sprite BG_FAR, BG_FAR2, BG_MID, BG_CLOSE, CHARACTER, BG_UI;
+	Sprite BG_FAR, BG_FAR2, BG_MID, BG_CLOSE, CHARACTER, BG_UI, SCENE;
 	BG_FAR.setTexture(R.FindTexture("BGFar"));
 	BG_FAR2.setTexture(R.FindTexture("BGFar"));
 	BG_MID.setTexture(R.FindTexture("BGMid"));
 	BG_CLOSE.setTexture(R.FindTexture("BGClose"));
 	CHARACTER.setTexture(R.FindTexture("Hahmo"));
 	BG_UI.setTexture(R.FindTexture("UI"));
+	SCENE.setTexture(R.FindTexture("Scene"));
 
 	vector2f IKKUNA_SIZE = vector2f((float)Ikkuna.GetSize().x, (float)Ikkuna.GetSize().y);
 	vector2f NOLLA_PISTE = vector2f((float)Ikkuna.GetSize().x, 0); // Miksi nollapiste on oikeassa-yläkulmassa?
@@ -46,10 +48,10 @@ void DemoTuukka::TuukkaScene()
 	BG_MID.setPosition(NOLLA_PISTE);
 	BG_CLOSE.setSize(IKKUNA_SIZE);
 	BG_CLOSE.setPosition(NOLLA_PISTE);
-	Game.AddSprite(BG_FAR, 0);
-	Game.AddSprite(BG_FAR2, 0);
-	Game.AddSprite(BG_MID, 1);
-	Game.AddSprite(BG_CLOSE, 2);
+	BG.AddSprite(BG_FAR, 0);
+	BG.AddSprite(BG_FAR2, 0);
+	BG.AddSprite(BG_MID, 1);
+	//BG.AddSprite(BG_CLOSE, 2);
 
 	float CHARACTER_SIZE_MODIFIER = 4.0f;
 	int SPRITE_FRAMES = 3;
@@ -60,12 +62,17 @@ void DemoTuukka::TuukkaScene()
 	Game.AddSprite(CHARACTER);
 
 	vector2f UI_SIZE = R.FindTexture("UI")->GetSize();
+	vector2f SCENE_SIZE = R.FindTexture("Scene")->GetSize();
 	BG_UI.setSize(UI_SIZE);
 	BG_UI.setOrigin(UI_SIZE * 0.5f);
-	BG_UI.setPosition(vector2f(IKKUNA_SIZE.x * 0.5f, IKKUNA_SIZE.y * 0.2f));
+	BG_UI.setPosition(vector2f(IKKUNA_SIZE.x * 0.5f, IKKUNA_SIZE.y * 0.82f));
+	SCENE.setSize(SCENE_SIZE);
+	SCENE.setOrigin(SCENE_SIZE * 0.5f);
+	SCENE.setPosition(vector2f(IKKUNA_SIZE.x * 0.5f, IKKUNA_SIZE.y * 0.95f));
 	UI.AddSprite(BG_UI);
+	UI.AddSprite(SCENE);
 
-	int i = 0, korkeus = 0;
+	int i = 1, korkeus = 0;
 	float korkeus_mod = 1.0f;
 
 	while(running)
@@ -77,9 +84,12 @@ void DemoTuukka::TuukkaScene()
 		}
 
 		Ikkuna.Clear();
-		//BG.Draw();
+		BG.Draw();
+		BG.ChangeBatch();
 		Game.Draw();
-		//UI.Draw();
+		Game.ChangeBatch();
+		UI.Draw();
+		UI.ChangeBatch();
 		Ikkuna.Display();
 
 		vector2f characterPosition = CHARACTER.getPosition();
@@ -101,12 +111,11 @@ void DemoTuukka::TuukkaScene()
 		vector2f cloudsPosition2 = BG_FAR2.getPosition();
 		BG_FAR.setPosition(cloudsPosition + vector2f(5, 0));
 		BG_FAR2.setPosition(cloudsPosition2 + vector2f(5, 0));
-
-		if(cloudsPosition.x > IKKUNA_SIZE.x)
-			BG_FAR.setPosition(NOLLA_PISTE);
+		if(i % 205 == 0)
+			BG_FAR.setPosition(vector2f(NOLLA_PISTE.x - BG_FAR2.getSize().x, NOLLA_PISTE.y));
 
 		i++;
-		if(i > 700) // Timer scenen lopettamiseen.
+		if(i > 400) // Timer scenen lopettamiseen.
 			break;
 	}
 
