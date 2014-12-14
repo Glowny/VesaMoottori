@@ -41,7 +41,11 @@ void Demo::InitSpriteBatches()
 void Demo::SceneOne()
 {
 	srand((unsigned int)time(NULL));
-	Sprite animation, resize, colorChange, animation_and_resize;
+	Sprite animation, resize, colorChange, animation_and_resize, sprite_static;
+
+	sprite_static.setPosition(vector2f(100, 200));
+	sprite_static.setTexture(resourceManager.FindTexture("gooby"));
+	spriteBatch.AddSprite(sprite_static);
 
 	animation.setTexture(resourceManager.FindTexture("Animation"));
 	animation.setSourceRSize(vector2f(64.0f, 64.0f));
