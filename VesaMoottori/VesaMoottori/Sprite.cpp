@@ -109,16 +109,16 @@ float Sprite::getColorB()
 
 void Sprite::changePositionData()
 {
-	VERTEX_DATA[0] = position.x + origin.x;
+	VERTEX_DATA[0] = position.x + origin.x + size.x;
 	VERTEX_DATA[1] = position.y - origin.y;
 
-	VERTEX_DATA[0 + 7] = position.x + origin.x;
+	VERTEX_DATA[0 + 7] = position.x + origin.x + size.x;
 	VERTEX_DATA[1 + 7] = position.y - origin.y + size.y;
 
-	VERTEX_DATA[0 + 14] = position.x + origin.x - size.x;
+	VERTEX_DATA[0 + 14] = position.x + origin.x;
 	VERTEX_DATA[1 + 14] = position.y - origin.y;
 
-	VERTEX_DATA[0 + 21] = position.x + origin.x - size.x;
+	VERTEX_DATA[0 + 21] =  position.x + origin.x;
 	VERTEX_DATA[1 + 21] = position.y - origin.y + size.y;
 
 	positionChanged = false;
@@ -152,17 +152,17 @@ void Sprite::changeTexturePositionData()
 	vector2f topRight(sourceRectPosition.x + sourceRectSize.x, sourceRectPosition.y);
 	vector2f bottomRight(sourceRectPosition.x + sourceRectSize.x, sourceRectPosition.y + sourceRectSize.y);
 
-	VERTEX_DATA[5] = topLeft.x;
-	VERTEX_DATA[6] = topLeft.y;
+	VERTEX_DATA[5] = topRight.x;
+	VERTEX_DATA[6] = topRight.y;
 
-	VERTEX_DATA[5 + 7] = bottomLeft.x;
-	VERTEX_DATA[6 + 7] = bottomLeft.y;
+	VERTEX_DATA[5 + 7] = bottomRight.x;
+	VERTEX_DATA[6 + 7] = bottomRight.y;
 
-	VERTEX_DATA[5 + 14] =  topRight.x;
-	VERTEX_DATA[6 + 14] = topRight.y;
+	VERTEX_DATA[5 + 14] =  topLeft.x;
+	VERTEX_DATA[6 + 14] =  topLeft.y;
 
-	VERTEX_DATA[5 + 21] =  bottomRight.x;
-	VERTEX_DATA[6 + 21] =  bottomRight.y;
+	VERTEX_DATA[5 + 21] =  bottomLeft.x;
+	VERTEX_DATA[6 + 21] =  bottomLeft.y;
 
 	texturePositionChanged = false;
 }

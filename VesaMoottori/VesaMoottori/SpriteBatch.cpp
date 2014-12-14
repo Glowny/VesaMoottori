@@ -203,7 +203,7 @@ void SpriteBatch::CreateBuffer()
 					GLfloat green = ColorToGLCoord(vertexArray[3]);
 					GLfloat blue = ColorToGLCoord(vertexArray[4]);
 
-					vertexArray[0] = positionGL.x * -1;	// K‰‰nnetty.
+					vertexArray[0] = positionGL.x * 1;	// K‰‰nnetty.
 					vertexArray[1] = positionGL.y * -1;
 					vertexArray[2] = red;
 					vertexArray[3] = blue;
