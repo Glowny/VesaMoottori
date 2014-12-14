@@ -29,6 +29,7 @@ vector2f Texture::GetSize()
 
 Texture::~Texture()
 {
+	//delete image;
 	// Tee myöhemmin.
 	//glDeleteTextures(1, &textureIndex);
 }
