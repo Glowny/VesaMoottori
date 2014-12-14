@@ -217,6 +217,7 @@ void SpriteBatch::UnbindBuffers()
 {
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0u);
 	glBindBuffer(GL_ARRAY_BUFFER, 0u);
+	changes = true; // VÄLIAIKAINEN MUISTA POISTAAA
 }
 
 std::vector<Drawable>::iterator SpriteBatch::FindLocation(int order)

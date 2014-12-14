@@ -22,6 +22,7 @@ public:
 	void SetShaderProgram(ShaderProgram &shaderProgram);
 	void SetDevice(GraphicsDevice &window);
 
+	void UnbindBuffers(); // !!! MUISTA SIIRTÄÄ TAKASIN PRIVATEKSI
 private:
 	void Update();
 	void Sort(); // Pitää piirrot järjestyksessä.
@@ -29,7 +30,7 @@ private:
 	vector2f PositionToGlCoord(float x, float y);
 	GLfloat ColorToGLCoord(GLfloat x);
 	void CreateBuffer();
-	void UnbindBuffers();
+
 	std::vector<Drawable>::iterator FindLocation(int order); // Iteraattori help-funktio.
 
 	std::vector<Drawable>	drawables;
