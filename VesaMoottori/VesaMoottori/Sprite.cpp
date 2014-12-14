@@ -109,16 +109,16 @@ float Sprite::getColorB()
 
 void Sprite::changePositionData()
 {
-	VERTEX_DATA[0] = position.x + origin.x + size.x;
+	VERTEX_DATA[0] = position.x - origin.x + size.x;
 	VERTEX_DATA[1] = position.y - origin.y;
 
-	VERTEX_DATA[0 + 7] = position.x + origin.x + size.x;
+	VERTEX_DATA[0 + 7] = position.x - origin.x + size.x;
 	VERTEX_DATA[1 + 7] = position.y - origin.y + size.y;
 
-	VERTEX_DATA[0 + 14] = position.x + origin.x;
+	VERTEX_DATA[0 + 14] = position.x - origin.x;
 	VERTEX_DATA[1 + 14] = position.y - origin.y;
 
-	VERTEX_DATA[0 + 21] =  position.x + origin.x;
+	VERTEX_DATA[0 + 21] =  position.x - origin.x;
 	VERTEX_DATA[1 + 21] = position.y - origin.y + size.y;
 
 	positionChanged = false;
