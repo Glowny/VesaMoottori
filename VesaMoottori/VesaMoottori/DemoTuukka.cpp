@@ -47,12 +47,12 @@ void DemoTuukka::TuukkaScene()
 	BG.AddSprite(BG_MID, 1);
 	BG.AddSprite(BG_CLOSE, 2);
 
-	float CHARACTER_SIZE_MODIFIER = 1.0f;
+	float CHARACTER_SIZE_MODIFIER = 4.0f;
 	int SPRITE_FRAMES = 3;
 	vector2f FRAME_SIZE = vector2f(R.FindTexture("Hahmo")->GetSize().x / (float)SPRITE_FRAMES, R.FindTexture("Hahmo")->GetSize().y);
 	CHARACTER.setSize(FRAME_SIZE * CHARACTER_SIZE_MODIFIER);
 	CHARACTER.setSourceRSize(FRAME_SIZE);
-	CHARACTER.setPosition(NOLLA_PISTE - vector2f(100, -100));
+	CHARACTER.setPosition(NOLLA_PISTE - vector2f(100, -300));
 	Game.AddSprite(CHARACTER);
 
 	vector2f UI_SIZE = R.FindTexture("UI")->GetSize();
@@ -79,11 +79,13 @@ void DemoTuukka::TuukkaScene()
 
 		vector2f currentPosition = CHARACTER.getPosition();
 		CHARACTER.setPosition(currentPosition + vector2f(-2, 0));
+
 		i++;
-		
-		//if(i > 200) // Timer scenen lopettamiseen.
-		//	break;
+		if(i > 200) // Timer scenen lopettamiseen.
+			break;
 	}
 
+	// Jostain syyst‰ crashaa jos yritt‰‰ vaihtaa toiseen demoon.
+	// Oisko ikkunan luomisessa/tuhoamisessa h‰ikk‰‰?
 	R.DeleteAll();
 }
